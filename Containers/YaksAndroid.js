@@ -21,7 +21,8 @@ const constants = styles.constants;
 
 import Firebase from 'firebase';
 
-class Yaks extends Component {
+// CLASS REQUIRED DUE TO Submit Funtion Difference!
+class YaksAndroid extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -51,10 +52,28 @@ class Yaks extends Component {
   componentDidMount(){
     this.listenForItems(this.itemsRef);
   }
+  // temporary
+  // _addItem() {
+  //   var currentTime = new Date();
+  //   console.log(currentTime);
+  //   AlertIOS.alert(
+  //     'Add new bisonyak',
+  //     null,
+  //     [
+  //       {
+  //         text: 'Add',
+  //         time: currentTime,
+  //         onPress: (text, currentTime) => {
+  //           this.itemsRef.push({ title: text, time: Date() });
+  //         }
+  //       },
+  //     ],
+  //     'plain-text'
+  //   );
+  // }
+
   _addItem(){
-    var currentTime = new Date();
-    console.log(currentTime);
-    AlertIOS.prompt(
+    Alert.alert(
       'submit new bisonyak',
       null,
       [
@@ -64,8 +83,7 @@ class Yaks extends Component {
             this.itemsRef.push({ title: text, time: Date() });
           },
         },
-      ],
-      'plain-text'
+      ]
     );
   }
   _renderItem(item){
@@ -90,4 +108,6 @@ class Yaks extends Component {
 }
 
 
-module.exports = Yaks;
+
+
+module.exports = YaksAndroid;

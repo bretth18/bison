@@ -13,7 +13,7 @@ import ComposeYak from './Components/ComposeYak';
            return (
                <Container>
                    <Header>
-                       <Title>bisonYak</Title>
+                       <Title>bison.</Title>
                    </Header>
                    <Content>
                      <Yaks />

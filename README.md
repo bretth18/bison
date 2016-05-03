@@ -3,6 +3,7 @@
 #bison
 * a simple yik yak-esque clone in react-native
 * Firebase backend (to be replaced)
+* http://bisonapp.co
 
 
 ##Screenshots

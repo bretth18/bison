@@ -1,4 +1,5 @@
-#bison
+
+![bison_clip_art_small](https://cloud.githubusercontent.com/assets/955730/14974801/58ca71c4-10ae-11e6-9618-160af33ec647.png)#bison
 * a simple yik yak-esque clone in react-native
 * Firebase backend (to be replaced)
 

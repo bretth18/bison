@@ -12,7 +12,7 @@ import TopNav from './Components/ToolbarAndroid';
 import Yaks from './Containers/Yaks';
 
 
-class BisonApp extends Component {
+class Awesomenativebase extends Component {
 
   render() {
     return (
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('BisonApp', () => BisonApp);
+AppRegistry.registerComponent('Awesomenativebase', () => Awesomenativebase);

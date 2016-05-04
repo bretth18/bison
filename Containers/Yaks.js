@@ -94,7 +94,7 @@ class Yaks extends Component {
   }
   _renderItem(item){
     return(
-      <ListItem item={item} onPress={this._navYak} />
+      <ListItem item={item} onPress={this.navYak} />
     );
   }
   render(){

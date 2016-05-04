@@ -1,4 +1,4 @@
-package com.awesomenativebase;
+package com.Awesomenativebase;
 
 import com.facebook.react.ReactActivity;
 import ca.jaysoo.extradimensions.ExtraDimensionsPackage;

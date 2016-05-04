@@ -2,48 +2,40 @@
 import React, {
    AppRegistry,
    Component,
-   StyleSheet } from 'react-native';
+   StyleSheet,
+   Navigator, } from 'react-native';
 
 import {Container, Header, Content, Footer, Title} from 'native-base';
 import Yaks from './Containers/Yaks';
 import ComposeYak from './Components/ComposeYak';
+import MainLayout from './Containers/MainLayout';
 
-   export default class Awesomenativebase extends Component {
+class Awesomenativebase extends Component {
        render() {
            return (
-               <Container>
-                   <Header>
-                       <Title>bison.</Title>
-                   </Header>
-                   <Content>
-                     <Yaks />
-                  </Content>
+             <Navigator
+               initialRoute={{
+                 id: 'MainLayout'
+               }}
+               renderScene={
+                 this.navigatorRenderScene
+               }
+               />
 
-                   <Footer>
-                       <Title>this is the footer</Title>
-                   </Footer>
-               </Container>
            );
+       }
+       navigatorRenderScene(route, navigator){
+         _navigator = navigator;
+         switch (route.id) {
+           case 'MainLayout':
+                  return(<MainLayout navigator={navigator} title="MainLayout" />);
+
+                  break;
+           default:
+
+         }
        }
    }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     backgroundColor: '#F5FCFF',
-//   },
-//   welcome: {
-//     fontSize: 20,
-//     textAlign: 'center',
-//     margin: 10,
-//   },
-//   instructions: {
-//     textAlign: 'center',
-//     color: '#333333',
-//     marginBottom: 5,
-//   },
-// });
 
 AppRegistry.registerComponent('Awesomenativebase', () => Awesomenativebase);

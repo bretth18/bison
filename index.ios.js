@@ -12,28 +12,21 @@ import MainLayout from './Containers/MainLayout';
 
 class Awesomenativebase extends Component {
        render() {
+         console.log(navigator);
            return (
              <Navigator
-               initialRoute={{
-                 id: 'MainLayout'
+               ref="appNav"
+               navigator = {navigator}
+               initialRoute={{ id: 'MainLayout', component: MainLayout}}
+               renderScene={(route, navigator) => {
+                 console.log(route, navigator);
+
+                 if (route.component) {
+                   return React.createElement(route.component, { navigator });
+                 }
                }}
-               renderScene={
-                 this.navigatorRenderScene
-               }
-               />
-
+              />
            );
-       }
-       navigatorRenderScene(route, navigator){
-         _navigator = navigator;
-         switch (route.id) {
-           case 'MainLayout':
-                  return(<MainLayout navigator={navigator} title="MainLayout" />);
-
-                  break;
-           default:
-
-         }
        }
    }
 

@@ -51,29 +51,13 @@ class Yaks extends Component {
   componentDidMount(){
     this.listenForItems(this.itemsRef);
   }
-  navYak(){
-    // using react's navigator component to push components
-    console.log('list view is being pressed, function reached');
-    Navigator.push({
+  // navigator
+  onPressYak(){
+    // console.log(this.props);
+    this.props.navigator.push({
       name: 'YakView',
-      index: 0,
+      component: YakView
     });
-
-    // this is our routing object
-    var yakViewRoute = {
-        component: YakView,
-        title: 'YakView',
-        // props from firebase
-        // TODO: fix score prop, postId
-        passProps: { title: text,
-                     time: Date(),
-                     score: null,
-                     postId: null,
-                   },
-      };
-
-    // alternative method using NavigatorIOS
-    this.props.navigator.push(yakViewRoute);
   }
   _addItem(){
     var currentTime = new Date();
@@ -94,7 +78,7 @@ class Yaks extends Component {
   }
   _renderItem(item){
     return(
-      <ListItem item={item} onPress={this.navYak} />
+      <ListItem item={item} onPress={this.onPressYak.bind(this)} />
     );
   }
   render(){

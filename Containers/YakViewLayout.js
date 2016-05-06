@@ -8,8 +8,9 @@ import React, {
 import {Container, Header, Content, Footer, Title} from 'native-base';
 import Yaks from './Yaks';
 import ComposeYak from '../Components/ComposeYak';
+import YakView from '../Components/YakView';
 
-class MainLayout extends Component {
+class YakViewLayout extends Component {
        render() {
            return (
                <Container>
@@ -17,14 +18,11 @@ class MainLayout extends Component {
                        <Title>bison.</Title>
                    </Header>
                    <Content>
-                     <Yaks navigator={this.props.navigator} />
+                     <YakView navigator={this.props.navigator} />
                   </Content>
 
-                   <Footer>
-                       <Title>this is the footer</Title>
-                   </Footer>
                </Container>
            );
        }
    }
-module.exports = MainLayout;
+module.exports = YakViewLayout;

@@ -9,26 +9,58 @@ import {Container, Header, Content, Footer, Title} from 'native-base';
 import Yaks from './Containers/Yaks';
 import ComposeYak from './Components/ComposeYak';
 import MainLayout from './Containers/MainLayout';
+import YakView from './Components/YakView';
+import YakViewLayout from './Containers/YakViewLayout';
 
 class Awesomenativebase extends Component {
+
+      _renderScene(route, navigator){
+        // every scene has these probs
+        var globalNavigatorProps = { navigator };
+
+        switch (route.ident) {
+          case "MainLayout":
+                return (
+                  <MainLayout {...globalNavigatorProps} />
+                );
+
+          case "Yaks":
+                return(
+                  <Yaks {...globalNavigatorProps} />
+                );
+
+          case "YakView":
+                return (
+                  <YakView {...globalNavigatorProps} />
+                );
+          case "YakViewLayout":
+                return(
+                  <YakViewLayout {...globalNavigatorProps} />
+                );
+          default:
+                return (
+                  <Text>{`CRITICAL ERROR! ${route}`}</Text>
+                )
+        }
+
+      }
        render() {
-         console.log(navigator);
            return (
              <Navigator
-               ref="appNav"
-               navigator = {navigator}
-               initialRoute={{ id: 'MainLayout', component: MainLayout}}
-               renderScene={(route, navigator) => {
-                 console.log(route, navigator);
-
-                 if (route.component) {
-                   return React.createElement(route.component, { navigator });
-                 }
-               }}
+               initialRoute={{ident:"MainLayout"}}
+               ref="appnavigator"
+               style={styles.navigatorStyles}
+               renderScene={this._renderScene}
               />
            );
        }
    }
 
+const styles = React.StyleSheet.create({
+
+  navigatorStyles: {
+
+  }
+});
 
 AppRegistry.registerComponent('Awesomenativebase', () => Awesomenativebase);

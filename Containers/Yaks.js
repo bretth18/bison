@@ -52,11 +52,13 @@ class Yaks extends Component {
     this.listenForItems(this.itemsRef);
   }
   // navigator
+  // TODO: fix nav, props are not being passed to child component
+  // from our Navigator component in index.ios.js
   onPressYak(){
     // console.log(this.props);
+    console.log(this.props.navigator);
     this.props.navigator.push({
-      name: 'YakView',
-      component: YakView
+      ident: "YakViewLayout"
     });
   }
   _addItem(){

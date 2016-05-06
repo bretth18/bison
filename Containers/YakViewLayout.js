@@ -18,7 +18,7 @@ class YakViewLayout extends Component {
                        <Title>bison.</Title>
                    </Header>
                    <Content>
-                     <YakView navigator={this.props.navigator} />
+                     <YakView navigator={this.props.navigator} item={this.props.item} />
                   </Content>
 
                </Container>

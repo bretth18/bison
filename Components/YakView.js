@@ -11,7 +11,7 @@ import React, {
   AlertIOS,
   TextInput,
 } from 'react-native';
-import {Container, Header, Content, Footer, Title, Button, Icon} from 'native-base';
+import {Container, Header, Content, Footer, Title, Button, Icon, Card, CardItem, } from 'native-base';
 
 import Firebase from 'firebase';
 
@@ -22,9 +22,7 @@ var refs = Firebase;
 
 
 class YakView extends Component {
-  getInitialState(){
-    console.log(this.props);
-  }
+
   submitComment(){
     refs.push.appendToChild({
       comment: null,
@@ -34,15 +32,31 @@ class YakView extends Component {
   }
   _returnToYaks(){
     console.log('fart');
+    this.props.navigator.push({
+      ident: "MainLayout"
+    });
+
   }
   render(){
+    // console.log(item);
+    console.log(this.props.item);
     return(
-      <View>
-        <Text>{'ROUTING WORKS'}</Text>
-          <Button info onPress={this._returnToYaks}>
-              Back to Yaks
-          </Button>
-      </View>
+      <Container>
+          <Header>
+              <Title>bison.</Title>
+          </Header>
+          <Content>
+            <View>
+                  <Text>{this.props.item.title}</Text>
+                  <Text>{this.props.item.time}</Text>
+
+                <Button info onPress={this._returnToYaks}>
+                    Back to Yaks
+                </Button>
+            </View>
+         </Content>
+
+      </Container>
     );
   }
 }

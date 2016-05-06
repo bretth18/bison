@@ -42,7 +42,6 @@ class Yaks extends Component {
           _key: child.key()
       });
     });
-
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(items)
     });
@@ -54,11 +53,12 @@ class Yaks extends Component {
   // navigator
   // TODO: fix nav, props are not being passed to child component
   // from our Navigator component in index.ios.js
-  onPressYak(){
+  onPressYak(item){
     // console.log(this.props);
-    console.log(this.props.navigator);
+    // console.log(item);
     this.props.navigator.push({
-      ident: "YakViewLayout"
+      ident: "YakView",
+      item: item
     });
   }
   _addItem(){
@@ -79,8 +79,9 @@ class Yaks extends Component {
     );
   }
   _renderItem(item){
+    // console.log(item);
     return(
-      <ListItem item={item} onPress={this.onPressYak.bind(this)} />
+      <ListItem item={item} onPress={this.onPressYak.bind(this, item)} />
     );
   }
   render(){

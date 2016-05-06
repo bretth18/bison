@@ -31,11 +31,12 @@ class Awesomenativebase extends Component {
 
           case "YakView":
                 return (
-                  <YakView {...globalNavigatorProps} />
+                  <YakView {...globalNavigatorProps}
+                            item={route.item} />
                 );
           case "YakViewLayout":
                 return(
-                  <YakViewLayout {...globalNavigatorProps} />
+                  <YakViewLayout {...globalNavigatorProps}  />
                 );
           default:
                 return (

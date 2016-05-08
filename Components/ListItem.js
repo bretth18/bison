@@ -7,8 +7,7 @@ import React, {
   Text,
   Navigator,
   Component,
-  TouchableHighlight,
-} from 'react-native';
+  TouchableHighlight} from 'react-native';
 const styles = require('../Styles/Styles.js');
 const constants = styles.constants;
 
@@ -19,6 +18,7 @@ class ListItem extends Component {
         <View style={styles.li}>
           <Text style={styles.liText}>{this.props.item.title}</Text>
           <Text style={styles.liText}>{this.props.item.time}</Text>
+          <Text style={styles.liText}>{this.props.item.score}pts</Text>
         </View>
       </TouchableHighlight>
     );

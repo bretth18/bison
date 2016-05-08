@@ -9,8 +9,7 @@ import React, {
   Component,
   ListView,
   AlertIOS,
-  TextInput,
-} from 'react-native';
+  TextInput } from 'react-native';
 import ComposeYak from '../Components/ComposeYak';
 const StatusBar = require('../Components/StatusBar');
 const ActionButton = require('../Components/ActionButton');
@@ -29,7 +28,7 @@ class Yaks extends Component {
         rowHasChanged: (row1, row2) => row1 !== row2,
       })
     };
-    this.itemsRef = new Firebase("https://bisonyak.firebaseio.com/items");
+    this.itemsRef = new Firebase('https://bisonyak.firebaseio.com/items');
   }
   listenForItems(itemsRef) {
     itemsRef.on('value', (snap) => {
@@ -39,6 +38,8 @@ class Yaks extends Component {
         items.push({
           title: child.val().title,
           time: child.val().time,
+          comment: child.val().comment,
+          score: child.val().score,
           _key: child.key()
       });
     });
@@ -57,7 +58,7 @@ class Yaks extends Component {
     // console.log(this.props);
     // console.log(item);
     this.props.navigator.push({
-      ident: "YakView",
+      ident: 'YakView',
       item: item
     });
   }
@@ -69,11 +70,11 @@ class Yaks extends Component {
       null,
       [
         {text: 'Add',
-         time: currentTime,
-          onPress: (text, currentTime) => {
-            this.itemsRef.push({ title: text, time: Date() });
+          onPress: (text) => {
+            this.itemsRef.push({ title: text, time: Date(), score: 0 });
           },
         },
+        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
       ],
       'plain-text'
     );

@@ -11,29 +11,59 @@ import React, {
   AlertIOS,
   TextInput } from 'react-native';
 import {Container, Header, Content, Footer, Title, Button, Icon, Card, CardItem } from 'native-base';
-
+import ListComment from './ListComment';
 import Firebase from 'firebase';
 
 const styles = require('../Styles/Styles.js');
 const constants = styles.constants;
 
-var refs = Firebase;
-
 
 class YakView extends Component {
   constructor(props){
     super(props);
-
     // sets our components state listener
-    var itemKey = this.props.item._key;
     // firebase ref
-
+    // console.log(this.props.item._key);
+    // var childKey = this.props.item._key.toString();
+    // console.log('CHILDKEY', childKey);
+    // var refs = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey);
+    this.state = {
+      dataSource: new ListView.DataSource({
+        // bizzare ass expression for handling rows
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      })
+    };
   }
-  submitComment(){
-    refs.push.appendToChild({
-      comment: null,
-      id: null,
-      time: null,
+  listenForComments(){
+    // TODO: temporary please fix
+    var refs = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey);
+    refs.on('value', (snap) => {
+      var comments = [];
+      snap.forEach((child) => {
+        comments.push({
+          comment: child.val().comment,
+          id: child.val().id,
+          time: child.val().time
+        });
+      });
+      // update component state with comments
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(comments)
+      });
+    });
+  }
+  componentDidMount(){
+    // this.listenForComments(this.refs);
+  }
+  // pushes data to firebase based on our current key
+  submitComment(object){
+    var childKey = this.props.item._key.toString();
+    console.log('CHILDKEY', childKey);
+    var refs = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey);
+    refs.push({
+      comment: object.comment,
+      id: object.id,
+      time: object.time,
     });
   }
   _returnToYaks(){
@@ -42,8 +72,16 @@ class YakView extends Component {
       ident: 'MainLayout'
     });
   }
+  // function to generate random UID for comments
+  generateUid(){
+      var s4 = function() {
+        return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+      };
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+      s4() + '-' + s4() + s4() + s4();
+  }
   _addComment(){
-
+    // callback function
     var onComplete = function(error){
       if (error){
         console.log('failed', error);
@@ -62,7 +100,15 @@ class YakView extends Component {
       [
         {text: 'Add',
           onPress: (text) => {
-            console.log('shit on my plate');
+            // create an object to pass
+            var commentObject = {
+              comment: text,
+              id: this.generateUid(),
+              time: Date(),
+            };
+            // send comment to firebase
+            this.submitComment(commentObject);
+            // console.log(this.generateUid());
             // this.props.item.push({ comment: text, time: Date() }, onComplete);
           },
         },
@@ -71,9 +117,17 @@ class YakView extends Component {
       'plain-text'
     );
   }
+
+  _renderComment(){
+    // list comment needs a prop being passed to it baby, give me a prop
+    return(
+      <ListComment />
+    );
+  }
   render(){
     // console.log(item);
-    console.log(this.props.item);
+    // console.log(this.props.item);
+
     return(
       <Container>
           <Header>
@@ -83,7 +137,12 @@ class YakView extends Component {
             <View style={styles.container}>
                 <Text>{this.props.item.title}</Text>
                 <Text>{this.props.item.time}</Text>
-                <Text>{this.props.item.comment}</Text>
+                <Text>{this.props.item.comment.key}</Text>
+
+                <ListView
+                  dataSource={this.state.dataSource}
+                  renderRow={this._renderComment.bind(this)}
+                  style={styles.listview}/>
 
                 <Button info  onPress={this._addComment.bind(this)}>
                     Add Comment
@@ -96,11 +155,6 @@ class YakView extends Component {
     );
   }
 }
-
-
-
-
-
 
 
 module.exports = YakView;

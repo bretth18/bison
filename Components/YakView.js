@@ -24,20 +24,22 @@ class YakView extends Component {
     // sets our components state listener
     // firebase ref
     // console.log(this.props.item._key);
-    // var childKey = this.props.item._key.toString();
-    // console.log('CHILDKEY', childKey);
-    // var refs = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey);
     this.state = {
       dataSource: new ListView.DataSource({
         // bizzare ass expression for handling rows
         rowHasChanged: (row1, row2) => row1 !== row2,
       })
     };
+    var childKey = this.props.item._key.toString();
+    console.log('CHILDKEY', childKey);
+    this.commentRef = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey);
   }
-  listenForComments(){
+  listenForComments(commentRef){
+    console.log('REFS', commentRef);
+
     // TODO: temporary please fix
-    var refs = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey);
-    refs.on('value', (snap) => {
+    // var refs = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey);
+    commentRef.on('value', (snap) => {
       var comments = [];
       snap.forEach((child) => {
         comments.push({
@@ -53,14 +55,14 @@ class YakView extends Component {
     });
   }
   componentDidMount(){
-    // this.listenForComments(this.refs);
+    this.listenForComments(this.commentRef);
   }
   // pushes data to firebase based on our current key
   submitComment(object){
-    var childKey = this.props.item._key.toString();
-    console.log('CHILDKEY', childKey);
-    var refs = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey);
-    refs.push({
+    // var childKey = this.props.item._key.toString();
+    // console.log('CHILDKEY', childKey);
+    // var refs = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey);
+    this.commentRef.push({
       comment: object.comment,
       id: object.id,
       time: object.time,
@@ -118,10 +120,10 @@ class YakView extends Component {
     );
   }
 
-  _renderComment(){
+  _renderComment(comment){
     // list comment needs a prop being passed to it baby, give me a prop
     return(
-      <ListComment />
+      <ListComment comment={comment} />
     );
   }
   render(){

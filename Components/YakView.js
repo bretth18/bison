@@ -54,14 +54,20 @@ class YakView extends Component {
       });
     });
   }
+  listenForScore(){
+    this.setState({
+      // data source for score
+      // leave unbound?
+      dataSource: this.state.scoreRef
+    });
+  }
   componentDidMount(){
     this.listenForComments(this.commentRef);
+    // need to add an event listener for score update
+    this.listenForScore(this.scoreRef);
   }
   // pushes data to firebase based on our current key
   submitComment(object){
-    // var childKey = this.props.item._key.toString();
-    // console.log('CHILDKEY', childKey);
-    // var refs = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey);
     this.commentRef.push({
       comment: object.comment,
       id: object.id,

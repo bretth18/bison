@@ -1,12 +1,6 @@
-package com.Awesomenativebase;
+package com.bisonapp;
 
 import com.facebook.react.ReactActivity;
-import com.oblador.vectoricons.VectorIconsPackage;
-import ca.jaysoo.extradimensions.ExtraDimensionsPackage;
-import ca.jaysoo.extradimensions.ExtraDimensionsPackage;
-import ca.jaysoo.extradimensions.ExtraDimensionsPackage;
-import ca.jaysoo.extradimensions.ExtraDimensionsPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 
@@ -21,7 +15,7 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "Awesomenativebase";
+        return "BisonApp";
     }
 
     /**
@@ -40,10 +34,7 @@ public class MainActivity extends ReactActivity {
     @Override
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
-            new MainReactPackage(),
-            new VectorIconsPackage(),
-            new ExtraDimensionsPackage(),
-            new VectorIconsPackage()
+            new MainReactPackage()
         );
     }
 }

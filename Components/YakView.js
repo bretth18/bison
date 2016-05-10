@@ -70,11 +70,11 @@ class YakView extends Component {
   }
   _returnToYaks(){
     console.log('fart');
-    this.props.navigator.push({
+    this.props.navigator.resetTo({
       ident: 'MainLayout'
     });
   }
-  // function to generate random UID for comments
+  // function to generate random UID for comments, we can use this to later gen icons?
   generateUid(){
       var s4 = function() {
         return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
@@ -120,13 +120,27 @@ class YakView extends Component {
     );
   }
   // function handles voting
-  voteOnPost(){
+  // TODO: figure out how to handle both options with a switch case
+  voteUpPost(){
     // get score
-    console.log('commentRef', this.commentRef);
-    var commentScore = this.commentRef.score;
-    console.log('commentScore', commentScore);
-    this.commentRef.push({
-      score: commentScore + 1
+    var childKey = this.props.item._key.toString();
+    console.log('CHILDKEY', childKey);
+    var scoreRef = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey + '/score');
+    // transaction to inrement by one
+    scoreRef.transaction(function(score){
+      console.log(score);
+      return score + 1;
+    });
+  }
+  voteDownPost(){
+    //get score
+    var childKey = this.props.item._key.toString();
+    console.log('CHILDKEY', childKey);
+    var scoreRef = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey + '/score');
+    // transaction to decrease by one
+    scoreRef.transaction(function(score){
+      console.log(score);
+      return score - 1;
     });
   }
   // function renders ListComment component in our ListView
@@ -139,7 +153,6 @@ class YakView extends Component {
   render(){
     // console.log(item);
     // console.log(this.props.item);
-
     return(
       <Container>
           <Header>
@@ -155,19 +168,20 @@ class YakView extends Component {
           <Content>
 
             <View style={styles.container}>
-              <Card>
-                <Button transparent onPress={this.voteOnPost.bind(this)}>
+              <Card cardBody={CardItem}>
+
+                <Button transparent onPress={this.voteUpPost.bind(this)}>
                     <Icon name="ios-arrow-up"/>
                 </Button>
-                <Button transparent>
+                <Button transparent onPress={this.voteDownPost.bind(this)}>
                     <Icon name="ios-arrow-down"/>
                 </Button>
                 <Text>{this.props.item.title}</Text>
 
                 <Text>{this.props.item.time}</Text>
                 <Text>{this.props.item.score}pts</Text>
-              </Card>
 
+              </Card>
 
                 <ListView
                   dataSource={this.state.dataSource}

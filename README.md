@@ -10,6 +10,7 @@
 
   -	[ ] Anonymous user accounts
   -	[ ] Location based feed
+  - [ ] Notifications
   -	[ ] Scores
   - [ ] Android
   - [ ] Clean UI

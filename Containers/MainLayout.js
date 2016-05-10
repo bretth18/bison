@@ -5,16 +5,25 @@ import React, {
    StyleSheet,
    Navigator } from 'react-native';
 
-import {Container, Header, Content, Footer, Title, Icon} from 'native-base';
+import {Container, Header, Content, Footer, Title, Icon, Button} from 'native-base';
 import Yaks from './Yaks';
 import ComposeYak from '../Components/ComposeYak';
 
 class MainLayout extends Component {
+      // function to take us to settings page
+      goToSettings(){
+        this.props.navigator.push({
+          ident: 'Settings',
+        });
+      }
        render() {
            return (
                <Container>
                    <Header>
                        <Title>bison.</Title>
+                         <Button transparent>
+                             <Icon name="ios-settings"/>
+                         </Button>
                    </Header>
                    <Content>
                      <Yaks navigator={this.props.navigator} />

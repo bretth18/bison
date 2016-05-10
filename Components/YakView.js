@@ -120,29 +120,28 @@ class YakView extends Component {
     );
   }
   // function handles voting
-  // TODO: figure out how to handle both options with a switch case
-  voteUpPost(){
+  votePost(param){
     // get score
     var childKey = this.props.item._key.toString();
     console.log('CHILDKEY', childKey);
     var scoreRef = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey + '/score');
-    // transaction to inrement by one
-    scoreRef.transaction(function(score){
-      console.log(score);
-      return score + 1;
-    });
+    // transaction to increment by one
+    if (param === 1){
+      scoreRef.transaction(function(score){
+        console.log(score);
+        return score + 1;
+      });
+    }
+    else if (param === 2){
+      scoreRef.transaction(function(score){
+        console.log(score);
+        return score - 1;
+      });
+    } else {
+      console.log('THIS SHOULD NOT BE REACHED');
+    }
   }
-  voteDownPost(){
-    //get score
-    var childKey = this.props.item._key.toString();
-    console.log('CHILDKEY', childKey);
-    var scoreRef = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey + '/score');
-    // transaction to decrease by one
-    scoreRef.transaction(function(score){
-      console.log(score);
-      return score - 1;
-    });
-  }
+
   // function renders ListComment component in our ListView
   _renderComment(comment){
     // list comment needs a prop being passed to it baby, give me a prop
@@ -170,10 +169,10 @@ class YakView extends Component {
             <View style={styles.container}>
               <Card cardBody={CardItem}>
 
-                <Button transparent onPress={this.voteUpPost.bind(this)}>
+                <Button transparent onPress={this.votePost.bind(this, 1)}>
                     <Icon name="ios-arrow-up"/>
                 </Button>
-                <Button transparent onPress={this.voteDownPost.bind(this)}>
+                <Button transparent onPress={this.votePost.bind(this, 2)}>
                     <Icon name="ios-arrow-down"/>
                 </Button>
                 <Text>{this.props.item.title}</Text>

@@ -18,4 +18,4 @@
 
 
 ##Screenshots
-![6980953f-ed10-4e3a-87b0-76c891087c29 1](https://cloud.githubusercontent.com/assets/955730/14974719/6fbe1dbe-10ad-11e6-8351-cb0ffc715735.png)
+![simulator screen shot may 9 2016 9 43 25 pm](https://cloud.githubusercontent.com/assets/955730/15135769/1e928d9e-162f-11e6-93c6-abc1ac06117f.png)

@@ -71,7 +71,15 @@ class Yaks extends Component {
       [
         {text: 'Add',
           onPress: (text) => {
+            // validation
+            // TODO: Toast user somehow
+            var withoutSpace = text.replace(/ /g,'');
+            var textLength = withoutSpace.length;
+            if (textLength > 140){
+              console.log('too long', textLength);
+            } else {
             this.itemsRef.push({ title: text, time: Date(), score: 0 });
+          }
           },
         },
         {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},

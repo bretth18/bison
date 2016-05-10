@@ -12,7 +12,7 @@ import MainLayout from './Containers/MainLayout';
 import YakView from './Components/YakView';
 import YakViewLayout from './Containers/YakViewLayout';
 
-class Awesomenativebase extends Component {
+class BisonApp extends Component {
 
       _renderScene(route, navigator){
         // every scene has these probs
@@ -64,4 +64,4 @@ const styles = React.StyleSheet.create({
   }
 });
 
-AppRegistry.registerComponent('Awesomenativebase', () => Awesomenativebase);
+AppRegistry.registerComponent('BisonApp', () => BisonApp);

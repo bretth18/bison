@@ -5,7 +5,7 @@ import React, {
    StyleSheet,
    Navigator } from 'react-native';
 
-import {Container, Header, Content, Footer, Title} from 'native-base';
+import {Container, Header, Content, Footer, Title, Icon} from 'native-base';
 import Yaks from './Yaks';
 import ComposeYak from '../Components/ComposeYak';
 
@@ -21,7 +21,7 @@ class MainLayout extends Component {
                   </Content>
 
                    <Footer>
-                       <Title>this is the footer</Title>
+                       <Title>made with <Icon name="ios-heart"/> in SF</Title>
                    </Footer>
                </Container>
            );

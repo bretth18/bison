@@ -119,7 +119,17 @@ class YakView extends Component {
       'plain-text'
     );
   }
-
+  // function handles voting
+  voteOnPost(){
+    // get score
+    console.log('commentRef', this.commentRef);
+    var commentScore = this.commentRef.score;
+    console.log('commentScore', commentScore);
+    this.commentRef.push({
+      score: commentScore + 1
+    });
+  }
+  // function renders ListComment component in our ListView
   _renderComment(comment){
     // list comment needs a prop being passed to it baby, give me a prop
     return(
@@ -133,25 +143,42 @@ class YakView extends Component {
     return(
       <Container>
           <Header>
+            <Button transparent onPress={this._returnToYaks.bind(this)}>
+                <Icon name="ios-arrow-left" />
+            </Button>
               <Title>bison.</Title>
+            <Button transparent>
+                <Icon name="navicon"/>
+            </Button>
           </Header>
+
           <Content>
+
             <View style={styles.container}>
+              <Card>
+                <Button transparent onPress={this.voteOnPost.bind(this)}>
+                    <Icon name="ios-arrow-up"/>
+                </Button>
+                <Button transparent>
+                    <Icon name="ios-arrow-down"/>
+                </Button>
                 <Text>{this.props.item.title}</Text>
+
                 <Text>{this.props.item.time}</Text>
-                <Text>{this.props.item.comment.key}</Text>
+                <Text>{this.props.item.score}pts</Text>
+              </Card>
+
 
                 <ListView
                   dataSource={this.state.dataSource}
                   renderRow={this._renderComment.bind(this)}
                   style={styles.listview}/>
 
-                <Button info  onPress={this._addComment.bind(this)}>
+                <Button info block  onPress={this._addComment.bind(this)}>
                     Add Comment
                 </Button>
 
             </View>
-
          </Content>
       </Container>
     );

@@ -18,6 +18,8 @@ const styles = require('../Styles/Styles.js');
 const constants = styles.constants;
 
 
+// TODO: componentWillReceiveProps for item score
+
 class YakView extends Component {
   constructor(props){
     super(props);
@@ -28,11 +30,19 @@ class YakView extends Component {
       dataSource: new ListView.DataSource({
         // bizzare ass expression for handling rows
         rowHasChanged: (row1, row2) => row1 !== row2,
-      })
+      }),
+      scoreChange: this.props.item.score
     };
     var childKey = this.props.item._key.toString();
     console.log('CHILDKEY', childKey);
     this.commentRef = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey);
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      // if score is changed update the state
+      scoreChange: nextProps.item.score > this.props.item.score ||
+      nextProps.item.score < this.props.item.score
+    });
   }
   listenForComments(commentRef){
     console.log('REFS', commentRef);
@@ -145,13 +155,30 @@ class YakView extends Component {
       console.log('THIS SHOULD NOT BE REACHED');
     }
   }
+  // function to delete current post
   deletePost(){
+    // TODO: user perms need to be added for this function
+    // callback function
+    var onComplete = function(error){
+      if (error){
+        console.log('ERROR REMOVING POST', error);
+        // ios alert please
+      } else {
+        console.log('POST REMOVED');
+        // route back
+        // this._returnToYaks(); WHAT THE HELL MAN?
+
+      }
+    };
+
+    // remove firebase reference
+    this.commentRef.remove(onComplete);
+    this._returnToYaks();
 
   }
 
   // function renders ListComment component in our ListView
   _renderComment(comment){
-    // list comment needs a prop being passed to it baby, give me a prop
     return(
       <ListComment comment={comment} />
     );
@@ -159,6 +186,8 @@ class YakView extends Component {
   render(){
     // console.log(item);
     // console.log(this.props.item);
+    console.log('COMPONENT STATE',this.state);
+    console.log('NEXT PROPS', this.state.nextProps);
     return(
       <Container>
           <Header>
@@ -166,7 +195,7 @@ class YakView extends Component {
                 <Icon name="ios-arrow-left" />
             </Button>
               <Title>bison.</Title>
-            <Button transparent>
+            <Button transparent onPress={this.deletePost.bind(this)}>
                 <Icon name="ios-trash"/>
             </Button>
           </Header>
@@ -185,7 +214,7 @@ class YakView extends Component {
                 <Text>{this.props.item.title}</Text>
 
                 <Text>{this.props.item.time}</Text>
-                <Text>{this.props.item.score}pts</Text>
+                <Text>{this.state.scoreChange}pts</Text>
 
               </Card>
 

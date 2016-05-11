@@ -18,6 +18,9 @@ const styles = require('../Styles/Styles.js');
 const constants = styles.constants;
 
 class Settings extends Component {
+  constructor(props){
+    super(props);
+  }
   // function to handle navigation back
   _returnToYaks(){
     this.props.navigator.resetTo({
@@ -35,8 +38,14 @@ class Settings extends Component {
               <Title>bison.</Title>
           </Header>
           <Content>
+            <Card>
+
               <Text>Bison</Text>
+
+
               <Text>made by @bretth18</Text>
+
+           </Card>
 
 
          </Content>

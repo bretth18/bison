@@ -55,16 +55,14 @@ class YakView extends Component {
     });
   }
   listenForScore(){
-    this.setState({
-      // data source for score
-      // leave unbound?
-      dataSource: this.state.scoreRef
-    });
+
+    // using event listener
+
   }
   componentDidMount(){
     this.listenForComments(this.commentRef);
     // need to add an event listener for score update
-    this.listenForScore(this.scoreRef);
+    this.listenForScore(this.props.item.score);
   }
   // pushes data to firebase based on our current key
   submitComment(object){
@@ -147,6 +145,9 @@ class YakView extends Component {
       console.log('THIS SHOULD NOT BE REACHED');
     }
   }
+  deletePost(){
+
+  }
 
   // function renders ListComment component in our ListView
   _renderComment(comment){
@@ -166,7 +167,7 @@ class YakView extends Component {
             </Button>
               <Title>bison.</Title>
             <Button transparent>
-                <Icon name="navicon"/>
+                <Icon name="ios-trash"/>
             </Button>
           </Header>
 

@@ -7,7 +7,6 @@ import React, {
 
 import {Container, Header, Content, Footer, Title, Icon, Button} from 'native-base';
 import Yaks from './Yaks';
-import ComposeYak from '../Components/ComposeYak';
 
 class MainLayout extends Component {
       // function to take us to settings page
@@ -16,12 +15,14 @@ class MainLayout extends Component {
           ident: 'Settings',
         });
       }
+      
        render() {
            return (
                <Container>
                    <Header>
+
                        <Title>bison.</Title>
-                         <Button transparent>
+                         <Button transparent onPress={this.goToSettings.bind(this)}>
                              <Icon name="ios-settings"/>
                          </Button>
                    </Header>

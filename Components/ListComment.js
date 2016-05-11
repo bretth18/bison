@@ -31,7 +31,7 @@ class ListComment extends Component {
         <View style={styles.li}>
           <Text style={styles.liText}>{this.props.comment.comment}</Text>
           <Text style={styles.liText}>{this.props.comment.id}</Text>
-          <Text style={styles.liText}>{this.handleTime}</Text>
+          <Text style={styles.liText}>{displayTime}</Text>
         </View>
       </TouchableHighlight>
     );

@@ -9,9 +9,9 @@
 ##Road Map
 
   -	[ ] Anonymous user accounts
-  -	[ ] Location based feed
+  -	[ ] Location based feed (geofire)
   - [ ] Notifications
-  -	[ ] Scores
+  -	[ ] Scores (almost done)
   - [ ] Android
   - [ ] Clean UI
   -	[x] Comments

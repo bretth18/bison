@@ -9,7 +9,8 @@ import React, {
   Component,
   ListView,
   AlertIOS,
-  TextInput } from 'react-native';
+  TextInput,
+  Alert} from 'react-native';
 import ComposeYak from '../Components/ComposeYak';
 const StatusBar = require('../Components/StatusBar');
 const ActionButton = require('../Components/ActionButton');
@@ -85,6 +86,17 @@ class Yaks extends Component {
         {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
       ],
       'plain-text'
+    );
+  }
+  tooLongAlert(){
+    Alert.alert(
+      'Alert Title',
+      'My Alert Msg',
+      [
+        {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]
     );
   }
   _renderItem(item){

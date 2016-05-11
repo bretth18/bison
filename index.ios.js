@@ -11,6 +11,7 @@ import ComposeYak from './Components/ComposeYak';
 import MainLayout from './Containers/MainLayout';
 import YakView from './Components/YakView';
 import YakViewLayout from './Containers/YakViewLayout';
+import Settings from './Components/Settings';
 
 class BisonApp extends Component {
 
@@ -37,6 +38,10 @@ class BisonApp extends Component {
           case "YakViewLayout":
                 return(
                   <YakViewLayout {...globalNavigatorProps}  />
+                );
+          case "Settings":
+                return(
+                  <Settings {...globalNavigatorProps} />
                 );
           default:
                 return (

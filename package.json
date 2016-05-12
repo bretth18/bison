@@ -16,8 +16,11 @@
     "react-native-extra-dimensions-android": "^0.17.0",
     "react-native-gifted-messenger": "^0.1.3",
     "react-native-material-design": "^0.3.5",
+    "react-native-modalbox": "^1.3.3",
     "react-native-nav": "^1.1.2",
     "react-native-settings-list": "^1.1.3",
-    "react-native-vector-icons": "^1.3.4"
+    "react-native-simple-modal": "^3.0.2",
+    "react-native-vector-icons": "^1.3.4",
+    "tcomb-form-native": "^0.4.4"
   }
 }

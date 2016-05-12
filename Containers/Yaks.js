@@ -10,8 +10,13 @@ import React, {
   ListView,
   AlertIOS,
   TextInput,
+  TouchableOpacity,
   Alert} from 'react-native';
 import ComposeYak from '../Components/ComposeYak';
+import Modal from 'react-native-simple-modal';
+import { Button } from 'native-base';
+
+// TODO: DEPRECIATED!
 const StatusBar = require('../Components/StatusBar');
 const ActionButton = require('../Components/ActionButton');
 const ListItem = require('../Components/ListItem');
@@ -27,7 +32,8 @@ class Yaks extends Component {
     this.state = {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
-      })
+      }),
+      modalOpen: false
     };
     this.itemsRef = new Firebase('https://bisonyak.firebaseio.com/items');
   }
@@ -63,32 +69,26 @@ class Yaks extends Component {
       item: item
     });
   }
-  _addItem(){
+  // this submits our yak
+  _addItem(text){
     var currentTime = new Date();
     console.log(currentTime);
-    AlertIOS.prompt(
-      'submit new bisonyak',
-      null,
-      [
-        {text: 'Add',
-          onPress: (text) => {
-            // validation
-            // TODO: Toast user somehow
-            var withoutSpace = text.replace(/ /g,'');
-            var textLength = withoutSpace.length;
-            if (textLength > 140){
-              console.log('too long', textLength);
-              this.tooLongAlert();
-            } else {
-            this.itemsRef.push({ title: text, time: Date(), score: 0 });
-          }
-          },
-        },
-        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-      ],
-      'plain-text'
-    );
+
+    // validation
+    // TODO: Toast user somehow
+    var withoutSpace = text.replace(/ /g,'');
+    var textLength = withoutSpace.length;
+    if (textLength > 140){
+      console.log('too long', textLength);
+      this.tooLongAlert();
+    } else {
+      this.itemsRef.push({ title: text, time: Date(), score: 0 });
   }
+  // this kills the modal
+  this.setState({
+    modalOpen: false
+  });
+}
 
   tooLongAlert(){
     Alert.alert(
@@ -108,6 +108,7 @@ class Yaks extends Component {
     );
   }
   render(){
+    //this._addItem.bind(this)
     return (
       <View style={styles.container} >
         <TextInput/>
@@ -117,7 +118,27 @@ class Yaks extends Component {
           dataSource={this.state.dataSource}
           renderRow={this._renderItem.bind(this)}
           style={styles.listview}/>
-        <ActionButton title="Submit Yak" onPress={this._addItem.bind(this)} />
+        <ActionButton title="Submit Yak" onPress={() => this.setState({modalOpen: true})} />
+
+          <Modal
+             offset={this.state.offset}
+             open={this.state.modalOpen}
+             modalDidOpen={() => console.log('modal did open')}
+             modalDidClose={() => this.setState({modalOpen: false})}
+             style={{alignItems: 'center'}}>
+             <View>
+                <Text style={{fontSize: 20, marginBottom: 10}}>Submit New Yak</Text>
+                  <TextInput
+                    style={{height: 50, width: 300, borderColor: 'gray', borderWidth: 1}}
+                    onChangeText={(text) => this.setState({text})}
+                    value={this.state.text}
+                    maxLength={300}
+                  />
+                <Button small block onPress={this._addItem.bind(this, this.state.text)}>
+                  Submit </Button>
+             </View>
+          </Modal>
+
       </View>
     );
   }

@@ -11,7 +11,7 @@ import React, {
   AlertIOS,
   Alert,
   TextInput } from 'react-native';
-import {Container, Header, Content, Footer, Title, Button, Icon, } from 'native-base';
+import {Container, Header, Content, Footer, Title, Button, Icon } from 'native-base';
 import { Card } from 'react-native-material-design';
 import ListComment from './ListComment';
 import Firebase from 'firebase';
@@ -225,10 +225,14 @@ class YakView extends Component {
                 <Text>{this.props.item.time}</Text>
 
                 <Text>{this.state.scoreChange}pts</Text>
-                  <Button transparent style={{alignItems: 'flex-end'}} onPress={this.votePost.bind(this, 1)}>
+                  <Button
+                    transparent style={{justifyContent: 'flex-end'}}
+                    onPress={this.votePost.bind(this, 1)}>
                       <Icon name="ios-arrow-up" style={{color: 'black'}}/>
                   </Button>
-                  <Button transparent style={{alignItems: 'flex-end'}} onPress={this.votePost.bind(this, 2)}>
+                  <Button
+                    transparent style={{justifyContent: 'flex-end'}}
+                    onPress={this.votePost.bind(this, 2)}>
                       <Icon name="ios-arrow-down" style={{color: 'black'}}/>
                   </Button>
 

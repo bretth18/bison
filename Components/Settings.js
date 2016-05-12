@@ -10,7 +10,8 @@ import React, {
   ListView,
   AlertIOS,
   TextInput } from 'react-native';
-import {Container, Header, Content, Footer, Title, Button, Icon, Card, CardItem, Thumbnail, Image } from 'native-base';
+import {Container, Header, Content, Footer, Title, Button, Icon, } from 'native-base';
+import { Card } from 'react-native-material-design';
 import StatusBar from './StatusBar';
 import SettingsList from 'react-native-settings-list';
 
@@ -39,11 +40,13 @@ class Settings extends Component {
           </Header>
           <Content>
             <Card>
+              <Card.Body>
 
               <Text>Bison</Text>
 
 
               <Text>made by @bretth18</Text>
+            </Card.Body>
 
            </Card>
 

@@ -39,18 +39,26 @@ class Settings extends Component {
               <Title>bison.</Title>
           </Header>
           <Content>
-            <Card>
-              <Card.Body>
+            <View style={styles.container}>
+              <Card>
+                <Card.Body>
 
-              <Text>Bison</Text>
-
-
-              <Text>made by @bretth18</Text>
-            </Card.Body>
-
-           </Card>
+                  <Text>Bison</Text>
 
 
+                  <Text>made by @bretth18</Text>
+                </Card.Body>
+
+              </Card>
+
+              <Card>
+                <Card.Body>
+                  <Text style={{fontWeight: 'bold'}}>Version</Text>
+                  <Text style={{fontStyle: 'italic'}}>pre-release0.0.1</Text>
+
+                </Card.Body>
+              </Card>
+            </View>
          </Content>
 
           <Footer>

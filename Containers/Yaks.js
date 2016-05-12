@@ -127,14 +127,15 @@ class Yaks extends Component {
              modalDidClose={() => this.setState({modalOpen: false})}
              style={{alignItems: 'center'}}>
              <View>
-                <Text style={{fontSize: 20, marginBottom: 10}}>Submit New Yak</Text>
+                <Text style={{fontSize: 20, marginBottom: 10}}>Submit new Yak</Text>
                   <TextInput
                     style={{height: 50, width: 300, borderColor: 'gray', borderWidth: 1}}
                     onChangeText={(text) => this.setState({text})}
                     value={this.state.text}
                     maxLength={300}
                   />
-                <Button small block onPress={this._addItem.bind(this, this.state.text)}>
+                <Button small block style={{marginTop:10}}
+                  onPress={this._addItem.bind(this, this.state.text)}>
                   Submit </Button>
              </View>
           </Modal>

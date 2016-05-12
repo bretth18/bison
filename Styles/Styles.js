@@ -64,6 +64,9 @@ var styles = StyleSheet.create({
     paddingTop: 14,
     paddingBottom: 16,
   },
+  button: {
+    justifyContent: 'flex-end',
+  },
 });
 
 module.exports = styles;

@@ -7,6 +7,7 @@ import React, {
 
 import {Container, Header, Content, Footer, Title, Icon, Button} from 'native-base';
 import Yaks from './Yaks';
+import NativeTheme from '../Themes/NativeTheme';
 
 class MainLayout extends Component {
       // function to take us to settings page
@@ -15,18 +16,18 @@ class MainLayout extends Component {
           ident: 'Settings',
         });
       }
-      
+
        render() {
            return (
-               <Container>
-                   <Header>
+               <Container theme={NativeTheme}>
+                   <Header theme={NativeTheme}>
 
                        <Title>bison.</Title>
                          <Button transparent onPress={this.goToSettings.bind(this)}>
                              <Icon name="ios-settings"/>
                          </Button>
                    </Header>
-                   <Content>
+                   <Content >
                      <Yaks navigator={this.props.navigator} />
                   </Content>
 

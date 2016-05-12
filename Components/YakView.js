@@ -9,8 +9,10 @@ import React, {
   Component,
   ListView,
   AlertIOS,
+  Alert,
   TextInput } from 'react-native';
-import {Container, Header, Content, Footer, Title, Button, Icon, Card, CardItem } from 'native-base';
+import {Container, Header, Content, Footer, Title, Button, Icon, } from 'native-base';
+import { Card } from 'react-native-material-design';
 import ListComment from './ListComment';
 import Firebase from 'firebase';
 
@@ -167,16 +169,28 @@ class YakView extends Component {
         console.log('POST REMOVED');
         // route back
         // this._returnToYaks(); WHAT THE HELL MAN?
-
       }
     };
-
+    var deletePostObject = {
+      alertTitle: 'Hey!',
+      alertMessage: 'Post Removed'
+    };
     // remove firebase reference
+    // TODO: this is really dirty and should be fixed
     this.commentRef.remove(onComplete);
+    this.callAlert(deletePostObject);
     this._returnToYaks();
 
   }
-
+  callAlert(object){
+    Alert.alert(
+      object.alertTitle,
+      object.alertMessage,
+      [
+        {text: 'OK', onPress: () => console.log('OK Pressed')}
+      ]
+    );
+  }
   // function renders ListComment component in our ListView
   _renderComment(comment){
     return(
@@ -203,25 +217,31 @@ class YakView extends Component {
           <Content>
 
             <View style={styles.container}>
-              <Card cardBody={CardItem}>
+              <Card>
+                <Card.Body>
 
-                <Button transparent onPress={this.votePost.bind(this, 1)}>
-                    <Icon name="ios-arrow-up"/>
-                </Button>
-                <Button transparent onPress={this.votePost.bind(this, 2)}>
-                    <Icon name="ios-arrow-down"/>
-                </Button>
                 <Text>{this.props.item.title}</Text>
 
                 <Text>{this.props.item.time}</Text>
+
                 <Text>{this.state.scoreChange}pts</Text>
+                  <Button transparent style={{alignItems: 'flex-end'}} onPress={this.votePost.bind(this, 1)}>
+                      <Icon name="ios-arrow-up" style={{color: 'black'}}/>
+                  </Button>
+                  <Button transparent style={{alignItems: 'flex-end'}} onPress={this.votePost.bind(this, 2)}>
+                      <Icon name="ios-arrow-down" style={{color: 'black'}}/>
+                  </Button>
 
-              </Card>
+                </Card.Body>
 
+            </Card>
+
+              <View style={styles.container}>
                 <ListView
                   dataSource={this.state.dataSource}
                   renderRow={this._renderComment.bind(this)}
                   style={styles.listview}/>
+              </View>
 
                 <Button info block  onPress={this._addComment.bind(this)}>
                     Add Comment

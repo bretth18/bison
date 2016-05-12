@@ -78,6 +78,7 @@ class Yaks extends Component {
             var textLength = withoutSpace.length;
             if (textLength > 140){
               console.log('too long', textLength);
+              this.tooLongAlert();
             } else {
             this.itemsRef.push({ title: text, time: Date(), score: 0 });
           }
@@ -88,6 +89,7 @@ class Yaks extends Component {
       'plain-text'
     );
   }
+
   tooLongAlert(){
     Alert.alert(
       'Alert Title',

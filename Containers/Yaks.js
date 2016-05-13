@@ -12,14 +12,12 @@ import React, {
   TextInput,
   TouchableOpacity,
   Alert} from 'react-native';
-import ComposeYak from '../Components/ComposeYak';
 import Modal from 'react-native-simple-modal';
 import { Button } from 'native-base';
+import StatusBar from '../Components/StatusBar';
+import ActionButton from '../Components/ActionButton';
+import ListItem from '../Components/ListItem';
 
-// TODO: DEPRECIATED!
-const StatusBar = require('../Components/StatusBar');
-const ActionButton = require('../Components/ActionButton');
-const ListItem = require('../Components/ListItem');
 const styles = require('../Styles/Styles.js');
 const constants = styles.constants;
 
@@ -33,9 +31,19 @@ class Yaks extends Component {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
-      modalOpen: false
+      modalOpen: false,
     };
     this.itemsRef = new Firebase('https://bisonyak.firebaseio.com/items');
+    // testing auth case
+    this.itemsRef.authAnonymously(function(error, authData) {
+      if (error) {
+        console.log('Login Failed!', error);
+      } else {
+        console.log('Authenticated successfully with payload:', authData);
+        // test
+        this.authData = authData;
+      }
+    });
   }
   listenForItems(itemsRef) {
     itemsRef.on('value', (snap) => {
@@ -73,6 +81,7 @@ class Yaks extends Component {
   _addItem(text){
     var currentTime = new Date();
     console.log(currentTime);
+    console.log('TESTING AUTHDATA: ', this.authData);
 
     // validation
     // TODO: Toast user somehow
@@ -82,7 +91,7 @@ class Yaks extends Component {
       console.log('too long', textLength);
       this.tooLongAlert();
     } else {
-      this.itemsRef.push({ title: text, time: Date(), score: 0 });
+      this.itemsRef.push({ title: text, time: Date(), score: 0, createdBy: this.authData.uid});
   }
   // this kills the modal
   this.setState({
@@ -126,7 +135,7 @@ class Yaks extends Component {
              modalDidOpen={() => console.log('modal did open')}
              modalDidClose={() => this.setState({modalOpen: false})}
              style={{alignItems: 'center'}}>
-             <View>
+             <View style={styles.container}>
                 <Text style={{fontSize: 20, marginBottom: 10}}>Submit new Yak</Text>
                   <TextInput
                     style={{height: 50, width: 300, borderColor: 'gray', borderWidth: 1}}

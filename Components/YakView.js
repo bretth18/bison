@@ -14,6 +14,7 @@ import React, {
 import {Container, Header, Content, Footer, Title, Button, Icon } from 'native-base';
 import { Card } from 'react-native-material-design';
 import ListComment from './ListComment';
+import ItemScore from './ItemScore';
 import Firebase from 'firebase';
 
 const styles = require('../Styles/Styles.js');
@@ -33,6 +34,7 @@ class YakView extends Component {
         // bizzare ass expression for handling rows
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
+      // changes need to reflect parent state
       scoreChange: this.props.item.score
     };
     var childKey = this.props.item._key.toString();
@@ -42,8 +44,7 @@ class YakView extends Component {
   componentWillReceiveProps(nextProps) {
     this.setState({
       // if score is changed update the state
-      scoreChange: nextProps.item.score > this.props.item.score ||
-      nextProps.item.score < this.props.item.score
+      scoreChange: nextProps.item.score !== this.props.item.score
     });
   }
   listenForComments(commentRef){
@@ -224,7 +225,7 @@ class YakView extends Component {
 
                 <Text>{this.props.item.time}</Text>
 
-                <Text>{this.state.scoreChange}pts</Text>
+                <ItemScore />
                   <Button
                     transparent style={{justifyContent: 'flex-end'}}
                     onPress={this.votePost.bind(this, 1)}>

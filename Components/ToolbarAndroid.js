@@ -3,6 +3,11 @@ import NavBar, { NavGroup, NavButton, NavButtonText, NavTitle } from 'react-nati
 
 
 export default class TopNav extends Component {
+  goToSettings(){
+    this.props.navigator.push({
+      ident: 'Settings',
+    });
+  }
   render() {
     return (
     <NavBar>

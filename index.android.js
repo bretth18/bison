@@ -1,47 +1,71 @@
-
-
+// main file
 import React, {
-  AppRegistry,
-  Component,
-  StyleSheet,
-  Text,
-  View } from 'react-native';
+   AppRegistry,
+   Component,
+   StyleSheet,
+   Navigator } from 'react-native';
 
-import { Button, Card } from 'react-native-material-design';
-import TopNav from './Components/ToolbarAndroid';
+
 import Yaks from './Containers/Yaks';
+import MainLayout from './Containers/MainLayout';
+import YakView from './Components/YakView';
+import YakViewLayout from './Containers/YakViewLayout';
+import Settings from './Components/Settings';
 
+class BisonApp extends Component {
 
-class Awesomenativebase extends Component {
+      _renderScene(route, navigator){
+        // every scene has these probs
+        var globalNavigatorProps = { navigator };
 
-  render() {
-    return (
-      <View>
-        <TopNav/>
-        <Yaks />
-      </View>
+        switch (route.ident) {
+          case 'MainLayout':
+                return (
+                  <MainLayout {...globalNavigatorProps} />
+                );
 
-    );
+          case 'Yaks':
+                return(
+                  <Yaks {...globalNavigatorProps} />
+                );
+
+          case 'YakView':
+                return (
+                  <YakView {...globalNavigatorProps}
+                            item={route.item} />
+                );
+          case 'YakViewLayout':
+                return(
+                  <YakViewLayout {...globalNavigatorProps}  />
+                );
+          case 'Settings':
+                return(
+                  <Settings {...globalNavigatorProps} />
+                );
+          default:
+                return (
+                  <Text>{`CRITICAL ERROR! ${route}`}</Text>
+                )
+        }
+
+      }
+       render() {
+           return (
+             <Navigator
+               initialRoute={{ident:"MainLayout"}}
+               ref="appnavigator"
+               style={styles.navigatorStyles}
+               renderScene={this._renderScene}
+              />
+           );
+       }
+   }
+
+const styles = React.StyleSheet.create({
+
+  navigatorStyles: {
+
   }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
 });
 
-AppRegistry.registerComponent('Awesomenativebase', () => Awesomenativebase);
+AppRegistry.registerComponent('BisonApp', () => BisonApp);

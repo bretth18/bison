@@ -224,6 +224,7 @@ class YakView extends Component {
                 <Text>{this.props.item.title}</Text>
 
                 <Text>{this.props.item.time}</Text>
+                <Text>{this.state.scoreChange}</Text>
 
                 <ItemScore />
                   <Button

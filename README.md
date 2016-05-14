@@ -19,9 +19,11 @@
   -	[ ] Scores (almost done)
   - [ ] Android
   - [ ] Clean UI
+  - [ ] Anonymous live streaming video (MOONSHOT!)
   -	[x] Comments
   -	[x] Posts
 
 
 ##Screenshots
-![simulator screen shot may 9 2016 9 43 25 pm](https://cloud.githubusercontent.com/assets/955730/15135769/1e928d9e-162f-11e6-93c6-abc1ac06117f.png)
+
+<img src="https://cloud.githubusercontent.com/assets/955730/15135769/1e928d9e-162f-11e6-93c6-abc1ac06117f.png" width="200">

@@ -66,12 +66,7 @@ class Yaks extends Component {
   componentDidMount(){
     this.listenForItems(this.itemsRef);
   }
-  // navigator
-  // TODO: fix nav, props are not being passed to child component
-  // from our Navigator component in index.ios.js
   onPressYak(item){
-    // console.log(this.props);
-    // console.log(item);
     this.props.navigator.push({
       ident: 'YakView',
       item: item
@@ -90,8 +85,12 @@ class Yaks extends Component {
     if (textLength > 140){
       console.log('too long', textLength);
       this.tooLongAlert();
-    } else {
-      this.itemsRef.push({ title: text, time: Date(), score: 0, createdBy: this.authData.uid});
+    }
+    else if (text === undefined){
+      console.log('no text provided');
+      // alert user
+    }else {
+      this.itemsRef.push({ title: text, time: Date(), score: 0,});
   }
   // this kills the modal
   this.setState({
@@ -111,7 +110,6 @@ class Yaks extends Component {
     );
   }
   _renderItem(item){
-    // console.log(item);
     return(
       <ListItem item={item} onPress={this.onPressYak.bind(this, item)} />
     );
@@ -135,10 +133,10 @@ class Yaks extends Component {
              modalDidOpen={() => console.log('modal did open')}
              modalDidClose={() => this.setState({modalOpen: false})}
              style={{alignItems: 'center'}}>
-             <View style={styles.container}>
-                <Text style={{fontSize: 20, marginBottom: 10}}>Submit new Yak</Text>
+             <View style={styles.diverseContainer}>
+                <Text style={styles.diverseText}>Submit new Yak</Text>
                   <TextInput
-                    style={{height: 50, width: 300, borderColor: 'gray', borderWidth: 1}}
+                    style={styles.diverseTextBox}
                     onChangeText={(text) => this.setState({text})}
                     value={this.state.text}
                     maxLength={300}

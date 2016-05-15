@@ -11,6 +11,7 @@ import React, {
   AlertIOS,
   TextInput,
   TouchableOpacity,
+  AsyncStorage,
   Alert} from 'react-native';
 import Modal from 'react-native-simple-modal';
 import { Button } from 'native-base';
@@ -40,6 +41,8 @@ class Yaks extends Component {
         console.log('Login Failed!', error);
       } else {
         console.log('Authenticated successfully with payload:', authData);
+        // store authData on device
+        AsyncStorage.setItem('authData', JSON.stringify(authData));
         // test
         this.authData = authData;
       }

@@ -58,6 +58,14 @@ class Settings extends Component {
 
                 </Card.Body>
               </Card>
+
+              <Card>
+                <Card.Body>
+                  <Text style={{fontWeight: 'bold'}}>Questions?</Text>
+                  <Text>support@bisonapp.co</Text>
+                </Card.Body>
+              </Card>
+
             </View>
          </Content>
 

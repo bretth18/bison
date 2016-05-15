@@ -9,6 +9,7 @@ import React, {
   Component,
   TouchableHighlight} from 'react-native';
 import moment from 'moment';
+import { Icon } from 'native-base';
 const styles = require('../Styles/Styles.js');
 const constants = styles.constants;
 
@@ -18,9 +19,11 @@ class ListItem extends Component {
     return(
       <TouchableHighlight onPress={this.props.onPress}>
         <View style={styles.li}>
-          <Text style={styles.liText}>{this.props.item.title}</Text>
-          <Text style={styles.liText}>{displayTime}</Text>
-          <Text style={styles.liText}>{this.props.item.score}pts</Text>
+            <Text style={styles.liText}>{this.props.item.title}</Text>
+            <Text style={styles.liText}>{displayTime}</Text>
+            <Text style={styles.liText}>{this.props.item.score}pts</Text>
+            <Icon name='ios-more' style={{paddingLeft: 300, color:'black'}} />
+
         </View>
       </TouchableHighlight>
     );

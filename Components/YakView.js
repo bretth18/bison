@@ -1,17 +1,12 @@
 import React, {
-  Linking,
-  Platform,
-  ActionSheetIOS,
-  Dimensions,
   View,
   Text,
-  Navigator,
   Component,
   ListView,
   AlertIOS,
   Alert,
-  TextInput } from 'react-native';
-import {Container, Header, Content, Footer, Title, Button, Icon } from 'native-base';
+  AsyncStorage  } from 'react-native';
+import {Container, Header, Content,  Title, Button, Icon } from 'native-base';
 import { Card } from 'react-native-material-design';
 import ListComment from './ListComment';
 import ItemScore from './ItemScore';
@@ -35,11 +30,23 @@ class YakView extends Component {
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
       // changes need to reflect parent state
-      scoreChange: this.props.item.score
+      scoreChange: this.props.item.score,
+      loaded: false,
     };
     var childKey = this.props.item._key.toString();
     console.log('CHILDKEY', childKey);
     this.commentRef = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey);
+  }
+  componentWillMount(){
+    // get our account shit from async
+    AsyncStorage.getItem('authData').then((authDataJson) => {
+      var userData = JSON.parse(authDataJson);
+      this.setState({
+        user: userData,
+        loaded: true
+      });
+      console.log(userData); // hell yeah boi
+    });
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -49,9 +56,9 @@ class YakView extends Component {
   }
   listenForComments(commentRef){
     console.log('REFS', commentRef);
+    console.log('USER', this.state.user);
 
-    // TODO: temporary please fix
-    // var refs = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey);
+    // push comment children
     commentRef.on('value', (snap) => {
       var comments = [];
       snap.forEach((child) => {
@@ -79,14 +86,21 @@ class YakView extends Component {
   }
   // pushes data to firebase based on our current key
   submitComment(object){
+    var onComplete = function(error){
+        if (error){
+          Alert.alert('Oh Snap! Failed to submit comment');
+        } else {
+          // shit worked bro
+          console.log('comment submitted fam');
+        }
+    };
     this.commentRef.push({
       comment: object.comment,
       id: object.id,
       time: object.time,
-    });
+    }, onComplete());
   }
   _returnToYaks(){
-    console.log('fart');
     this.props.navigator.resetTo({
       ident: 'MainLayout'
     });
@@ -100,16 +114,6 @@ class YakView extends Component {
       s4() + '-' + s4() + s4() + s4();
   }
   _addComment(){
-    // callback function
-    var onComplete = function(error){
-      if (error){
-        console.log('failed', error);
-      } else {
-        console.log('synchro success');
-      }
-    };
-
-    // console.log(this.props.item);
     var item = this.props.item;
     console.log('item', item);
     // temporary way to add comment
@@ -144,15 +148,23 @@ class YakView extends Component {
     var scoreRef = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey + '/score');
     // transaction to increment by one
     if (param === 1){
-      scoreRef.transaction(function(score){
-        console.log(score);
-        return score + 1;
+      scoreRef.transaction(function(score, error){
+        if (error){
+          Alert.alert('Uh Oh! Failed to vote');
+        } else {
+          console.log(score);
+          return score + 1;
+        }
       });
     }
     else if (param === 2){
-      scoreRef.transaction(function(score){
-        console.log(score);
-        return score - 1;
+      scoreRef.transaction(function(score, error){
+        if (error){
+          Alert.alert('Uh Oh! Failed to vote');
+        } else {
+          console.log(score);
+          return score - 1;
+        }
       });
     } else {
       console.log('THIS SHOULD NOT BE REACHED');
@@ -246,7 +258,9 @@ class YakView extends Component {
                 <ListView
                   dataSource={this.state.dataSource}
                   renderRow={this._renderComment.bind(this)}
-                  style={styles.listview}/>
+                  style={styles.listview}
+                  initialListSize={0}
+                  enableEmptySections={false}/>
               </View>
 
                 <Button info block  onPress={this._addComment.bind(this)}>

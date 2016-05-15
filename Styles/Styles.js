@@ -2,10 +2,13 @@
 'use strict'; // wtf is this for
 import React, { StyleSheet } from 'react-native';
 import Dimensions from 'Dimensions';
+import { getTheme } from 'react-native-material-kit';
+
+
+const theme = getTheme();
 const constants = {
   actionColor: '#24CE84'
 };
-
 
 // Precalculate Device Dimensions for better performance
 const x = Dimensions.get('window').width;
@@ -50,6 +53,54 @@ var styleBaby = {
 };
 
 var styles = StyleSheet.create({
+  listCards:{
+      flex: 1,
+      borderWidth: 1,
+      paddingLeft: 16,
+      paddingTop: 14,
+      paddingBottom: 16,
+      backgroundColor: '#ffffff',
+      borderRadius: 2,
+      borderColor: '#ffffff',
+      shadowColor: 'rgba(0, 0, 0, 0.12)',
+      shadowOpacity: 0.8,
+      shadowRadius: 2,
+      shadowOffset: {
+        height: 1,
+        width: 2,
+      },
+    },
+      cardImageStyle: {
+      flex: 1,
+      height: 170,
+      resizeMode: 'cover',
+      },
+      cardTitleStyle: {
+      position: 'absolute',
+      top: 120,
+      left: 26,
+      backgroundColor: 'transparent',
+      padding: 16,
+      fontSize: 24,
+      color: '#000000',
+      fontWeight: 'bold',
+      },
+      cardContentStyle: {
+      padding: 15,
+      color: 'rgba(0, 0, 0, 0.54)',
+      },
+      cardActionStyle: {
+      borderStyle: 'solid',
+      borderTopColor: 'rgba(0, 0, 0, 0.1)',
+      borderTopWidth: 1,
+      padding: 15,
+      },
+      cardMenuStyle: {
+      position: 'absolute',
+      top: 16,
+      right: 16,
+      backgroundColor: 'transparent',
+      },
   diverseTextBox: {
     width: 275,
     height: 50,

@@ -9,12 +9,10 @@ import React, {
 import {Container, Header, Content,  Title, Button, Icon } from 'native-base';
 import { Card } from 'react-native-material-design';
 import ListComment from './ListComment';
-import ItemScore from './ItemScore';
+import Score from './ItemScore';
 import Firebase from 'firebase';
 
 const styles = require('../Styles/Styles.js');
-const constants = styles.constants;
-
 
 // TODO: componentWillReceiveProps for item score
 
@@ -30,7 +28,6 @@ class YakView extends Component {
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
       // changes need to reflect parent state
-      scoreChange: this.props.item.score,
       loaded: false,
     };
     var childKey = this.props.item._key.toString();
@@ -46,12 +43,6 @@ class YakView extends Component {
         loaded: true
       });
       console.log(userData); // hell yeah boi
-    });
-  }
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      // if score is changed update the state
-      scoreChange: nextProps.item.score !== this.props.item.score
     });
   }
   listenForComments(commentRef){
@@ -82,7 +73,6 @@ class YakView extends Component {
   componentDidMount(){
     this.listenForComments(this.commentRef);
     // need to add an event listener for score update
-    this.listenForScore(this.props.item.score);
   }
   // pushes data to firebase based on our current key
   submitComment(object){
@@ -211,10 +201,9 @@ class YakView extends Component {
     );
   }
   render(){
-    // console.log(item);
-    // console.log(this.props.item);
-    console.log('COMPONENT STATE',this.state);
-    console.log('NEXT PROPS', this.state.nextProps);
+    // console.log('COMPONENT STATE',this.state);
+    // console.log('NEXT PROPS', this.state.nextProps);
+    const {score} = this.props.item;
     return(
       <Container>
           <Header>
@@ -236,9 +225,7 @@ class YakView extends Component {
                 <Text>{this.props.item.title}</Text>
 
                 <Text>{this.props.item.time}</Text>
-                <Text>{this.state.scoreChange}</Text>
-
-                <ItemScore />
+                <Score score={score}/>
                   <Button
                     transparent style={{justifyContent: 'flex-end'}}
                     onPress={this.votePost.bind(this, 1)}>
@@ -260,7 +247,7 @@ class YakView extends Component {
                   renderRow={this._renderComment.bind(this)}
                   style={styles.listview}
                   initialListSize={0}
-                  enableEmptySections={false}/>
+                  />
               </View>
 
                 <Button info block  onPress={this._addComment.bind(this)}>

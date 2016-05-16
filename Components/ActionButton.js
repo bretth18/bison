@@ -1,13 +1,8 @@
 import React, {
-  Linking,
-  Platform,
-  ActionSheetIOS,
-  Dimensions,
   View,
   Text,
-  Navigator,
   Component,
-  TouchableHighlight,
+  TouchableHighlight
 } from 'react-native';
 const styles = require('../Styles/Styles.js');
 const constants = styles.constants;
@@ -15,13 +10,13 @@ const constants = styles.constants;
 class ActionButton extends Component {
   render(){
     return (
-      <View style={styles.action} >
-        <TouchableHighlight
-          underlayColor={constants.actionColor}
-          onPress={this.props.onPress}>
+      <TouchableHighlight
+        underlayColor={constants.actionColor}
+        onPress={this.props.onPress}>
+        <View style={styles.action} >
           <Text style={styles.actionText}>{this.props.title}</Text>
-        </TouchableHighlight>
       </View>
+    </TouchableHighlight>
     );
   }
 }

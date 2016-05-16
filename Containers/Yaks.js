@@ -82,46 +82,38 @@ class Yaks extends Component {
     console.log('TESTING AUTHDATA: ', this.authData);
 
     // validation
-    // TODO: Toast user somehow
     var withoutSpace = text.replace(/ /g,'');
     var textLength = withoutSpace.length;
     if (textLength > 140){
       console.log('too long', textLength);
-      this.tooLongAlert();
+      Alert.alert('Too long! Keep it under 140 characters');
+      // keep modal open
+      this.setState({
+        modalOpen: true
+      });
     }
     else if (text === undefined){
       console.log('no text provided');
+      Alert.alert('Oh No! Add some text');
       // alert user
     }else {
       this.itemsRef.push({ title: text, time: Date(), score: 0,});
+      // this kills mr. modal
+      this.setState({
+        modalOpen: false
+      }); 
   }
-  // this kills the modal
-  this.setState({
-    modalOpen: false
-  });
+
 }
 
-  tooLongAlert(){
-    Alert.alert(
-      'Alert Title',
-      'My Alert Msg',
-      [
-        {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
-      ]
-    );
-  }
   _renderItem(item){
     return(
       <ListItem item={item} onPress={this.onPressYak.bind(this, item)} />
     );
   }
   render(){
-    //this._addItem.bind(this)
     return (
       <View style={styles.container} >
-        <TextInput/>
         <StatusBar title="Yaks" />
 
         <ListView

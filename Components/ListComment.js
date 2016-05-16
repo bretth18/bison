@@ -6,7 +6,6 @@ import React, {
   TouchableHighlight} from 'react-native';
 import moment from 'moment';
 const styles = require('../Styles/Styles.js');
-const constants = styles.constants;
 
 class ListComment extends Component {
   // handle time precision
@@ -22,7 +21,6 @@ class ListComment extends Component {
     }
   }
   render(){
-    // var displayTime = moment(this.props.comment.time).format('dddd, MMMM Do YYYY, h:mm:ss a');
     return(
       <TouchableHighlight onPress={this.props.onPress}>
         <View style={styles.li}>

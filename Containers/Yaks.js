@@ -1,16 +1,9 @@
 import React, {
-  Linking,
-  Platform,
-  ActionSheetIOS,
-  Dimensions,
   View,
   Text,
-  Navigator,
   Component,
   ListView,
-  AlertIOS,
   TextInput,
-  TouchableOpacity,
   AsyncStorage,
   Alert} from 'react-native';
 import Modal from 'react-native-simple-modal';
@@ -20,7 +13,6 @@ import ActionButton from '../Components/ActionButton';
 import ListItem from '../Components/ListItem';
 
 const styles = require('../Styles/Styles.js');
-const constants = styles.constants;
 
 
 import Firebase from 'firebase';
@@ -33,18 +25,51 @@ class Yaks extends Component {
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
       modalOpen: false,
+      // auth data
+      loaded: false,
     };
     this.itemsRef = new Firebase('https://bisonyak.firebaseio.com/items');
     // testing auth case
-    this.itemsRef.authAnonymously(function(error, authData) {
-      if (error) {
-        console.log('Login Failed!', error);
+
+    // TODO: conditional for creating auth and grabbing auth data on construct
+    // this.itemsRef.authAnonymously(function(error, authData) {
+    //   if (error) {
+    //     console.log('Login Failed!', error);
+    //   } else {
+    //     console.log('Authenticated successfully with payload:', authData);
+    //     // store authData on device
+    //     AsyncStorage.setItem('authData', JSON.stringify(authData));
+    //     // test
+    //     this.authData = authData;
+    //   }
+    // });
+  }
+  // onMount listener for Async auth
+  listenForAuth(){
+    AsyncStorage.getItem('authdata').then((error,authDataJson) => {
+      // if data authdata doesn't exist in async storage, we create it
+      if (error){
+        // create new auth data
+        this.itemsRef.authAnonymously(function(error, authData) {
+          if (error) {
+            console.log('Login Failed!', error);
+          } else {
+            console.log('Authenticated successfully with payload:', authData);
+            // store authData on device
+            AsyncStorage.setItem('authData', JSON.stringify(authData));
+            // test
+            this.authData = authData;
+          }
+        });
       } else {
-        console.log('Authenticated successfully with payload:', authData);
-        // store authData on device
-        AsyncStorage.setItem('authData', JSON.stringify(authData));
-        // test
-        this.authData = authData;
+        var userData = JSON.parse(authDataJson);
+        this.setState({
+          user: userData,
+          loaded: true
+        });
+        // alert auth
+        console.log(userData);
+        Alert.alert('AUTHORIZED');
       }
     });
   }
@@ -68,6 +93,8 @@ class Yaks extends Component {
   }
   componentDidMount(){
     this.listenForItems(this.itemsRef);
+    // event listener looking for Async data for authorization
+    this.listenForAuth();
   }
   onPressYak(item){
     this.props.navigator.push({
@@ -76,6 +103,7 @@ class Yaks extends Component {
     });
   }
   // this submits our yak
+  // TODO: parse authdata to our submitted data reference
   _addItem(text){
     var currentTime = new Date();
     console.log(currentTime);
@@ -101,9 +129,8 @@ class Yaks extends Component {
       // this kills mr. modal
       this.setState({
         modalOpen: false
-      }); 
+      });
   }
-
 }
 
   _renderItem(item){

@@ -29,20 +29,6 @@ class Yaks extends Component {
       loaded: false,
     };
     this.itemsRef = new Firebase('https://bisonyak.firebaseio.com/items');
-    // testing auth case
-
-    // TODO: conditional for creating auth and grabbing auth data on construct
-    // this.itemsRef.authAnonymously(function(error, authData) {
-    //   if (error) {
-    //     console.log('Login Failed!', error);
-    //   } else {
-    //     console.log('Authenticated successfully with payload:', authData);
-    //     // store authData on device
-    //     AsyncStorage.setItem('authData', JSON.stringify(authData));
-    //     // test
-    //     this.authData = authData;
-    //   }
-    // });
   }
   // onMount listener for Async auth
   listenForAuth(){

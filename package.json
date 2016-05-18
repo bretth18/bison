@@ -3,7 +3,20 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start"
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "jest": {
+    "haste": {
+      "defaultPlatform": "ios",
+      "platforms": [
+        "ios",
+        "android"
+      ],
+      "providesModuleNodeModules": [
+        "react-native"
+      ]
+    }
   },
   "dependencies": {
     "firebase": "^2.4.2",
@@ -22,5 +35,8 @@
     "react-native-simple-modal": "^3.0.2",
     "react-native-vector-icons": "^1.3.4",
     "tcomb-form-native": "^0.4.4"
+  },
+  "devDependencies": {
+    "jest-cli": "^12.0.2"
   }
 }

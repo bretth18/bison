@@ -5,8 +5,8 @@ import React, {
   ListView,
   AlertIOS,
   Alert,
-  AsyncStorage  } from 'react-native';
-import {Container, Header, Content,  Title, Button, Icon } from 'native-base';
+  AsyncStorage } from 'react-native';
+import { Container, Header, Content, Title, Button, Icon } from 'native-base';
 import { Card } from 'react-native-material-design';
 import ListComment from './ListComment';
 import Score from './ItemScore';
@@ -17,7 +17,7 @@ const styles = require('../Styles/Styles.js');
 // TODO: componentWillReceiveProps for item score
 
 class YakView extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     // sets our components state listener
     // firebase ref
@@ -33,10 +33,10 @@ class YakView extends Component {
     console.log('CHILDKEY', childKey);
     this.commentRef = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey);
   }
-  componentWillMount(){
+  componentWillMount() {
     // get our account shit from async
     AsyncStorage.getItem('authData').then((authDataJson) => {
-      var userData = JSON.parse(authDataJson);
+      userData = JSON.parse(authDataJson);
       this.props.user = userData.uid;
       this.setState({
         user: userData,
@@ -44,6 +44,10 @@ class YakView extends Component {
       });
       console.log(this.state.user.uid); // hell yeah boi
     });
+  }
+  componentDidMount() {
+    this.listenForComments(this.commentRef);
+    // need to add an event listener for score update
   }
   listenForComments(commentRef){
     console.log('REFS', commentRef);
@@ -64,25 +68,22 @@ class YakView extends Component {
       });
     });
   }
-  listenForScore(){
+  listenForScore() {
 
     // using event listener
 
   }
-  componentDidMount(){
-    this.listenForComments(this.commentRef);
-    // need to add an event listener for score update
-  }
+
   // pushes data to firebase based on our current key
-  submitComment(object){
+  submitComment(object) {
     console.log('USER:', this.state.user.uid);
-    var onComplete = function(error){
-        if (error){
-          Alert.alert('Oh Snap! Failed to submit comment');
-        } else {
+    var onComplete = function(error) {
+      if (error) {
+        Alert.alert('Oh Snap! Failed to submit comment');
+      } else {
           // shit worked bro
-          console.log('comment submitted fam');
-        }
+        console.log('comment submitted fam');
+      }
     };
     this.commentRef.push({
       comment: object.comment,
@@ -91,20 +92,20 @@ class YakView extends Component {
       user: this.state.user.uid,
     }, onComplete());
   }
-  _returnToYaks(){
+  _returnToYaks() {
     this.props.navigator.resetTo({
       ident: 'MainLayout'
     });
   }
   // function to generate random UID for comments, we can use this to later gen icons?
-  generateUid(){
-      var s4 = function() {
-        return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-      };
+  generateUid() {
+    var s4 = function() {
+      return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    };
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
       s4() + '-' + s4() + s4() + s4();
   }
-  _addComment(){
+  _addComment() {
     var item = this.props.item;
     console.log('item', item);
     // temporary way to add comment

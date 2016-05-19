@@ -8,6 +8,8 @@ import React, {
   Alert} from 'react-native';
 import Modal from 'react-native-simple-modal';
 import { Button } from 'native-base';
+import GeoFire from 'geofire';
+
 import StatusBar from '../Components/StatusBar';
 import ActionButton from '../Components/ActionButton';
 import ListItem from '../Components/ListItem';
@@ -30,6 +32,24 @@ class Yaks extends Component {
       user: null,
     };
     this.itemsRef = new Firebase('https://bisonyak.firebaseio.com/items');
+    // initialize geofire
+    this.geoFire = new GeoFire(this.itemsRef);
+  }
+  // onMount listener for device location
+  listenForlocation() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        var initialPosition = JSON.stringify(position);
+        console.log(initialPosition);
+        this.setState({initialPosition});
+    },
+    (error) => alert(error.message),
+    {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+  );
+    this.watchID = navigator.geolocation.watchPosition((position) => {
+      var lastPosition = JSON.stringify(position);
+      this.setState({lastPosition});
+    });
   }
   // onMount listener for Async auth
   listenForAuth(){
@@ -80,6 +100,7 @@ class Yaks extends Component {
   }
   componentDidMount(){
     this.listenForItems(this.itemsRef);
+    this.listenForlocation();
     // event listener looking for Async data for authorization
     // this.listenForAuth();
     console.log('LOADED:',this.state.loaded);

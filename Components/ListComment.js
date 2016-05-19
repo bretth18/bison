@@ -24,7 +24,7 @@ class ListComment extends Component {
   generateIcon(){
     var userId = this.props.comment.user.uid;
 
-    
+    console.log('fuck circleci');
   }
   render(){
     return(

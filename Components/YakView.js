@@ -21,7 +21,6 @@ class YakView extends Component {
     super(props);
     // sets our components state listener
     // firebase ref
-    // console.log(this.props.item._key);
     this.state = {
       dataSource: new ListView.DataSource({
         // bizzare ass expression for handling rows
@@ -38,16 +37,16 @@ class YakView extends Component {
     // get our account shit from async
     AsyncStorage.getItem('authData').then((authDataJson) => {
       var userData = JSON.parse(authDataJson);
+      this.props.user = userData.uid;
       this.setState({
         user: userData,
         loaded: true
       });
-      console.log(userData); // hell yeah boi
+      console.log(this.state.user.uid); // hell yeah boi
     });
   }
   listenForComments(commentRef){
     console.log('REFS', commentRef);
-    console.log('USER', this.state.user);
 
     // push comment children
     commentRef.on('value', (snap) => {
@@ -76,6 +75,7 @@ class YakView extends Component {
   }
   // pushes data to firebase based on our current key
   submitComment(object){
+    console.log('USER:', this.state.user.uid);
     var onComplete = function(error){
         if (error){
           Alert.alert('Oh Snap! Failed to submit comment');
@@ -88,6 +88,7 @@ class YakView extends Component {
       comment: object.comment,
       id: object.id,
       time: object.time,
+      user: this.state.user.uid,
     }, onComplete());
   }
   _returnToYaks(){

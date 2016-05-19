@@ -17,8 +17,14 @@ class ListComment extends Component {
       return moment(this.props.comment.time).format('dddd, MMMM Do YYYY, h:mm:ss a');
     } else {
       console.log('neither cases pass');
-      Alert.alert('fuck');
+      Alert.alert('fuck please call a developer');
     }
+  }
+  // function that generates random icon based on UID
+  generateIcon(){
+    var userId = this.props.comment.user.uid;
+
+    
   }
   render(){
     return(

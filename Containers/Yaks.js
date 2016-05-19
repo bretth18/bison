@@ -27,6 +27,7 @@ class Yaks extends Component {
       modalOpen: false,
       // auth data
       loaded: false,
+      user: null,
     };
     this.itemsRef = new Firebase('https://bisonyak.firebaseio.com/items');
   }
@@ -48,13 +49,13 @@ class Yaks extends Component {
           }
         });
       } else {
-        var userData = JSON.parse(authDataJson);
+        var userData = authDataJson;
         this.setState({
           user: userData,
           loaded: true
         });
         // alert auth
-        console.log(userData);
+        console.log('USER?:',this.state.user);
         Alert.alert('AUTHORIZED');
       }
     });
@@ -80,7 +81,8 @@ class Yaks extends Component {
   componentDidMount(){
     this.listenForItems(this.itemsRef);
     // event listener looking for Async data for authorization
-    this.listenForAuth();
+    // this.listenForAuth();
+    console.log('LOADED:',this.state.loaded);
   }
   onPressYak(item){
     this.props.navigator.push({
@@ -93,7 +95,7 @@ class Yaks extends Component {
   _addItem(text){
     var currentTime = new Date();
     console.log(currentTime);
-    console.log('TESTING AUTHDATA: ', this.authData);
+    console.log('TESTING AUTHDATA: ', this.state.user);
 
     // validation
     var withoutSpace = text.replace(/ /g,'');
@@ -110,8 +112,8 @@ class Yaks extends Component {
       console.log('no text provided');
       Alert.alert('Oh No! Add some text');
       // alert user
-    }else {
-      this.itemsRef.push({ title: text, time: Date(), score: 0,});
+    } else {
+      this.itemsRef.push({ title: text, time: Date(), score: 0, user: this.state.user.uid});
       // this kills mr. modal
       this.setState({
         modalOpen: false

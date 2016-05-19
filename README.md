@@ -13,7 +13,7 @@
 
 ##Road Map
 
-  -	[ ] Anonymous user accounts
+  -	[x] Anonymous user accounts
   -	[ ] Location based feed (geofire)
   - [ ] Notifications
   -	[ ] Scores (almost done)

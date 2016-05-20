@@ -4,8 +4,9 @@
 
 [![ghit.me](https://ghit.me/badge.svg?repo=bretth18/bison)](https://ghit.me/repo/bretth18/bison)
 ![Fuck you](https://david-dm.org/bretth18/bison.svg)
-[![CircleCI](https://circleci.com/gh/bretth18/bison.svg?style=svg)](https://circleci.com/gh/bretth18/bison)
+[![CircleCI](https://circleci.com/gh/bretth18/bison.svg?style=shield)](https://circleci.com/gh/bretth18/bison)
 ![Fuck Badges](https://img.shields.io/badge/isbisoncool-yes-green.svg)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/bretth18/bison/master/LICENSE)
 * a simple yik yak-esque clone in react-native
 * Firebase backend (to be replaced)
 * http://bisonapp.co
@@ -22,6 +23,12 @@
   - [ ] Anonymous live streaming video (MOONSHOT!)
   -	[x] Comments
   -	[x] Posts
+
+##Contributing
+* Pull requests are welcome!
+* Please try to adhere to the AirBnb styleguide
+* Join our slack!
+
 
 
 ##Screenshots

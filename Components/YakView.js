@@ -14,18 +14,18 @@ import Firebase from 'firebase';
 
 const styles = require('../Styles/Styles.js');
 
-// TODO: componentWillReceiveProps for item score
-
 class YakView extends Component {
   constructor(props) {
     super(props);
     // sets our components state listener
-    // firebase ref
     this.state = {
       dataSource: new ListView.DataSource({
         // bizzare ass expression for handling rows
         rowHasChanged: (row1, row2) => row1 !== row2,
+
       }),
+      // this is the initial score value
+      score: this.props.item.score,
       // changes need to reflect parent state
       loaded: false,
     };
@@ -68,12 +68,6 @@ class YakView extends Component {
       });
     });
   }
-  listenForScore() {
-
-    // using event listener
-
-  }
-
   // pushes data to firebase based on our current key
   submitComment(object) {
     console.log('USER:', this.state.user.uid);
@@ -123,8 +117,6 @@ class YakView extends Component {
             };
             // send comment to firebase
             this.submitComment(commentObject);
-            // console.log(this.generateUid());
-            // this.props.item.push({ comment: text, time: Date() }, onComplete);
           },
         },
         {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
@@ -134,33 +126,60 @@ class YakView extends Component {
   }
   // function handles voting
   votePost(param){
-    // get score
-    var childKey = this.props.item._key.toString();
-    console.log('CHILDKEY', childKey);
-    var scoreRef = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey + '/score');
-    // transaction to increment by one
-    if (param === 1){
-      scoreRef.transaction(function(score, error){
-        if (error){
-          Alert.alert('Uh Oh! Failed to vote');
-        } else {
-          console.log(score);
-          return score + 1;
+    // object for async
+    var userHasVoted = {
+      voted: true,
+    };
+    // doesnt work 
+    // AsyncStorage.setItem('hasVoted', userHasVoted, function(error){
+    //   if (error){
+    //     console.log('failed to set hasVoted in AsyncStorage');
+    //     Alert.alert('shits fucked');
+    //   } else {
+    //     console.log('async hasVoted set');
+    //   }
+    // });
+        // get score
+        var childKey = this.props.item._key.toString();
+        console.log('CHILDKEY', childKey);
+        var scoreRef = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey + '/score');
+        // transaction to increment by one
+        if (param === 1){
+          scoreRef.transaction(function(score, error){
+            if (error){
+              Alert.alert('Uh Oh! Failed to vote');
+            } else {
+              console.log(score);
+              return score + 1;
+            }
+          });
+          // set ui to reflect score changes
+          this.setState({
+            score: this.state.score + 1
+          });
+          // set bool
+          userHasVoted = true;
         }
-      });
-    }
-    else if (param === 2){
-      scoreRef.transaction(function(score, error){
-        if (error){
-          Alert.alert('Uh Oh! Failed to vote');
+
+        else if (param === 2){
+          scoreRef.transaction(function(score, error){
+            if (error){
+              Alert.alert('Uh Oh! Failed to vote');
+            } else {
+              console.log(score);
+              return score - 1;
+            }
+          });
+          // set ui to reflect score change
+          this.setState({
+            score: this.state.score - 1
+          });
+          userHasVoted = true;
         } else {
-          console.log(score);
-          return score - 1;
+          console.log('THIS SHOULD NOT BE REACHED');
+          Alert.alert('failed to vote on post, call an engineer');
         }
-      });
-    } else {
-      console.log('THIS SHOULD NOT BE REACHED');
-    }
+
   }
   // function to delete current post
   deletePost(){
@@ -203,9 +222,6 @@ class YakView extends Component {
     );
   }
   render(){
-    // console.log('COMPONENT STATE',this.state);
-    // console.log('NEXT PROPS', this.state.nextProps);
-    const {score} = this.props.item;
     return(
       <Container>
           <Header>
@@ -227,7 +243,7 @@ class YakView extends Component {
                 <Text>{this.props.item.title}</Text>
 
                 <Text>{this.props.item.time}</Text>
-                <Score score={score}/>
+                <Text>{this.state.score}pts</Text>
                   <Button
                     transparent style={{justifyContent: 'flex-end'}}
                     onPress={this.votePost.bind(this, 1)}>

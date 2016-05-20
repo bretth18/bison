@@ -22,9 +22,9 @@ class ListComment extends Component {
   }
   // function that generates random icon based on UID
   generateIcon() {
-    var userId = this.props.comment.user.uid;
-    let dexed = userId.match(/\d/g);
-    dexed = dexed.join('');
+    var userId = this.props.comment.user;
+    // let dexed = userId.match(/\d/g);
+    // dexed = dexed.join('');
 
     // does this shit work
     // function getIcon() {
@@ -47,7 +47,7 @@ class ListComment extends Component {
       <TouchableHighlight onPress={this.props.onPress}>
         <View style={styles.li}>
           <Text style={styles.liText}>{this.props.comment.comment}</Text>
-          <Text style={styles.liText}>{this.generateIcon.bind(this)}</Text>
+          <Text style={{fontWeight:'bold'}}>{this.generateIcon.bind(this)}</Text>
           <Text style={styles.liText}>{this.handleTime()}</Text>
         </View>
       </TouchableHighlight>

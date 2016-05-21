@@ -30,6 +30,7 @@ class Yaks extends Component {
       // auth data
       loaded: false,
       user: null,
+      position: null,
     };
     this.itemsRef = new Firebase('https://bisonyak.firebaseio.com/items');
     // initialize geofire
@@ -73,12 +74,12 @@ class Yaks extends Component {
                 });
               }
             });
-            // test
-            this.authData = authData;
           }
         });
       }
     });
+    //test
+    this.listenForlocation();
   }
   // onMount listener for device location
   listenForlocation() {
@@ -87,14 +88,18 @@ class Yaks extends Component {
       (position) => {
         var initialPosition = JSON.stringify(position);
         console.log(initialPosition);
-        this.setState({initialPosition});
+        this.setState({
+          position: initialPosition
+        });
     },
     (error) => alert(error.message),
     {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
   );
     this.watchID = navigator.geolocation.watchPosition((position) => {
       var lastPosition = JSON.stringify(position);
-      this.setState({position: lastPosition});
+      this.setState({
+        position: lastPosition
+      });
     });
   }
   listenForItems(itemsRef) {
@@ -118,7 +123,8 @@ class Yaks extends Component {
   }
   componentDidMount(){
     this.listenForItems(this.itemsRef);
-    this.listenForlocation();
+    // this.listenForlocation();
+    // this.listenForlocation();
     // event listener looking for Async data for authorization
     // this.listenForAuth();
     console.log('LOADED:',this.state.loaded);
@@ -163,19 +169,18 @@ class Yaks extends Component {
       // pushes new itemData, gives us a var to play with
       var newKey = this.itemsRef.push({ title: text, time: Date(), score: 0, user: this.state.user});
       console.log('newkey', newKey.key());
+      // TODO: figure out how to append geoFire to child instead of overwriting
+      var location = JSON.parse(this.state.position);
+      console.log('LOCATION', location);
 
-      // put this bitch in an array
-      // TODO: figure out what's wrong with lat/long 
-      console.log('latitude', this.state.position.latitude);
-      console.log('longitude', this.state.position.longitude);
-      var locationArray = [this.state.position.latitude, this.state.position.longitude];
+      var locationArray = [location.coords.latitude, location.coords.longitude];
       // give our new reference location data
-      this.geoFire.set(newKey.key(),locationArray).then(() => {
-        console.log('newKey has been added to geoFire');
-      }, function(error) {
-        console.log('problem adding to geoFire', error);
-        Alert.alert('problem adding location');
-      });
+      // this.geoFire.set(newKey.key(),locationArray).then(() => {
+      //   console.log('newKey has been added to geoFire');
+      // }, function(error) {
+      //   console.log('problem adding to geoFire', error);
+      //   Alert.alert('problem adding location');
+      // });
       // this kills mr. modal
       this.setState({
         modalOpen: false

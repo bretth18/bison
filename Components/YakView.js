@@ -47,7 +47,6 @@ class YakView extends Component {
   }
   componentDidMount() {
     this.listenForComments(this.commentRef);
-    // need to add an event listener for score update
   }
   listenForComments(commentRef){
     console.log('REFS', commentRef);
@@ -130,7 +129,7 @@ class YakView extends Component {
     var userHasVoted = {
       voted: true,
     };
-    // doesnt work 
+    // doesnt work
     // AsyncStorage.setItem('hasVoted', userHasVoted, function(error){
     //   if (error){
     //     console.log('failed to set hasVoted in AsyncStorage');

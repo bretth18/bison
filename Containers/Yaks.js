@@ -50,7 +50,6 @@ class Yaks extends Component {
         });
         // alert auth
         console.log('USER?:',this.state.user);
-        // Alert.alert('AUTHORIZED');
 
       } else {
         // create new auth data
@@ -84,15 +83,14 @@ class Yaks extends Component {
   // onMount listener for device location
   listenForlocation() {
     // get device location data
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
+    navigator.geolocation.getCurrentPosition((position) => {
         var initialPosition = JSON.stringify(position);
         console.log(initialPosition);
         this.setState({
           position: initialPosition
         });
     },
-    (error) => alert(error.message),
+    (error) => Alert.alert(error.message),
     {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
   );
     this.watchID = navigator.geolocation.watchPosition((position) => {
@@ -105,7 +103,7 @@ class Yaks extends Component {
   listenForItems(itemsRef) {
     itemsRef.on('value', (snap) => {
       // get our children as an array
-      // NOTICE: in next firebase update 'child.x()', changes to an object 'child.x'
+      // NOTE: in next firebase update 'child.x()', changes to an object 'child.x'
       var items = [];
           snap.forEach((child) => {
             items.push({
@@ -123,11 +121,6 @@ class Yaks extends Component {
   }
   componentDidMount(){
     this.listenForItems(this.itemsRef);
-    // this.listenForlocation();
-    // this.listenForlocation();
-    // event listener looking for Async data for authorization
-    // this.listenForAuth();
-    console.log('LOADED:',this.state.loaded);
   }
   onPressYak(item){
     this.props.navigator.push({
@@ -166,8 +159,9 @@ class Yaks extends Component {
       Alert.alert('Oh No! Add some text');
       // alert user
     } else {
+      var currentUser = this.state.user;
       // pushes new itemData, gives us a var to play with
-      var newKey = this.itemsRef.push({ title: text, time: Date(), score: 0, user: this.state.user});
+      var newKey = this.itemsRef.push({ title: text, time: Date(), score: 0, user: currentUser});
       console.log('newkey', newKey.key());
       // TODO: figure out how to append geoFire to child instead of overwriting
       var location = JSON.parse(this.state.position);
@@ -190,7 +184,7 @@ class Yaks extends Component {
 
   _renderItem(item){
     return(
-      <ListItem item={item} onPress={this.onPressYak.bind(this, item)} />
+      <ListItem item={item} userId={this.state.user} onPress={this.onPressYak.bind(this, item)} />
     );
   }
   render(){

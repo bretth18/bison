@@ -1,17 +1,11 @@
 import React, {
-  Linking,
-  Platform,
-  ActionSheetIOS,
-  Dimensions,
   View,
   Text,
-  Navigator,
   Component,
   TouchableHighlight} from 'react-native';
 import moment from 'moment';
 import { Icon } from 'native-base';
 const styles = require('../Styles/Styles.js');
-const constants = styles.constants;
 
 class ListItem extends Component {
   render(){

@@ -1,17 +1,8 @@
 import React, {
-  Linking,
-  Platform,
-  ActionSheetIOS,
-  Dimensions,
   View,
   Text,
-  Navigator,
-  Component,
-} from 'react-native';
-
+  Component } from 'react-native';
 const styles = require('../Styles/Styles.js');
-const constants = styles.constants;
-
 
 class StatusBar extends Component{
   render(){

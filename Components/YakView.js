@@ -9,7 +9,6 @@ import React, {
 import { Container, Header, Content, Title, Button, Icon } from 'native-base';
 import { Card } from 'react-native-material-design';
 import ListComment from './ListComment';
-import Score from './ItemScore';
 import Firebase from 'firebase';
 
 const styles = require('../Styles/Styles.js');
@@ -181,29 +180,33 @@ class YakView extends Component {
 
   }
   // function to delete current post
-  deletePost(){
-    // TODO: user perms need to be added for this function
-    // callback function
-    var onComplete = function(error){
-      if (error){
-        console.log('ERROR REMOVING POST', error);
-        // ios alert please
-      } else {
-        console.log('POST REMOVED');
-        // route back
-        // this._returnToYaks(); WHAT THE HELL MAN?
-      }
-    };
+  deletePost() {
+
     var deletePostObject = {
       alertTitle: 'Hey!',
       alertMessage: 'Post Removed'
     };
-    // remove firebase reference
-    // TODO: this is really dirty and should be fixed
-    this.commentRef.remove(onComplete);
-    this.callAlert(deletePostObject);
-    this._returnToYaks();
-
+    // check post author
+    console.log('props user: ', this.props.item);
+    console.log('state user: ', this.state.user.uid);
+    if (this.props.item.user === this.state.user.uid){
+      //remove post
+      this.commentRef.remove((error) => {
+        if(error){
+          console.log('ERROR REMOVING POST', error);
+          Alert.alert('oops, something went wrong while removing your post');
+        } else {
+          // alert user, return to previous screen
+          console.log('POST REMOVED');
+          this.callAlert(deletePostObject);
+          this._returnToYaks();
+        }
+      });
+    } else {
+      console.log('failed to remove post-unauth');
+      // TODO:need a better way of handling... Delete button should only show if user matches
+      Alert.alert('UNAUTHORIZED!');
+    }
   }
   callAlert(object){
     Alert.alert(

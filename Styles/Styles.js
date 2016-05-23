@@ -60,8 +60,8 @@ var styles = StyleSheet.create({
       paddingTop: 14,
       paddingBottom: 16,
       backgroundColor: '#ffffff',
-      borderRadius: 2,
-      borderColor: '#ffffff',
+      borderRadius: 5,
+      borderColor: 'transparent',
       shadowColor: 'rgba(0, 0, 0, 0.12)',
       shadowOpacity: 0.8,
       shadowRadius: 2,
@@ -125,6 +125,22 @@ var styles = StyleSheet.create({
   },
   listview: {
     flex: 1,
+  },
+  liBox: {
+    backgroundColor: '#ffffff',
+    borderRadius: 10,
+    borderWidth: 1,
+    paddingLeft: 16,
+    paddingTop: 14,
+    paddingBottom: 16,
+    borderColor: 'transparent',
+    shadowColor: '#000000',
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 1,
+      width: 0,
+    }
   },
   li: {
     backgroundColor: '#fff',

@@ -131,7 +131,7 @@ class Yaks extends Component {
   // method appends current location data to child
   appendLocation(locationData, childKey){
     // append location to current childKey
-    geoFire.set(childKey, locationData).then(function() {
+    this.geoFire.set(childKey, locationData).then(function() {
         console.log('location data appended to child');
         Alert.alert('location added');
       }, function(error) {
@@ -169,12 +169,7 @@ class Yaks extends Component {
 
       var locationArray = [location.coords.latitude, location.coords.longitude];
       // give our new reference location data
-      // this.geoFire.set(newKey.key(),locationArray).then(() => {
-      //   console.log('newKey has been added to geoFire');
-      // }, function(error) {
-      //   console.log('problem adding to geoFire', error);
-      //   Alert.alert('problem adding location');
-      // });
+      this.appendLocation(locationArray,newKey.key());
       // this kills mr. modal
       this.setState({
         modalOpen: false

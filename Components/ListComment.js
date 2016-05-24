@@ -31,12 +31,13 @@ class ListComment extends Component {
       console.log('commentID',commentId);
       var wtf = commentId.toString();
       var testio = truncate(wtf,4);
-      debugger;
       console.log('CHOPPED',testio);
       // set state
       // this.setState({
       //   commentId: chopped
       // });
+
+
       return testio;
   }
 

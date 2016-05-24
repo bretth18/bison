@@ -1,22 +1,12 @@
 import React, {
-  Linking,
-  Platform,
-  ActionSheetIOS,
-  Dimensions,
   View,
   Text,
-  Navigator,
-  Component,
-  ListView,
-  AlertIOS,
-  TextInput } from 'react-native';
-import {Container, Header, Content, Footer, Title, Button, Icon, } from 'native-base';
+  Component } from 'react-native';
+import {Container, Header, Content, Footer, Title, Button, Icon } from 'native-base';
 import { Card } from 'react-native-material-design';
-import StatusBar from './StatusBar';
 import SettingsList from 'react-native-settings-list';
 
 const styles = require('../Styles/Styles.js');
-const constants = styles.constants;
 
 class Settings extends Component {
   constructor(props){

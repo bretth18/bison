@@ -15,9 +15,10 @@
 ##Road Map
 
   -	[x] Anonymous user accounts
+  - [ ] user icons  
   -	[ ] Location based feed (geofire)
   - [ ] Notifications
-  -	[ ] Scores (almost done)
+  -	[x] Scores (almost done)
   - [ ] Android
   - [ ] Clean UI
   - [ ] Anonymous live streaming video (MOONSHOT!)

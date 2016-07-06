@@ -12,6 +12,7 @@ import MainLayout from './Containers/MainLayout';
 import YakView from './Components/YakView';
 import YakViewLayout from './Containers/YakViewLayout';
 import Settings from './Components/Settings';
+import Feedback from './Components/Feedback';
 
 class BisonApp extends Component {
 
@@ -42,6 +43,10 @@ class BisonApp extends Component {
           case "Settings":
                 return(
                   <Settings {...globalNavigatorProps} />
+                );
+          case "Feedback":
+                return(
+                  <Feedback {...globalNavigatorProps} />
                 );
           default:
                 return (

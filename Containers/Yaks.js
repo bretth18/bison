@@ -5,7 +5,8 @@ import React, {
   ListView,
   TextInput,
   AsyncStorage,
-  Alert} from 'react-native';
+  Alert,
+  NetInfo } from 'react-native';
 import Modal from 'react-native-simple-modal';
 import { Button } from 'native-base';
 import GeoFire from 'geofire';
@@ -79,6 +80,21 @@ class Yaks extends Component {
     });
     //test
     this.listenForlocation();
+  }
+  // function that tests device connection
+  listenForConnection() {
+    NetInfo.isConnected.fetch().then(isConnected => {
+      // set state based on connection status
+      if (isConnected === 'online'){
+        this.setState({
+          connection: true
+        });
+      } else {
+        this.setState({
+          connection: false
+        });
+      }
+    });
   }
   // onMount listener for device location
   listenForlocation() {
@@ -185,13 +201,13 @@ class Yaks extends Component {
   render(){
     return (
       <View style={styles.container} >
-        <StatusBar title="Yaks" />
+        <StatusBar title="Feed" />
 
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this._renderItem.bind(this)}
           style={styles.listview}/>
-        <ActionButton title="Submit Yak" onPress={() => this.setState({modalOpen: true})} />
+        <ActionButton title="Submit Post" onPress={() => this.setState({modalOpen: true})} />
 
           <Modal
              offset={this.state.offset}

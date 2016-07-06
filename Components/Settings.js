@@ -1,12 +1,16 @@
 import React, {
   View,
   Text,
-  Component } from 'react-native';
+  Component,
+  Image } from 'react-native';
 import {Container, Header, Content, Footer, Title, Button, Icon } from 'native-base';
 import { Card } from 'react-native-material-design';
 import SettingsList from 'react-native-settings-list';
 
 const styles = require('../Styles/Styles.js');
+
+//const for icon
+const bisonIcon = require('../ios/BisonApp/Images.xcassets/AppIcon.appiconset/Icon-40@2x.png');
 
 class Settings extends Component {
   constructor(props){
@@ -16,6 +20,12 @@ class Settings extends Component {
   _returnToYaks(){
     this.props.navigator.resetTo({
       ident: 'MainLayout'
+    });
+  }
+  // function to handle nav to feedback page
+  _navToFeedback(){
+    this.props.navigator.resetTo({
+      ident: 'Feedback'
     });
   }
 
@@ -32,15 +42,20 @@ class Settings extends Component {
             <View style={styles.container}>
               <Card>
                 <Card.Body>
-
+                  <Image source={bisonIcon}/>
                   <Text>Bison</Text>
-
-
                   <Text>made by @bretth18</Text>
                 </Card.Body>
-
               </Card>
-
+              <Card>
+                <Card.Body>
+                  <Text style={{fontWeight: 'bold'}}>StackWorld 2016 Demo</Text>
+                  <Text style={{fontStyle: 'italic'}}>
+                    Demo application built
+                    by @bretth18/healthLab.io.
+                    Powered by React-Native</Text>
+                </Card.Body>
+              </Card>
               <Card>
                 <Card.Body>
                   <Text style={{fontWeight: 'bold'}}>Version</Text>
@@ -48,7 +63,6 @@ class Settings extends Component {
 
                 </Card.Body>
               </Card>
-
               <Card>
                 <Card.Body>
                   <Text style={{fontWeight: 'bold'}}>Questions?</Text>
@@ -58,11 +72,9 @@ class Settings extends Component {
 
             </View>
          </Content>
-
           <Footer>
               <Title>made with <Icon name="ios-heart"/> in SF</Title>
           </Footer>
-
       </Container>
     );
   }

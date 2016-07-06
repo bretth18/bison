@@ -1,21 +1,11 @@
 import React, {
-  Linking,
-  Platform,
-  ActionSheetIOS,
-  Dimensions,
   View,
-  Text,
-  Navigator,
   Component,
-  TouchableHighlight,
   TextInput,
-  Modal,
-} from 'react-native';
-const styles = require('../Styles/Styles.js');
-const constants = styles.constants;
+  Modal } from 'react-native';
 
 
-import { Container, Content, InputGroup, Input, Icon } from 'native-base';
+// import { Container, Content, InputGroup, Input, Icon } from 'native-base';
 
 // TODO: this shit, it can be used cross platform instead of iosPrompt
 class ComposeYak extends Component {

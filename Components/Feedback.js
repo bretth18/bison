@@ -8,11 +8,11 @@ import React, {
 class Feedback extends Component {
   componentDidMount(){
 
-  },
+  }
 
   submitFeedback(){
 
-  },
+  }
 
 
 

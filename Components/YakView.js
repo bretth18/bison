@@ -187,8 +187,7 @@ class YakView extends Component {
       alertMessage: 'Post Removed'
     };
     // check post author
-    console.log('props user: ', this.props.item);
-    console.log('state user: ', this.state.user.uid);
+
     if (this.props.item.user === this.state.user.uid){
       //remove post
       this.commentRef.remove((error) => {

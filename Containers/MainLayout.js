@@ -1,8 +1,7 @@
 // main file
 import React, {
-   AppRegistry,
    Component,
-   StyleSheet,
+   NetInfo,
    Navigator } from 'react-native';
 
 import {Container, Header, Content, Footer, Title, Icon, Button} from 'native-base';
@@ -14,6 +13,21 @@ class MainLayout extends Component {
       goToSettings(){
         this.props.navigator.push({
           ident: 'Settings',
+        });
+      }
+      // function that checks device connection
+      listenForConnection() {
+        NetInfo.isConnected.fetch().then(isConnected => {
+          // set state based on connection status
+          if (isConnected === 'online'){
+            this.setState({
+              connection: true
+            });
+          } else {
+            this.setState({
+              connection: false
+            });
+          }
         });
       }
 

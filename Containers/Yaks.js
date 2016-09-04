@@ -1,4 +1,4 @@
-import React, {
+ import React, {
   View,
   Text,
   Component,
@@ -18,7 +18,18 @@ import ListItem from '../Components/ListItem';
 const styles = require('../Styles/Styles.js');
 
 
-import Firebase from 'firebase';
+// NOTE: this is the new method of configuring a firebase constructor
+// DEPRECIATED: import Firebase from 'firebase';
+import * as firebase from 'firebase';
+// firebase init
+const firebaseConfig = {
+  apiKey: 'AIzaSyA2ZIPwxf2ep9aslcwp_VJdOvRsD17buis',
+  authDomain: 'bisonyak.firebaseapp.com',
+  databaseURL: 'https://bisonyak.firebaseio.com',
+  storageBucket: 'project-4237952572980285215.appspot.com',
+};
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+
 
 class Yaks extends Component {
   constructor(props){
@@ -33,7 +44,8 @@ class Yaks extends Component {
       user: null,
       position: null,
     };
-    this.itemsRef = new Firebase('https://bisonyak.firebaseio.com/items');
+    // NOTE: firebaseApp is our new constructor reference
+    this.itemsRef = firebaseApp;
     // initialize geofire
     this.geoFire = new GeoFire(this.itemsRef);
   }
@@ -81,6 +93,7 @@ class Yaks extends Component {
     //test
     this.listenForlocation();
   }
+
   // function that tests device connection
   listenForConnection() {
     NetInfo.isConnected.fetch().then(isConnected => {
@@ -116,6 +129,7 @@ class Yaks extends Component {
       });
     });
   }
+  // 
   listenForItems(itemsRef) {
     itemsRef.on('value', (snap) => {
       // get our children as an array

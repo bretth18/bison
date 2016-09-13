@@ -35,7 +35,7 @@ class YakView extends Component {
   componentWillMount() {
     // get our account shit from async
     AsyncStorage.getItem('authData').then((authDataJson) => {
-      userData = JSON.parse(authDataJson);
+      var userData = JSON.parse(authDataJson);
       this.props.user = userData.uid;
       this.setState({
         user: userData,

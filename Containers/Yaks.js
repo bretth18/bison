@@ -14,21 +14,13 @@ import GeoFire from 'geofire';
 import StatusBar from '../Components/StatusBar';
 import ActionButton from '../Components/ActionButton';
 import ListItem from '../Components/ListItem';
+import FirebaseClass from '../Classes/FirebaseClass';
 
 const styles = require('../Styles/Styles.js');
 
-
+import * as firebase from 'firebase';
 // NOTE: this is the new method of configuring a firebase constructor
 // DEPRECIATED: import Firebase from 'firebase';
-import * as firebase from 'firebase';
-// firebase init
-const firebaseConfig = {
-  apiKey: 'AIzaSyA2ZIPwxf2ep9aslcwp_VJdOvRsD17buis',
-  authDomain: 'bisonyak.firebaseapp.com',
-  databaseURL: 'https://bisonyak.firebaseio.com',
-  storageBucket: 'project-4237952572980285215.appspot.com',
-};
-const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 
 class Yaks extends Component {
@@ -44,8 +36,11 @@ class Yaks extends Component {
       user: null,
       position: null,
     };
+    // init firebase
+    // FirebaseClass.initFirebase();
+
     // NOTE: firebaseApp is our new constructor reference
-    this.itemsRef = firebaseApp;
+    this.itemsRef = firebase.database().ref('yaks');
     // initialize geofire
     this.geoFire = new GeoFire(this.itemsRef);
   }
@@ -67,24 +62,21 @@ class Yaks extends Component {
       } else {
         // create new auth data
         console.log('FAILED TO RETRIEVE AUTHDATA');
-        this.itemsRef.authAnonymously(function(error, authData) {
-          if (error) {
-            console.log('Login Failed!', error);
+        var newUserData = FirebaseClass.authFirebase();
+        console.log('Authenticated successfully with payload:', newUserData);
+        // store authData on device
+
+        // TODO: refactor, this is very messy.
+        AsyncStorage.setItem('authData', newUserData, function(error){
+          if (error){
+            console.log('failed to set authData, trace creation');
           } else {
-            console.log('Authenticated successfully with payload:', authData);
-            // store authData on device
-            AsyncStorage.setItem('authData', JSON.stringify(authData), function(error){
-              if (error){
-                console.log('failed to set authData, trace creation');
-              } else {
-                console.log('set authData, trace creation');
-                // set our state with newly created authData
-                var userData = JSON.parse(authData);
-                this.setState({
-                  user: userData.uid,
-                  loaded: true
-                });
-              }
+            console.log('set authData, trace creation');
+            // set our state with newly created authData
+            var userData = JSON.parse(newUserData);
+            this.setState({
+              user: newUserData.uid,
+              loaded: true
             });
           }
         });
@@ -114,7 +106,7 @@ class Yaks extends Component {
     // get device location data
     navigator.geolocation.getCurrentPosition((position) => {
         var initialPosition = JSON.stringify(position);
-        console.log(initialPosition);
+        // console.log(initialPosition);
         this.setState({
           position: initialPosition
         });
@@ -129,7 +121,7 @@ class Yaks extends Component {
       });
     });
   }
-  // 
+  //
   listenForItems(itemsRef) {
     itemsRef.on('value', (snap) => {
       // get our children as an array
@@ -141,7 +133,7 @@ class Yaks extends Component {
               time: child.val().time,
               comment: child.val().comment,
               score: child.val().score,
-              _key: child.key()
+              _key: child.key
           });
         });
       this.setState({
@@ -190,16 +182,18 @@ class Yaks extends Component {
       // alert user
     } else {
       var currentUser = this.state.user;
+
+
       // pushes new itemData, gives us a var to play with
-      var newKey = this.itemsRef.push({ title: text, time: Date(), score: 0, user: currentUser});
-      console.log('newkey', newKey.key());
+      this.itemsRef.push({ title: text, time: Date(), score: 0, user: currentUser});
+      // console.log('newkey', newKey);
       // TODO: figure out how to append geoFire to child instead of overwriting
       var location = JSON.parse(this.state.position);
       console.log('LOCATION', location);
 
       var locationArray = [location.coords.latitude, location.coords.longitude];
       // give our new reference location data
-      this.appendLocation(locationArray,newKey.key());
+      // this.appendLocation(locationArray,newKey);
       // this kills mr. modal
       this.setState({
         modalOpen: false

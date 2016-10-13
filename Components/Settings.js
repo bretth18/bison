@@ -49,10 +49,9 @@ class Settings extends Component {
               </Card>
               <Card>
                 <Card.Body>
-                  <Text style={{fontWeight: 'bold'}}>StackWorld 2016 Demo</Text>
+                  <Text style={{fontWeight: 'bold'}}>Info text</Text>
                   <Text style={{fontStyle: 'italic'}}>
-                    Demo application built
-                    by @bretth18/healthLab.io.
+              
                     Powered by React-Native</Text>
                 </Card.Body>
               </Card>

@@ -13,6 +13,7 @@ import YakView from './Components/YakView';
 import YakViewLayout from './Containers/YakViewLayout';
 import Settings from './Components/Settings';
 import Feedback from './Components/Feedback';
+import FirebaseClass from './Classes/FirebaseClass';
 
 class BisonApp extends Component {
 
@@ -56,6 +57,8 @@ class BisonApp extends Component {
 
       }
        render() {
+         FirebaseClass.initFirebase();
+
            return (
              <Navigator
                initialRoute={{ident:"MainLayout"}}

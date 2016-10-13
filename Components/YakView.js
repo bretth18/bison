@@ -9,7 +9,10 @@ import React, {
 import { Container, Header, Content, Title, Button, Icon } from 'native-base';
 import { Card } from 'react-native-material-design';
 import ListComment from './ListComment';
-import Firebase from 'firebase';
+import FirebaseClass from '../Classes/FirebaseClass';
+
+import * as firebase from 'firebase';
+
 
 const styles = require('../Styles/Styles.js');
 
@@ -30,7 +33,9 @@ class YakView extends Component {
     };
     var childKey = this.props.item._key.toString();
     console.log('CHILDKEY', childKey);
-    this.commentRef = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey);
+    // this.commentRef = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey);
+
+    this.commentRef = firebase.database().ref('items/' + childKey);
   }
   componentWillMount() {
     // get our account shit from async
@@ -77,11 +82,12 @@ class YakView extends Component {
         console.log('comment submitted fam');
       }
     };
+
     this.commentRef.push({
       comment: object.comment,
       id: object.id,
       time: object.time,
-      user: this.state.user.uid,
+      // user: FirebaseClass.getUserUID(),
     }, onComplete());
   }
   _returnToYaks() {
@@ -140,7 +146,7 @@ class YakView extends Component {
         // get score
         var childKey = this.props.item._key.toString();
         console.log('CHILDKEY', childKey);
-        var scoreRef = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey + '/score');
+        var scoreRef = firebase.database().ref('items/' + childKey +'/score');
         // transaction to increment by one
         if (param === 1){
           scoreRef.transaction(function(score, error){

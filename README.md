@@ -13,17 +13,11 @@
 
 
 ##Road Map
-
-  -	[x] Anonymous user accounts
+  - [ ] Location based theming/feed, limited to campus/greater SF area
   - [ ] user icons  
-  -	[ ] Location based feed (geofire)
   - [ ] Notifications
-  -	[x] Scores (almost done)
   - [ ] Android
   - [ ] Clean UI
-  - [ ] Anonymous live streaming video (MOONSHOT!)
-  -	[x] Comments
-  -	[x] Posts
 
 ##Contributing
 * Pull requests are welcome!

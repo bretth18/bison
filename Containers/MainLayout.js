@@ -1,12 +1,14 @@
 // main file
-import React, {
-   Component,
+import {
    NetInfo,
    Navigator } from 'react-native';
 
+import React, { Component } from 'react';
+
+
 import {Container, Header, Content, Footer, Title, Icon, Button} from 'native-base';
 import Yaks from './Yaks';
-import NativeTheme from '../Themes/NativeTheme';
+import NativeTheme from '../Themes/myTheme';
 
 class MainLayout extends Component {
       // function to take us to settings page

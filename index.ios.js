@@ -1,9 +1,10 @@
 // main file
-import React, {
+import  {
    AppRegistry,
-   Component,
    StyleSheet,
    Navigator, } from 'react-native';
+import React, { Component } from 'react';
+
 
 import {Container, Header, Content, Footer, Title} from 'native-base';
 import Yaks from './Containers/Yaks';
@@ -70,7 +71,7 @@ class BisonApp extends Component {
        }
    }
 
-const styles = React.StyleSheet.create({
+const styles = StyleSheet.create({
 
   navigatorStyles: {
 

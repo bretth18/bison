@@ -1,8 +1,9 @@
-import React, {
+import {
   View,
   Text,
-  Component,
   TouchableHighlight} from 'react-native';
+import React, { Component } from 'react';
+
 import moment from 'moment';
 import { Icon } from 'native-base';
 const styles = require('../Styles/Styles.js');

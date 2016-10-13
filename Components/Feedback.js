@@ -1,7 +1,7 @@
 // import React, {
 //   View,
 //   Text,
-//   Component,
+//   
 //   Image } from 'react-native';
 //
 //

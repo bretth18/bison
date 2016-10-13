@@ -1,4 +1,4 @@
-import React, {
+import {
   Linking,
   Platform,
   ActionSheetIOS,
@@ -6,11 +6,13 @@ import React, {
   View,
   Text,
   Navigator,
-  Component,
   ListView,
   AlertIOS,
   TextInput,
 } from 'react-native';
+
+import React, { Component } from 'react';
+
 import ComposeYak from '../Components/ComposeYak';
 const StatusBar = require('../Components/StatusBar');
 const ActionButton = require('../Components/ActionButton');

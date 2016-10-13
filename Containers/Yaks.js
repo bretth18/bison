@@ -1,12 +1,14 @@
- import React, {
+ import {
   View,
   Text,
-  Component,
   ListView,
   TextInput,
   AsyncStorage,
   Alert,
   NetInfo } from 'react-native';
+
+import React, { Component } from 'react';
+
 import Modal from 'react-native-simple-modal';
 import { Button } from 'native-base';
 import GeoFire from 'geofire';
@@ -14,6 +16,7 @@ import GeoFire from 'geofire';
 import StatusBar from '../Components/StatusBar';
 import ActionButton from '../Components/ActionButton';
 import ListItem from '../Components/ListItem';
+
 import FirebaseClass from '../Classes/FirebaseClass';
 
 const styles = require('../Styles/Styles.js');
@@ -50,10 +53,9 @@ class Yaks extends Component {
       // if data authdata exists then we set state
       if (authData !== null){
 
-        var userData = JSON.parse(authData);
-        console.log('USERDATA',userData);
+        console.log('USERDATA',authData);
         this.setState({
-          user: userData.uid,
+          user: authData.uid,
           loaded: true
         });
         // alert auth

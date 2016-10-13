@@ -1,5 +1,7 @@
 'use strict';
-import React, { Text, Component} from 'react-native';
+import { Text } from 'react-native';
+import React, { Component } from 'react';
+
 
 module.exports = ({score}) => (
   <Text>{score}pts</Text>

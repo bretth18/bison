@@ -1,8 +1,8 @@
-import React, {
+import {
   View,
-  Component,
   TextInput,
   Modal } from 'react-native';
+import React, { Component } from 'react';
 
 
 // import { Container, Content, InputGroup, Input, Icon } from 'native-base';

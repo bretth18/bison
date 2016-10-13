@@ -1,13 +1,17 @@
-import React, {
+import {
   View,
   Text,
-  Component,
   Image } from 'react-native';
+
+import React, { Component } from 'react';
+
 import {Container, Header, Content, Footer, Title, Button, Icon } from 'native-base';
 import { Card } from 'react-native-material-design';
 import SettingsList from 'react-native-settings-list';
 
+import NativeTheme from '../Themes/myTheme';
 const styles = require('../Styles/Styles.js');
+
 
 //const for icon
 const bisonIcon = require('../ios/BisonApp/Images.xcassets/AppIcon.appiconset/Icon-40@2x.png');
@@ -31,8 +35,8 @@ class Settings extends Component {
 
   render(){
     return(
-      <Container>
-          <Header>
+      <Container theme={NativeTheme}>
+          <Header theme={NativeTheme}>
             <Button transparent onPress={this._returnToYaks.bind(this)}>
                 <Icon name="ios-arrow-left" />
             </Button>
@@ -51,7 +55,7 @@ class Settings extends Component {
                 <Card.Body>
                   <Text style={{fontWeight: 'bold'}}>Info text</Text>
                   <Text style={{fontStyle: 'italic'}}>
-              
+
                     Powered by React-Native</Text>
                 </Card.Body>
               </Card>
@@ -71,7 +75,7 @@ class Settings extends Component {
 
             </View>
          </Content>
-          <Footer>
+          <Footer theme={NativeTheme}>
               <Title>made with <Icon name="ios-heart"/> in SF</Title>
           </Footer>
       </Container>

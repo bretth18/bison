@@ -1,7 +1,8 @@
-import React, {
+import {
   View,
-  Text,
-  Component } from 'react-native';
+  Text, } from 'react-native';
+import React, { Component } from 'react';
+
 const styles = require('../Styles/Styles.js');
 
 class StatusBar extends Component{

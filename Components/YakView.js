@@ -1,11 +1,12 @@
-import React, {
+import {
   View,
   Text,
-  Component,
   ListView,
   AlertIOS,
   Alert,
   AsyncStorage } from 'react-native';
+import React, { Component } from 'react';
+
 import { Container, Header, Content, Title, Button, Icon } from 'native-base';
 import { Card } from 'react-native-material-design';
 import ListComment from './ListComment';

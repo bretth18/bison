@@ -1,9 +1,10 @@
-import React, {
+import {
   View,
   Text,
-  Component,
   Alert,
   TouchableHighlight} from 'react-native';
+import React, { Component } from 'react';
+
 import moment from 'moment';
 import truncate from 'underscore.string/truncate';
 const styles = require('../Styles/Styles.js');

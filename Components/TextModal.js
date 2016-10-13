@@ -1,4 +1,4 @@
-import React, {
+import  {
   Linking,
   Platform,
   ActionSheetIOS,
@@ -6,12 +6,14 @@ import React, {
   View,
   Text,
   Navigator,
-  Component,
   ListView,
   AlertIOS,
   TextInput,
   TouchableOpacity,
   Alert} from 'react-native';
+
+import React, { Component } from 'react';
+
 
 import { Button } from 'native-base';
 import Modal from 'react-native-simple-modal';

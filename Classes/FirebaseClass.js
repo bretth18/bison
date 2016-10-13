@@ -8,9 +8,9 @@ class FirebaseClass {
   static initFirebase() {
 
     const configFirebaseRef = {
-      apiKey: Config.API_KEY,
-      authDomain: Config.AUTH_DOMAIN,
-      databaseURL: Config.DATABASE_URL,
+      apiKey: 'AIzaSyB2Me7N3f7xvNoqb_dIr07ZKrpSY1_tsKI',
+      authDomain: 'bisonjs-88cf1.firebaseapp.com',
+      databaseURL: 'https://bisonjs-88cf1.firebaseio.com',
       storageBucket: '',
       messagingSenderId: '377086728677'
     };

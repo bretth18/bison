@@ -1,9 +1,10 @@
 // main file
-import React, {
+import {
    AppRegistry,
-   Component,
    StyleSheet,
    Navigator } from 'react-native';
+
+import React, { Component } from 'react';
 
 import {Container, Header, Content, Footer, Title} from 'native-base';
 import Yaks from './Yaks';

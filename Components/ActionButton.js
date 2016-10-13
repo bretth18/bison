@@ -1,9 +1,10 @@
-import React, {
+import {
   View,
   Text,
-  Component,
   TouchableHighlight
 } from 'react-native';
+import React, { Component } from 'react';
+
 const styles = require('../Styles/Styles.js');
 const constants = styles.constants;
 

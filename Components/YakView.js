@@ -14,7 +14,7 @@ import FirebaseClass from '../Classes/FirebaseClass';
 
 import * as firebase from 'firebase';
 
-
+import NativeTheme from '../Themes/myTheme';
 const styles = require('../Styles/Styles.js');
 
 class YakView extends Component {
@@ -231,8 +231,8 @@ class YakView extends Component {
   }
   render(){
     return(
-      <Container>
-          <Header>
+      <Container theme={NativeTheme}>
+          <Header theme={NativeTheme}>
             <Button transparent onPress={this._returnToYaks.bind(this)}>
                 <Icon name="ios-arrow-left" />
             </Button>

@@ -10,7 +10,7 @@
 import React, { Component } from 'react';
 
 import Modal from 'react-native-simple-modal';
-import { Button } from 'native-base';
+import {Container, Header, Content, Footer, Title, Icon, Button} from 'native-base';
 import GeoFire from 'geofire';
 
 import StatusBar from '../Components/StatusBar';
@@ -20,10 +20,10 @@ import ListItem from '../Components/ListItem';
 import FirebaseClass from '../Classes/FirebaseClass';
 
 const styles = require('../Styles/Styles.js');
+import NativeTheme from '../Themes/myTheme';
+
 
 import * as firebase from 'firebase';
-// NOTE: this is the new method of configuring a firebase constructor
-// DEPRECIATED: import Firebase from 'firebase';
 
 
 class Yaks extends Component {
@@ -40,7 +40,6 @@ class Yaks extends Component {
       position: null,
     };
     // init firebase
-    // FirebaseClass.initFirebase();
 
     // NOTE: firebaseApp is our new constructor reference
     this.itemsRef = firebase.database().ref('yaks');
@@ -146,12 +145,21 @@ class Yaks extends Component {
   componentDidMount(){
     this.listenForItems(this.itemsRef);
   }
+
+  /* NAVIGATORS */
+  goToSettings(){
+    this.props.navigator.push({
+      ident: 'Settings',
+    });
+  }
   onPressYak(item){
     this.props.navigator.push({
       ident: 'YakView',
       item: item
     });
   }
+
+
   // method appends current location data to child
   appendLocation(locationData, childKey){
     // append location to current childKey
@@ -211,6 +219,14 @@ class Yaks extends Component {
   render(){
     return (
       <View style={styles.container} >
+
+        <Header theme={NativeTheme}>
+            <Title>bison.</Title>
+              <Button transparent onPress={this.goToSettings.bind(this)}>
+                  <Icon name="ios-settings"/>
+              </Button>
+        </Header>
+
         <StatusBar title="Feed" />
 
         <ListView
@@ -238,6 +254,10 @@ class Yaks extends Component {
                   Submit </Button>
              </View>
           </Modal>
+
+          <Footer theme={NativeTheme}>
+            <Title>made with <Icon  style={{fontSize: 20}} name="md-heart"/> in SF</Title>
+          </Footer>
 
       </View>
     );

@@ -175,7 +175,7 @@ var styles = StyleSheet.create({
   },
   statusbar: {
     backgroundColor: '#fff',
-    height: 22,
+    height: 5,
   },
   center: {
     textAlign: 'center',
@@ -191,7 +191,7 @@ var styles = StyleSheet.create({
     borderWidth: 1,
     paddingLeft: 16,
     paddingTop: 14,
-    paddingBottom: 20,
+    paddingBottom: 16,
   },
   button: {
     justifyContent: 'flex-end',

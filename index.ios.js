@@ -62,7 +62,7 @@ class BisonApp extends Component {
 
            return (
              <Navigator
-               initialRoute={{ident:"MainLayout"}}
+               initialRoute={{ident:"Yaks"}}
                ref="appnavigator"
                style={styles.navigatorStyles}
                renderScene={this._renderScene}

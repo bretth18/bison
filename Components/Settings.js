@@ -23,7 +23,7 @@ class Settings extends Component {
   // function to handle navigation back
   _returnToYaks(){
     this.props.navigator.resetTo({
-      ident: 'MainLayout'
+      ident: 'Yaks'
     });
   }
   // function to handle nav to feedback page
@@ -76,7 +76,7 @@ class Settings extends Component {
             </View>
          </Content>
           <Footer theme={NativeTheme}>
-              <Title>made with <Icon name="ios-heart"/> in SF</Title>
+              <Title>made with <Icon  style={{fontSize: 20}} name="md-heart"/> in SF</Title>
           </Footer>
       </Container>
     );

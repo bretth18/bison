@@ -93,7 +93,7 @@ class YakView extends Component {
   }
   _returnToYaks() {
     this.props.navigator.resetTo({
-      ident: 'MainLayout'
+      ident: 'Yaks'
     });
   }
   // function to generate random UID for comments, we can use this to later gen icons?
@@ -234,7 +234,7 @@ class YakView extends Component {
       <Container theme={NativeTheme}>
           <Header theme={NativeTheme}>
             <Button transparent onPress={this._returnToYaks.bind(this)}>
-                <Icon name="ios-arrow-left" />
+                <Icon name="ios-arrow-back" />
             </Button>
               <Title>bison.</Title>
             <Button transparent onPress={this.deletePost.bind(this)}>

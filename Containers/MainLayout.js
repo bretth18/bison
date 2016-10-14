@@ -48,7 +48,7 @@ class MainLayout extends Component {
                   </Content>
 
                    <Footer>
-                       <Title>made with <Icon name="ios-heart"/> in SF</Title>
+                       <Title>made with <Icon theme={NativeTheme} name="ios-heart"/> in SF</Title>
                    </Footer>
                </Container>
            );

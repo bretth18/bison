@@ -8,6 +8,7 @@
 ![Fuck Badges](https://img.shields.io/badge/isbisoncool-yes-green.svg)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/bretth18/bison/master/LICENSE)
 * Anonymous peer network for universities/neighborhoods (a-la yikyak)
+* Simple, clean, and easy to use
 * Firebase backend 
 * http://bisonapp.co
 

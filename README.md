@@ -7,8 +7,8 @@
 [![CircleCI](https://circleci.com/gh/bretth18/bison.svg?style=shield)](https://circleci.com/gh/bretth18/bison)
 ![Fuck Badges](https://img.shields.io/badge/isbisoncool-yes-green.svg)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/bretth18/bison/master/LICENSE)
-* a simple yik yak-esque clone in react-native
-* Firebase backend (to be replaced)
+* Anonymous peer network for universities/neighborhoods (a-la yikyak)
+* Firebase backend 
 * http://bisonapp.co
 
 

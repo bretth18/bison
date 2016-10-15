@@ -2,6 +2,8 @@
 ![bison_clip_art_small69](https://cloud.githubusercontent.com/assets/955730/14974940/63a959b4-10b0-11e6-8f04-f55e72df46e2.png)
 #bison
 
+[![Join the chat at https://gitter.im/bisonapp/Lobby](https://badges.gitter.im/bisonapp/Lobby.svg)](https://gitter.im/bisonapp/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![ghit.me](https://ghit.me/badge.svg?repo=bretth18/bison)](https://ghit.me/repo/bretth18/bison)
 ![Fuck you](https://david-dm.org/bretth18/bison.svg)
 [![CircleCI](https://circleci.com/gh/bretth18/bison.svg?style=shield)](https://circleci.com/gh/bretth18/bison)

@@ -25,8 +25,14 @@
 * Please try to adhere to the AirBnb styleguide
 * Join our slack!
 
-
+##Testing
+* Clone the repo ```git clone https://github.com/bretth18/bison```
+* Install with ```npm install --save```
+* Link project dependencies w/rnpm ```rnpm link```
+* Run with ```react-native run-ios``` or open in Xcode(Currently necessary)
 
 ##Screenshots
 
 <img src="https://cloud.githubusercontent.com/assets/955730/15135769/1e928d9e-162f-11e6-93c6-abc1ac06117f.png" width="200">
+
+

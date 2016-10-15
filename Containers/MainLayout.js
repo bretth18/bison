@@ -1,3 +1,9 @@
+/* DEPRECIATED:
+   - class MainLayout has been re-implented inside of
+    class Yak to make things more straight forward.
+    File will be removed shortly.
+*/
+
 // main file
 import {
    NetInfo,

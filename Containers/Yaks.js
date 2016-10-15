@@ -221,10 +221,11 @@ class Yaks extends Component {
       <View style={styles.container} >
 
         <Header theme={NativeTheme}>
-            <Title>bison.</Title>
-              <Button transparent onPress={this.goToSettings.bind(this)}>
-                  <Icon name="ios-settings"/>
-              </Button>
+            <Title style={{alignSelf: 'flex-start', paddingLeft: 10}}>bison.</Title>
+            <Button transparent style={{alignSelf: 'flex-end', paddingLeft: 260}}
+                onPress={this.goToSettings.bind(this)}>
+                  <Icon style={{alignSelf: 'flex-end', paddingLeft: 260}} name="ios-settings"/>
+            </Button>
         </Header>
 
         <StatusBar title="Feed" />

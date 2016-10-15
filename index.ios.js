@@ -19,7 +19,7 @@ import FirebaseClass from './Classes/FirebaseClass';
 class BisonApp extends Component {
 
       _renderScene(route, navigator){
-        // every scene has these probs
+        // every scene has these props
         var globalNavigatorProps = { navigator };
 
         switch (route.ident) {

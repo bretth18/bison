@@ -95,6 +95,7 @@ class Yaks extends Component {
     });
     //test
     this.listenForlocation();
+    // this.listenForConnection();
   }
 
   // function that tests device connection
@@ -111,6 +112,25 @@ class Yaks extends Component {
         });
       }
     });
+
+    function handleFirstConnectivityChange(isConnected) {
+      console.log('Then, is ' + (isConnected ? 'online' : 'offline'));
+      if (isConnected === 'offline') {
+        this.props.navigator.push({
+          ident: 'NoConnectView',
+        });
+      }
+      NetInfo.isConnected.removeEventListener(
+        'change',
+        handleFirstConnectivityChange
+      );
+    }
+
+    // event listener
+    NetInfo.isConnected.addEventListener(
+      'change',
+      handleFirstConnectivityChange
+    );
   }
   // onMount listener for device location
   listenForlocation() {
@@ -158,6 +178,7 @@ class Yaks extends Component {
 
   componentDidMount(){
     this.listenForItems(this.itemsRef);
+    // this.listenForConnection();
   }
 
   /* NAVIGATORS */

@@ -9,12 +9,12 @@ import React, { Component } from 'react';
 import {Container, Header, Content, Footer, Title} from 'native-base';
 import Yaks from './Containers/Yaks';
 import ComposeYak from './Components/ComposeYak';
-import MainLayout from './Containers/MainLayout';
 import YakView from './Components/YakView';
 import YakViewLayout from './Containers/YakViewLayout';
 import Settings from './Components/Settings';
 import Feedback from './Components/Feedback';
 import FirebaseClass from './Classes/FirebaseClass';
+import NoConnectView from './Containers/NoConnectView';
 
 class BisonApp extends Component {
 
@@ -23,11 +23,6 @@ class BisonApp extends Component {
         var globalNavigatorProps = { navigator };
 
         switch (route.ident) {
-          case "MainLayout":
-                return (
-                  <MainLayout {...globalNavigatorProps} />
-                );
-
           case "Yaks":
                 return(
                   <Yaks {...globalNavigatorProps} />
@@ -50,6 +45,10 @@ class BisonApp extends Component {
                 return(
                   <Feedback {...globalNavigatorProps} />
                 );
+          case "NoConnectView":
+                return(
+                  <NoConnectView {...globalNavigatorProps} />
+                );
           default:
                 return (
                   <Text>{`CRITICAL ERROR! ${route}`}</Text>
@@ -58,6 +57,7 @@ class BisonApp extends Component {
 
       }
        render() {
+         // initialize our firebase reference
          FirebaseClass.initFirebase();
 
            return (

@@ -33,4 +33,4 @@
 
 ##Screenshots
 
-<img src="https://cloud.githubusercontent.com/assets/955730/15135769/1e928d9e-162f-11e6-93c6-abc1ac06117f.png" width="200">
+<img src="https://cloud.githubusercontent.com/assets/955730/19419637/cdff1ce6-9390-11e6-8f49-5991059cfde7.png" width="200">

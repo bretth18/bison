@@ -254,10 +254,7 @@ class Yaks extends Component {
       // TODO: figure out how to append geoFire to child instead of overwriting
       var location = JSON.parse(this.state.position);
       console.log('LOCATION', location);
-
       var locationArray = [location.coords.latitude, location.coords.longitude];
-      // give our new reference location data
-      // this.appendLocation(locationArray,newKey);
       // this kills mr. modal
       this.setState({
         modalOpen: false

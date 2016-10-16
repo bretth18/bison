@@ -1,11 +1,23 @@
 // DATABASE class
 
 
-import * firebase from 'firebase';
+import * as firebase from 'firebase';
 
-class Database {
+class DatabaseClass {
 
+  getRecentAlert(){
+    var alertRef = firebase.database().ref('alerts');
+    if (alertRef.child != null) {
+      return alertRef.child;
+    } else {
+      return null;
+    }
+  }
 
+  getAlertRef(){
+    var alertRef = firebase.database().ref('alerts');
+    return alertRef;
+  }
 
 
 
@@ -13,4 +25,4 @@ class Database {
 }
 
 
-module.exports = Database;
+module.exports = DatabaseClass;

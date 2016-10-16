@@ -6,26 +6,24 @@
 [![ghit.me](https://ghit.me/badge.svg?repo=bretth18/bison)](https://ghit.me/repo/bretth18/bison)
 ![Fuck you](https://david-dm.org/bretth18/bison.svg)
 [![CircleCI](https://circleci.com/gh/bretth18/bison.svg?style=shield)](https://circleci.com/gh/bretth18/bison)
-![Fuck Badges](https://img.shields.io/badge/isbisoncool-yes-green.svg)
 [![Join the chat at https://gitter.im/bisonapp/Lobby](https://badges.gitter.im/bisonapp/Lobby.svg)](https://gitter.im/bisonapp/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/bretth18/bison/master/LICENSE)
 * Anonymous peer network for universities/neighborhoods (a-la yikyak)
 * Simple, clean, and easy to use
-* Firebase backend 
+* Firebase backend
 * http://bisonapp.co
 
 
 ##Road Map
   - [ ] Location based theming/feed, limited to campus/greater SF area
-  - [ ] user icons  
+  - [ ] random gen user icons  
   - [ ] Notifications
   - [ ] Android
-  - [ ] Clean UI
 
 ##Contributing
 * Pull requests are welcome!
 * Please try to adhere to the AirBnb styleguide
-* Join our slack!
+* Join gitter
 
 ##Testing
 * Clone the repo ```git clone https://github.com/bretth18/bison```
@@ -36,5 +34,3 @@
 ##Screenshots
 
 <img src="https://cloud.githubusercontent.com/assets/955730/15135769/1e928d9e-162f-11e6-93c6-abc1ac06117f.png" width="200">
-
-

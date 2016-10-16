@@ -18,6 +18,7 @@ import ActionButton from '../Components/ActionButton';
 import ListItem from '../Components/ListItem';
 
 import FirebaseClass from '../Classes/FirebaseClass';
+import DatabaseClass from '../Classes/Database';
 
 const styles = require('../Styles/Styles.js');
 import NativeTheme from '../Themes/myTheme';
@@ -34,18 +35,16 @@ class Yaks extends Component {
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
       modalOpen: false,
-      // auth data
       loaded: false,
       user: null,
       position: null,
     };
     // init firebase
-
-    // NOTE: firebaseApp is our new constructor reference
     this.itemsRef = firebase.database().ref('yaks');
     // initialize geofire
     this.geoFire = new GeoFire(this.itemsRef);
   }
+
   // before component mounts get our authData from storage
   componentWillMount() {
     AsyncStorage.getItem('userObject').then((userObject) => {
@@ -125,7 +124,6 @@ class Yaks extends Component {
         handleFirstConnectivityChange
       );
     }
-
     // event listener
     NetInfo.isConnected.addEventListener(
       'change',
@@ -153,6 +151,26 @@ class Yaks extends Component {
     });
   }
 
+  listenForAlert() {
+    let alertRef = firebase.database().ref('alerts');
+
+    console.log(alertRef);
+    if (alertRef.child != null) {
+      console.log('alert is: ', alertRef.child);
+      this.setState({
+        alert: true,
+        alertText: alertRef.child,
+      });
+      // alertRef doesn't contain info
+    } else {
+      console.log('alert does not contain info', alertRef.child);
+      this.setState({
+        alert: false
+      });
+    }
+
+  }
+
   //
   listenForItems(itemsRef) {
     itemsRef.on('value', (snap) => {
@@ -178,6 +196,7 @@ class Yaks extends Component {
 
   componentDidMount(){
     this.listenForItems(this.itemsRef);
+    this.listenForAlert();
     // this.listenForConnection();
   }
 
@@ -196,6 +215,10 @@ class Yaks extends Component {
 
 
   // method appends current location data to child
+  /* TO BE DEPRECIATED:
+    data will be stored in location based parents, this
+    is now unecessary
+    */
   appendLocation(locationData, childKey){
     // append location to current childKey
     this.geoFire.set(childKey, locationData).then(function() {
@@ -226,12 +249,8 @@ class Yaks extends Component {
       Alert.alert('Oh No! Add some text');
       // alert user
     } else {
-      var currentUser = this.state.user;
-
-
-      // pushes new itemData, gives us a var to play with
+      let currentUser = this.state.user;
       this.itemsRef.push({ title: text, time: Date(), score: 0, user: currentUser});
-      // console.log('newkey', newKey);
       // TODO: figure out how to append geoFire to child instead of overwriting
       var location = JSON.parse(this.state.position);
       console.log('LOCATION', location);
@@ -251,6 +270,18 @@ class Yaks extends Component {
       <ListItem item={item} userId={this.state.user} onPress={this.onPressYak.bind(this, item)} />
     );
   }
+
+  _renderAlert(){
+    if (this.state.alert) {
+      let alertText = this.state.alertText;
+      return(
+         <StatusBar title={alertText} />
+      );
+    } else {
+      return null;
+    }
+  }
+
   render(){
     return (
       <View style={styles.container} >

@@ -48,13 +48,12 @@ class Yaks extends Component {
   }
   // before component mounts get our authData from storage
   componentWillMount() {
-    AsyncStorage.getItem('authData').then((authData) => {
-      // if data authdata exists then we set state
-      if (authData !== null){
-
-        console.log('USERDATA',authData);
+    AsyncStorage.getItem('userObject').then((userObject) => {
+      // if data authdata exists then we set state w/user object
+      if (userObject !== null){
+        let oldUserObject = JSON.parse(userObject);
         this.setState({
-          user: authData.uid,
+          user: oldUserObject,
           loaded: true
         });
         // alert auth
@@ -63,22 +62,33 @@ class Yaks extends Component {
       } else {
         // create new auth data
         console.log('FAILED TO RETRIEVE AUTHDATA');
-        var newUserData = FirebaseClass.authFirebase();
-        console.log('Authenticated successfully with payload:', newUserData);
-        // store authData on device
+        FirebaseClass.authFirebase();
 
-        // TODO: refactor, this is very messy.
-        AsyncStorage.setItem('authData', newUserData, function(error){
-          if (error){
-            console.log('failed to set authData, trace creation');
-          } else {
-            console.log('set authData, trace creation');
-            // set our state with newly created authData
-            var userData = JSON.parse(newUserData);
-            this.setState({
-              user: newUserData.uid,
-              loaded: true
+        // check authorization status
+        /* TODO: can be placed in firebase class, return user object outside
+        of async call */
+        firebase.auth().onAuthStateChanged(function(user) {
+          if (user) {
+            console.log('user is logged in:', user);
+
+            var userObjectString = JSON.stringify(user);
+            // set state with auth so we can place in local storage
+            AsyncStorage.setItem('userObject', userObjectString, (error) =>{
+              if (error){
+                console.log('failed to set userObject, trace creation', error);
+              } else {
+                console.log('set userObject, trace creation');
+                // set our state with newly created userObject
+                let userObject = JSON.parse(userObjectString);
+                this.setState({
+                  user: userObject,
+                  loaded: true
+                });
+              }
             });
+          } else {
+            console.log('user is not logged in, auth error');
+            Alert.alert('Looks like our servers are having difficulty logging in.');
           }
         });
       }
@@ -122,6 +132,7 @@ class Yaks extends Component {
       });
     });
   }
+
   //
   listenForItems(itemsRef) {
     itemsRef.on('value', (snap) => {
@@ -134,7 +145,8 @@ class Yaks extends Component {
               time: child.val().time,
               comment: child.val().comment,
               score: child.val().score,
-              _key: child.key
+              _key: child.key,
+              user: this.state.user
           });
         });
       this.setState({
@@ -142,6 +154,7 @@ class Yaks extends Component {
       });
     });
   }
+
   componentDidMount(){
     this.listenForItems(this.itemsRef);
   }

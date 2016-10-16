@@ -40,14 +40,13 @@ class YakView extends Component {
   }
   componentWillMount() {
     // get our account shit from async
-    AsyncStorage.getItem('authData').then((authDataJson) => {
-      var userData = JSON.parse(authDataJson);
-      this.props.user = userData.uid;
+    AsyncStorage.getItem('userObject').then((userObject) => {
+      let oldUserObject = JSON.parse(userObject);
+      this.props.user = oldUserObject.uid;
       this.setState({
-        user: userData,
+        user: oldUserObject,
         loaded: true
       });
-      console.log(this.state.user.uid); // hell yeah boi
     });
   }
   componentDidMount() {
@@ -88,9 +87,10 @@ class YakView extends Component {
       comment: object.comment,
       id: object.id,
       time: object.time,
-      // user: FirebaseClass.getUserUID(),
+      user: this.state.user.uid
     }, onComplete());
   }
+
   _returnToYaks() {
     this.props.navigator.resetTo({
       ident: 'Yaks'
@@ -147,7 +147,7 @@ class YakView extends Component {
         // get score
         var childKey = this.props.item._key.toString();
         console.log('CHILDKEY', childKey);
-        var scoreRef = firebase.database().ref('items/' + childKey +'/score');
+        var scoreRef = firebase.database().ref('yaks/' + childKey +'/score');
         // transaction to increment by one
         if (param === 1){
           scoreRef.transaction(function(score, error){
@@ -194,8 +194,7 @@ class YakView extends Component {
       alertMessage: 'Post Removed'
     };
     // check post author
-
-    if (this.props.item.user === this.state.user.uid){
+    if (this.props.item.user.uid === this.state.user.uid){
       //remove post
       this.commentRef.remove((error) => {
         if(error){

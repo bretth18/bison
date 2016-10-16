@@ -19,16 +19,16 @@ class FirebaseClass {
     console.log('firebase successfully initialized');
   }
 
-  // triggers anonymous authorization, returns a firebase.Promise containing a firebase.User
+  // triggers a new authorization
   static authFirebase() {
 
-    return firebase.auth().signInAnonymously().then(result => {
-      var localUser = result.user;
-      return localUser;
-    }).catch(error => {
+    // create a new user
+    firebase.auth().signInAnonymously().catch(function(error) {
+      // todo: trigger clientside popup
       console.log(error);
-      // probably trigger a client error
     });
+
+
   }
 
   static getUserUID() {

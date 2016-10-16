@@ -11,6 +11,7 @@ import { Container, Header, Content, Title, Button, Icon } from 'native-base';
 import { Card } from 'react-native-material-design';
 import ListComment from './ListComment';
 import FirebaseClass from '../Classes/FirebaseClass';
+import ActionButton from './ActionButton';
 
 import * as firebase from 'firebase';
 
@@ -25,18 +26,17 @@ class YakView extends Component {
       dataSource: new ListView.DataSource({
         // bizzare ass expression for handling rows
         rowHasChanged: (row1, row2) => row1 !== row2,
-
       }),
       // this is the initial score value
       score: this.props.item.score,
       // changes need to reflect parent state
       loaded: false,
+      renderDelete: false,
     };
     var childKey = this.props.item._key.toString();
     console.log('CHILDKEY', childKey);
-    // this.commentRef = new Firebase('https://bisonyak.firebaseio.com/items/' + childKey);
 
-    this.commentRef = firebase.database().ref('items/' + childKey);
+    this.commentRef = firebase.database().ref('yaks/' + childKey);
   }
   componentWillMount() {
     // get our account shit from async
@@ -47,14 +47,31 @@ class YakView extends Component {
         user: oldUserObject,
         loaded: true
       });
+
+      if (this.props.item.user.uid === this.state.user.uid) {
+        this.setState({
+          renderDelete: true,
+        });
+      }
     });
   }
+
   componentDidMount() {
     this.listenForComments(this.commentRef);
   }
-  listenForComments(commentRef){
-    console.log('REFS', commentRef);
 
+  listenForDelete() {
+    const itemUserUID = this.props.item.user.uid;
+    if (itemUserUID === this.state.user.uid) {
+      this.setState({
+        renderDelete: true,
+      });
+    } else {
+      console.log('shits fucked with delete fam');
+    }
+  }
+
+  listenForComments(commentRef){
     // push comment children
     commentRef.on('value', (snap) => {
       var comments = [];
@@ -135,56 +152,48 @@ class YakView extends Component {
     var userHasVoted = {
       voted: true,
     };
-    // doesnt work
-    // AsyncStorage.setItem('hasVoted', userHasVoted, function(error){
-    //   if (error){
-    //     console.log('failed to set hasVoted in AsyncStorage');
-    //     Alert.alert('shits fucked');
-    //   } else {
-    //     console.log('async hasVoted set');
-    //   }
-    // });
-        // get score
-        var childKey = this.props.item._key.toString();
-        console.log('CHILDKEY', childKey);
-        var scoreRef = firebase.database().ref('yaks/' + childKey +'/score');
-        // transaction to increment by one
-        if (param === 1){
-          scoreRef.transaction(function(score, error){
-            if (error){
-              Alert.alert('Uh Oh! Failed to vote');
-            } else {
-              console.log(score);
-              return score + 1;
-            }
-          });
-          // set ui to reflect score changes
-          this.setState({
-            score: this.state.score + 1
-          });
-          // set bool
-          userHasVoted = true;
-        }
+    // get score
+    var childKey = this.props.item._key.toString();
+    console.log('CHILDKEY', childKey);
+    var scoreRef = firebase.database().ref('yaks/' + childKey +'/score');
 
-        else if (param === 2){
-          scoreRef.transaction(function(score, error){
-            if (error){
-              Alert.alert('Uh Oh! Failed to vote');
-            } else {
-              console.log(score);
-              return score - 1;
-            }
-          });
-          // set ui to reflect score change
-          this.setState({
-            score: this.state.score - 1
-          });
-          userHasVoted = true;
-        } else {
-          console.log('THIS SHOULD NOT BE REACHED');
-          Alert.alert('failed to vote on post, call an engineer');
-        }
+    switch (param) {
+      case 1:
+        scoreRef.transaction(function(score, error){
+          if (error){
+            Alert.alert('Uh Oh! Failed to vote');
+          } else {
+            console.log(score);
+            return score + 1;
+          }
+        });
+        // set ui to reflect score changes
+        this.setState({
+          score: this.state.score + 1
+        });
+        // set bool
+        userHasVoted = true;
+        break;
 
+     case 2:
+       scoreRef.transaction(function(score, error){
+         if (error){
+           Alert.alert('Uh Oh! Failed to vote');
+         } else {
+           console.log(score);
+           return score - 1;
+         }
+       });
+       // set ui to reflect score change
+       this.setState({
+         score: this.state.score - 1
+       });
+       userHasVoted = true;
+       break;
+     default:
+      console.log('error, failed to vote post', param);
+      Alert.alert('Failed to submit vote');
+    }
   }
   // function to delete current post
   deletePost() {
@@ -228,20 +237,29 @@ class YakView extends Component {
       <ListComment comment={comment} />
     );
   }
+
+  _renderDelete(){
+    if (this.state.renderDelete) {
+      return(
+        <Button transparent onPress={this.deletePost.bind(this)}>
+            <Icon name="ios-trash"/>
+        </Button>
+      );
+    } else {
+      return null;
+    }
+  }
+
   render(){
     return(
-      <Container theme={NativeTheme}>
+      <View style={styles.container}>
           <Header theme={NativeTheme}>
             <Button transparent onPress={this._returnToYaks.bind(this)}>
                 <Icon name="ios-arrow-back" />
             </Button>
               <Title>bison.</Title>
-            <Button transparent onPress={this.deletePost.bind(this)}>
-                <Icon name="ios-trash"/>
-            </Button>
+            {this._renderDelete()}
           </Header>
-
-          <Content>
 
             <View style={styles.container}>
               <Card>
@@ -275,13 +293,11 @@ class YakView extends Component {
                   />
               </View>
 
-                <Button info block  onPress={this._addComment.bind(this)}>
-                    Add Comment
-                </Button>
+              <ActionButton title="Add Comment" onPress={this._addComment.bind(this)}
+                style={{backgroundColor: '#18cfff'}}/>
 
             </View>
-         </Content>
-      </Container>
+      </View>
     );
   }
 }

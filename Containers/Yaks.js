@@ -152,6 +152,7 @@ class Yaks extends Component {
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(items)
       });
+      // TODO:add refresh animation here
     });
   }
 

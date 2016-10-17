@@ -197,7 +197,6 @@ class Yaks extends Component {
   componentDidMount(){
     this.listenForItems(this.itemsRef);
     this.listenForAlert();
-    // this.listenForConnection();
   }
 
   /* NAVIGATORS */

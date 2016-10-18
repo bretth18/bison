@@ -19,6 +19,7 @@
   - [ ] random gen user icons  
   - [ ] Notifications
   - [ ] Android
+  - [ ] Redux implementation, check out the `redux` branch
 
 ##Contributing
 * Pull requests are welcome!

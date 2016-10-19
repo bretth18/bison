@@ -7,14 +7,14 @@ import React, { Component } from 'react';
 
 
 import {Container, Header, Content, Footer, Title} from 'native-base';
-import Yaks from './Containers/Yaks';
-import ComposeYak from './Components/ComposeYak';
-import YakView from './Components/YakView';
-import YakViewLayout from './Containers/YakViewLayout';
-import Settings from './Components/Settings';
-import Feedback from './Components/Feedback';
-import FirebaseClass from './Classes/FirebaseClass';
-import NoConnectView from './Containers/NoConnectView';
+import Yaks from './App/Containers/Yaks';
+import ComposeYak from './App/Components/ComposeYak';
+import YakView from './App/Components/YakView';
+import YakViewLayout from './App/Containers/YakViewLayout';
+import Settings from './App/Components/Settings';
+import Feedback from './App/Components/Feedback';
+import FirebaseClass from './App/Classes/FirebaseClass';
+import NoConnectView from './App/Containers/NoConnectView';
 
 class BisonApp extends Component {
 
@@ -70,12 +70,5 @@ class BisonApp extends Component {
            );
        }
    }
-
-const styles = StyleSheet.create({
-
-  navigatorStyles: {
-
-  }
-});
 
 AppRegistry.registerComponent('BisonApp', () => BisonApp);

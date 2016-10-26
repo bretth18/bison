@@ -25,7 +25,7 @@
     "mrn": "^0.1.7",
     "native-base": "^0.5.9",
     "react": "^15.3.2",
-    "react-native": "^0.35.0",
+    "react-native": "^0.36.0",
     "react-native-animatable": "^0.6.0",
     "react-native-card-view": "0.0.3",
     "react-native-communications": "^2.1.3",

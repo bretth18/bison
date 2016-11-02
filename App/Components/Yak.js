@@ -17,84 +17,84 @@ import StatusBar from '../Components/StatusBar';
 import ActionButton from '../Components/ActionButton';
 import ListItem from '../Components/ListItem';
 
-import FirebaseClass from '../Classes/FirebaseClass';
-import DatabaseClass from '../Classes/Database';
-
 const styles = require('../Styles/Styles.js');
 import NativeTheme from '../Themes/myTheme';
-
-
-import * as firebase from 'firebase';
 
 
 class Yaks extends Component {
   constructor(props){
     super(props);
-    this.state = {
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2,
-      }),
-      modalOpen: false,
-      loaded: false,
-      user: null,
-      position: null,
-    };
+    // this.state = {
+    //   dataSource: new ListView.DataSource({
+    //     rowHasChanged: (row1, row2) => row1 !== row2,
+    //   }),
+    //   modalOpen: false,
+    //   loaded: false,
+    //   user: null,
+    //   position: null,
+    // };
     // init firebase
-    this.itemsRef = firebase.database().ref('yaks');
+    // this.itemsRef = firebase.database().ref('yaks');
     // initialize geofire
     this.geoFire = new GeoFire(this.itemsRef);
   }
 
   // before component mounts get our authData from storage
   componentWillMount() {
-    AsyncStorage.getItem('userObject').then((userObject) => {
-      // if data authdata exists then we set state w/user object
-      if (userObject !== null){
-        let oldUserObject = JSON.parse(userObject);
-        this.setState({
-          user: oldUserObject,
-          loaded: true
-        });
-        // alert auth
-        console.log('USER?:',this.state.user);
+    // AsyncStorage.getItem('userObject').then((userObject) => {
+    //   // if data authdata exists then we set state w/user object
+    //   if (userObject !== null){
+    //     let oldUserObject = JSON.parse(userObject);
+    //     this.setState({
+    //       user: oldUserObject,
+    //       loaded: true
+    //     });
+    //     // alert auth
+    //     console.log('USER?:',this.state.user);
+    //
+    //   } else {
+    //     // create new auth data
+    //     console.log('FAILED TO RETRIEVE AUTHDATA');
+    //     FirebaseClass.authFirebase();
+    //
+    //     // check authorization status
+    //     /* TODO: can be placed in firebase class, return user object outside
+    //     of async call */
+    //     firebase.auth().onAuthStateChanged(function(user) {
+    //       if (user) {
+    //         console.log('user is logged in:', user);
+    //
+    //         var userObjectString = JSON.stringify(user);
+    //         // set state with auth so we can place in local storage
+    //         AsyncStorage.setItem('userObject', userObjectString, (error) =>{
+    //           if (error){
+    //             console.log('failed to set userObject, trace creation', error);
+    //           } else {
+    //             console.log('set userObject, trace creation');
+    //             // set our state with newly created userObject
+    //             let userObject = JSON.parse(userObjectString);
+    //             this.setState({
+    //               user: userObject,
+    //               loaded: true
+    //             });
+    //           }
+    //         });
+    //       } else {
+    //         console.log('user is not logged in, auth error');
+    //         Alert.alert('Looks like our servers are having difficulty logging in.');
+    //       }
+    //     });
+    //   }
+    // });
+    // //test
+    // this.listenForlocation();
+    // // this.listenForConnection();
+  }
 
-      } else {
-        // create new auth data
-        console.log('FAILED TO RETRIEVE AUTHDATA');
-        FirebaseClass.authFirebase();
-
-        // check authorization status
-        /* TODO: can be placed in firebase class, return user object outside
-        of async call */
-        firebase.auth().onAuthStateChanged(function(user) {
-          if (user) {
-            console.log('user is logged in:', user);
-
-            var userObjectString = JSON.stringify(user);
-            // set state with auth so we can place in local storage
-            AsyncStorage.setItem('userObject', userObjectString, (error) =>{
-              if (error){
-                console.log('failed to set userObject, trace creation', error);
-              } else {
-                console.log('set userObject, trace creation');
-                // set our state with newly created userObject
-                let userObject = JSON.parse(userObjectString);
-                this.setState({
-                  user: userObject,
-                  loaded: true
-                });
-              }
-            });
-          } else {
-            console.log('user is not logged in, auth error');
-            Alert.alert('Looks like our servers are having difficulty logging in.');
-          }
-        });
-      }
-    });
-    //test
-    this.listenForlocation();
-    // this.listenForConnection();
+  componentDidMount() {
+    this.props.onAddYak();
+    this.listenForItems(this.itemsRef);
+    this.listenForAlert();
   }
 
   // function that tests device connection
@@ -102,13 +102,13 @@ class Yaks extends Component {
     NetInfo.isConnected.fetch().then(isConnected => {
       // set state based on connection status
       if (isConnected === 'online'){
-        this.setState({
-          connection: true
-        });
+        // this.setState({
+        //   connection: true
+        // });
       } else {
-        this.setState({
-          connection: false
-        });
+        // this.setState({
+        //   connection: false
+        // });
       }
     });
 
@@ -136,62 +136,42 @@ class Yaks extends Component {
     navigator.geolocation.getCurrentPosition((position) => {
         var initialPosition = JSON.stringify(position);
         // console.log(initialPosition);
-        this.setState({
-          position: initialPosition
-        });
+        // this.setState({
+        //   position: initialPosition
+        // });
     },
     (error) => Alert.alert(error.message),
     {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
   );
     this.watchID = navigator.geolocation.watchPosition((position) => {
       var lastPosition = JSON.stringify(position);
-      this.setState({
-        position: lastPosition
-      });
+      // this.setState({
+      //   position: lastPosition
+      // });
     });
-  }
-
-  listenForAlert() {
-    let alertRef = firebase.database().ref('alerts');
-
-    console.log(alertRef);
-    if (alertRef.child != null) {
-      console.log('alert is: ', alertRef.child);
-      this.setState({
-        alert: true,
-        alertText: alertRef.child,
-      });
-      // alertRef doesn't contain info
-    } else {
-      console.log('alert does not contain info', alertRef.child);
-      this.setState({
-        alert: false
-      });
-    }
-
   }
 
   //
-  listenForItems(itemsRef) {
-    itemsRef.on('value', (snap) => {
-      // get our children as an array
-      // NOTE: in next firebase update 'child.x()', changes to an object 'child.x'
-      var items = [];
-          snap.forEach((child) => {
-            items.push({
-              title: child.val().title,
-              time: child.val().time,
-              comment: child.val().comment,
-              score: child.val().score,
-              _key: child.key,
-              user: this.state.user
-          });
-        });
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(items)
-      });
-      // TODO:add refresh animation here
-    });
+  listenForItems() {
+    // itemsRef.on('value', (snap) => {
+    //   // get our children as an array
+    //   // NOTE: in next firebase update 'child.x()', changes to an object 'child.x'
+    //   var items = [];
+    //       snap.forEach((child) => {
+    //         items.push({
+    //           title: child.val().title,
+    //           time: child.val().time,
+    //           comment: child.val().comment,
+    //           score: child.val().score,
+    //           _key: child.key,
+    //           user: this.state.user
+    //       });
+    //     });
+    //   this.setState({
+    //     dataSource: this.state.dataSource.cloneWithRows(items)
+    //   });
+    //   // TODO:add refresh animation here
+    // });
   }
 
   componentDidMount(){
@@ -239,9 +219,9 @@ class Yaks extends Component {
       console.log('too long', textLength);
       Alert.alert('Too long! Keep it under 140 characters');
       // keep modal open
-      this.setState({
-        modalOpen: true
-      });
+      // this.setState({
+      //   modalOpen: true
+      // });
     }
     else if (text === undefined || text === null){
       console.log('no text provided');
@@ -255,9 +235,9 @@ class Yaks extends Component {
       console.log('LOCATION', location);
       var locationArray = [location.coords.latitude, location.coords.longitude];
       // this kills mr. modal
-      this.setState({
-        modalOpen: false
-      });
+      // this.setState({
+      //   modalOpen: false
+      // });
   }
 }
 
@@ -328,4 +308,4 @@ class Yaks extends Component {
 }
 
 
-module.exports = Yaks;
+module.exports = Yak;

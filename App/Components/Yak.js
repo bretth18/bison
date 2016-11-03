@@ -21,9 +21,17 @@ const styles = require('../Styles/Styles.js');
 import NativeTheme from '../Themes/myTheme';
 
 
-class Yaks extends Component {
+class Yak extends Component {
   constructor(props){
     super(props);
+    this.state = {
+      yakText: '',
+      modalOpen: false,
+    };
+    this.dataSource = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2
+    });
+
     // this.state = {
     //   dataSource: new ListView.DataSource({
     //     rowHasChanged: (row1, row2) => row1 !== row2,
@@ -36,7 +44,7 @@ class Yaks extends Component {
     // init firebase
     // this.itemsRef = firebase.database().ref('yaks');
     // initialize geofire
-    this.geoFire = new GeoFire(this.itemsRef);
+    // this.geoFire = new GeoFire(this.itemsRef);
   }
 
   // before component mounts get our authData from storage
@@ -174,11 +182,6 @@ class Yaks extends Component {
     // });
   }
 
-  componentDidMount(){
-    this.listenForItems(this.itemsRef);
-    this.listenForAlert();
-  }
-
   /* NAVIGATORS */
   goToSettings(){
     this.props.navigator.push({
@@ -210,7 +213,7 @@ class Yaks extends Component {
   }
   // this submits our yak
   _addItem(text){
-    console.log('TESTING AUTHDATA: ', this.state.user);
+    // console.log('TESTING AUTHDATA: ', this.state.user);
 
     // validation
     var withoutSpace = text.replace(/ /g,'');
@@ -229,21 +232,26 @@ class Yaks extends Component {
       // alert user
     } else {
       let currentUser = this.state.user;
-      this.itemsRef.push({ title: text, time: Date(), score: 0, user: currentUser});
+      let yakContent = {
+        title: text,
+        time: Date(),
+        score: 0,
+        user: currentUser,
+      };
       // TODO: figure out how to append geoFire to child instead of overwriting
-      var location = JSON.parse(this.state.position);
-      console.log('LOCATION', location);
-      var locationArray = [location.coords.latitude, location.coords.longitude];
+      // var location = JSON.parse(this.state.position);
+      // console.log('LOCATION', location);
+      // var locationArray = [location.coords.latitude, location.coords.longitude];
       // this kills mr. modal
-      // this.setState({
-      //   modalOpen: false
-      // });
+      this.setState({
+        modalOpen: false
+      });
   }
 }
 
   _renderItem(item){
     return(
-      <ListItem item={item} userId={this.state.user} onPress={this.onPressYak.bind(this, item)} />
+      <ListItem item={item.yakContent} userId={this.state.user} onPress={this.onPressYak.bind(this, item)} />
     );
   }
 
@@ -259,6 +267,10 @@ class Yaks extends Component {
   }
 
   render(){
+    const { yaks } = this.props.yak;
+    console.log(this.props);
+    console.log(this.props.onAddYak.yakContent);
+    const dataSource = this.dataSource.cloneWithRows(this.props.onAddYak);
     return (
       <View style={styles.container} >
 
@@ -273,13 +285,13 @@ class Yaks extends Component {
         <StatusBar title="Feed" />
 
         <ListView
-          dataSource={this.state.dataSource}
+          dataSource={dataSource}
           renderRow={this._renderItem.bind(this)}
           style={styles.listview}/>
         <ActionButton title="Submit Post" onPress={() => this.setState({modalOpen: true})} />
 
           <Modal
-             offset={this.state.offset}
+             offset={this.props.offset}
              open={this.state.modalOpen}
              modalDidOpen={() => console.log('modal did open')}
              modalDidClose={() => this.setState({modalOpen: false})}
@@ -288,12 +300,12 @@ class Yaks extends Component {
                 <Text style={styles.diverseText}>Submit new Yak</Text>
                   <TextInput
                     style={styles.diverseTextBox}
-                    onChangeText={(text) => this.setState({text})}
-                    value={this.state.text}
+                    onChangeText={(yakText) => this.setState({yakText})}
+                    value={this.state.yakText}
                     maxLength={300}
                   />
                 <Button small block style={{marginTop:10}}
-                  onPress={this._addItem.bind(this, this.state.text)}>
+                  onPress={this._addItem.bind(this, this.state.yakText)}>
                   Submit </Button>
              </View>
           </Modal>

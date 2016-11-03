@@ -4,6 +4,8 @@ import  {
    StyleSheet,
    Navigator, } from 'react-native';
 import React, { Component } from 'react';
+import { Provider } from 'react-redux';
+import store from './App/Store/Store';
 
 
 import {Container, Header, Content, Footer, Title} from 'native-base';

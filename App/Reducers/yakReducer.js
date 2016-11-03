@@ -2,7 +2,7 @@
 
 import ActionTypes from '../Constants/ActionTypes';
 
-export default function yakReducer(state = {}, action) {
+export function yakReducer(state = {}, action) {
   switch(action.type) {
 
     case ActionTypes.AddYakRequested: {

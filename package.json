@@ -48,6 +48,7 @@
     "eslint-config-xo-react": "^0.10.0",
     "eslint-plugin-react": "^6.4.1",
     "jest-cli": "^16.0.1",
+    "remote-redux-devtools": "^0.5.1",
     "xo": "^0.17.0"
   }
 }

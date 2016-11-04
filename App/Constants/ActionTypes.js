@@ -3,6 +3,12 @@ const ActionTypes = {
   AddYakRejected: 'ADD_YAK_REJECTED',
   AddYakFufilled: 'ADD_YAK_FUFILLED',
   YakAdded: 'YAK_ADDED',
+  addYak: 'ADD_YAK',
+  removeYak: 'REMOVE_YAK',
+  connectionChecking: 'CONNECTION_CHECKING',
+  connectionChecked: 'CONNECTION_CHECKED',
+  connectionOnline: 'CONNECTION_ONLINE',
+  connectionOffline: 'CONNECTION_OFFLINE',
 
 };
 

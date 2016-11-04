@@ -195,22 +195,22 @@ class Yak extends Component {
   // onMount listener for device location
   listenForlocation() {
     // get device location data
-  //   navigator.geolocation.getCurrentPosition((position) => {
-  //       var initialPosition = JSON.stringify(position);
-  //       // console.log(initialPosition);
-  //       // this.setState({
-  //       //   position: initialPosition
-  //       // });
-  //   },
-  //   (error) => Alert.alert(error.message),
-  //   {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-  // );
-  //   this.watchID = navigator.geolocation.watchPosition((position) => {
-  //     // var lastPosition = JSON.stringify(position);
-  //     // this.setState({
-  //     //   position: lastPosition
-  //     // });
-  //   });
+    //   navigator.geolocation.getCurrentPosition((position) => {
+    //       var initialPosition = JSON.stringify(position);
+    //       // console.log(initialPosition);
+    //       // this.setState({
+    //       //   position: initialPosition
+    //       // });
+    //   },
+    //   (error) => Alert.alert(error.message),
+    //   {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+    // );
+    //   this.watchID = navigator.geolocation.watchPosition((position) => {
+    //     // var lastPosition = JSON.stringify(position);
+    //     // this.setState({
+    //     //   position: lastPosition
+    //     // });
+    //   });
   }
 
   //

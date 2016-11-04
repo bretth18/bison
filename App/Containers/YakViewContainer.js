@@ -1,4 +1,4 @@
-// This is our redux wrapper for the main component.
+// This is our redux wrapper for the YakView component.
 // it injects the state and dispatch functions via props.
 'use strict';
 
@@ -7,22 +7,20 @@ import React, { Component } from 'react';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Yak from '../Components/Yak';
+import YakView from '../Components/YakView';
 import * as YakActions from '../Actions/addYak';
-// actions imports
 
-class YakContainer extends Component {
+class YakViewContainer extends Component {
   render() {
     return (
-      <Yak {...this.props} />
+      <YakView {...this.props} />
     );
   }
 }
+
 function mapStateToProps(state) {
   return {
-    yakList: state.yaks.yakList,
-    connectionChecked: state.yaks.connectionChecked,
-    connected: state.yaks.connected,
+
   };
 }
 
@@ -30,5 +28,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(YakActions, dispatch);
 }
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(YakContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(YakViewContainer);

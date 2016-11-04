@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "postinstall": "remotedev-debugger [options]"
   },
   "jest": {
     "haste": {
@@ -49,6 +50,7 @@
     "eslint-plugin-react": "^6.4.1",
     "jest-cli": "^16.0.1",
     "remote-redux-devtools": "^0.5.1",
+    "remote-redux-devtools-on-debugger": "^0.6.3",
     "xo": "^0.17.0"
   }
 }

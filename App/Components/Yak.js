@@ -19,7 +19,10 @@ import ListItem from '../Components/ListItem';
 
 const styles = require('../Styles/Styles.js');
 import NativeTheme from '../Themes/myTheme';
+import database from '../Database/Database';
 
+const yaksRef = database.ref('yaks');
+const connectedRef = database.ref('.info/connected');
 
 class Yak extends Component {
   constructor(props){
@@ -27,10 +30,9 @@ class Yak extends Component {
     this.state = {
       yakText: '',
       modalOpen: false,
+      newYak: '',
     };
-    this.dataSource = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
+
 
     // this.state = {
     //   dataSource: new ListView.DataSource({
@@ -49,6 +51,39 @@ class Yak extends Component {
 
   // before component mounts get our authData from storage
   componentWillMount() {
+
+    this.dataSource = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2
+    });
+
+    yaksRef.on('child_added', (snapshot) => {
+      this.props.addYak(snapshot.val());
+    });
+
+    yaksRef.on('child_removed', (snapshot) => {
+      this.props.removeYak(snapshot.val().id);
+    });
+
+    if (NetInfo) {
+      NetInfo.isConnected.fetch().done(isConnected => {
+        if (isConnected) {
+          this.props.checkConnection();
+        } else {
+          this.props.goOffline();
+          // trigger offline actions
+        }
+      });
+    } else {
+      this.props.checkConnection();
+    }
+
+    connectedRef.on('value', snap => {
+      if (snap.val() === true) {
+        this.props.goOnline();
+      } else {
+        this.props.goOffline();
+      }
+    });
     // AsyncStorage.getItem('userObject').then((userObject) => {
     //   // if data authdata exists then we set state w/user object
     //   if (userObject !== null){
@@ -100,9 +135,24 @@ class Yak extends Component {
   }
 
   componentDidMount() {
-    this.props.onAddYak();
-    this.listenForItems(this.itemsRef);
-    this.listenForAlert();
+    // this.props.onAddYak();
+    // this.listenForItems(this.itemsRef);
+    // this.listenForAlert();
+    this.listenForYak();
+  }
+
+  listenForYak() {
+    yaksRef.on('child_added', (snapshot) => {
+      this.props.addYak(snapshot.val());
+    });
+
+    yaksRef.on('child_removed', (snapshot) => {
+      this.props.removeYak(snapshot.val().id);
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+
   }
 
   // function that tests device connection
@@ -141,22 +191,22 @@ class Yak extends Component {
   // onMount listener for device location
   listenForlocation() {
     // get device location data
-    navigator.geolocation.getCurrentPosition((position) => {
-        var initialPosition = JSON.stringify(position);
-        // console.log(initialPosition);
-        // this.setState({
-        //   position: initialPosition
-        // });
-    },
-    (error) => Alert.alert(error.message),
-    {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-  );
-    this.watchID = navigator.geolocation.watchPosition((position) => {
-      var lastPosition = JSON.stringify(position);
-      // this.setState({
-      //   position: lastPosition
-      // });
-    });
+  //   navigator.geolocation.getCurrentPosition((position) => {
+  //       var initialPosition = JSON.stringify(position);
+  //       // console.log(initialPosition);
+  //       // this.setState({
+  //       //   position: initialPosition
+  //       // });
+  //   },
+  //   (error) => Alert.alert(error.message),
+  //   {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+  // );
+  //   this.watchID = navigator.geolocation.watchPosition((position) => {
+  //     // var lastPosition = JSON.stringify(position);
+  //     // this.setState({
+  //     //   position: lastPosition
+  //     // });
+  //   });
   }
 
   //
@@ -250,8 +300,9 @@ class Yak extends Component {
 }
 
   _renderItem(item){
+    console.log(this.props.connected);
     return(
-      <ListItem item={item.yakContent} userId={this.state.user} onPress={this.onPressYak.bind(this, item)} />
+      <ListItem item={item} userId={this.state.user} onPress={this.onPressYak.bind(this, item)} />
     );
   }
 
@@ -267,10 +318,21 @@ class Yak extends Component {
   }
 
   render(){
-    const { yaks } = this.props.yak;
+    console.log('props:');
     console.log(this.props);
-    console.log(this.props.onAddYak.yakContent);
-    const dataSource = this.dataSource.cloneWithRows(this.props.onAddYak);
+    let yaks, readonlyMessage;
+    if (this.props.connected) {
+      yaks = this.props.yakList;
+    }
+    else if (this.props.connectionChecked){
+      readonlyMessage = <Text>OFFLINE</Text>;
+
+    } else {
+      yaks = [];
+      console.log('not connected');
+      readonlyMessage = <Text>LOADING..</Text>;
+      // notify offline
+    }
     return (
       <View style={styles.container} >
 
@@ -283,9 +345,10 @@ class Yak extends Component {
         </Header>
 
         <StatusBar title="Feed" />
+        {readonlyMessage}
 
         <ListView
-          dataSource={dataSource}
+          dataSource={this.dataSource.cloneWithRows(yaks)}
           renderRow={this._renderItem.bind(this)}
           style={styles.listview}/>
         <ActionButton title="Submit Post" onPress={() => this.setState({modalOpen: true})} />

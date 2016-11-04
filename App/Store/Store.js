@@ -8,6 +8,6 @@ import { composeWithDevTools } from 'remote-redux-devtools';
 const logger = createLogger();
 
 const composeEnhancers = composeWithDevTools({ realtime: true, port: 8000 });
-const store = createStore(rootReducer, {}, composeEnhancers(applyMiddleware(thunk, logger)));
+const store = createStore(rootReducer, {},applyMiddleware(thunk, logger));
 
 export default store;

@@ -16,13 +16,17 @@ import GeoFire from 'geofire';
 import StatusBar from '../Components/StatusBar';
 import ActionButton from '../Components/ActionButton';
 import ListItem from '../Components/ListItem';
+import Settings from './Settings';
+import YakView from './YakView';
 
 const styles = require('../Styles/Styles.js');
 import NativeTheme from '../Themes/myTheme';
 import database from '../Database/Database';
+import auth from '../Database/Database';
 
 const yaksRef = database.ref('yaks');
 const connectedRef = database.ref('.info/connected');
+const authRef = auth;
 
 class Yak extends Component {
   constructor(props){
@@ -235,12 +239,14 @@ class Yak extends Component {
   /* NAVIGATORS */
   goToSettings(){
     this.props.navigator.push({
-      ident: 'Settings',
+      component: Settings,
+      name: 'Settings',
     });
   }
   onPressYak(item){
     this.props.navigator.push({
-      ident: 'YakView',
+      component: YakView,
+      name: 'YakView',
       item: item
     });
   }
@@ -282,12 +288,15 @@ class Yak extends Component {
       // alert user
     } else {
       let currentUser = this.state.user;
+      //TODO: FIX USER AUTH STUFF
       let yakContent = {
         title: text,
         time: Date(),
         score: 0,
-        user: currentUser,
+        user: null,
       };
+
+      yaksRef.push(yakContent);
       // TODO: figure out how to append geoFire to child instead of overwriting
       // var location = JSON.parse(this.state.position);
       // console.log('LOCATION', location);
@@ -318,6 +327,7 @@ class Yak extends Component {
   }
 
   render(){
+    console.log('auth: ', auth);
     console.log('props:');
     console.log(this.props);
     let yaks, readonlyMessage;
@@ -328,7 +338,7 @@ class Yak extends Component {
       readonlyMessage = <Text>OFFLINE</Text>;
 
     } else {
-      yaks = [];
+      yaks = this.props.yakList;
       console.log('not connected');
       readonlyMessage = <Text>LOADING..</Text>;
       // notify offline

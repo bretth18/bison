@@ -15,7 +15,7 @@ export function yakReducer(state = initialState, action) {
 
     //new
     case ActionTypes.addYak:
-      yakList = state.yakList.concat([action.yakData]).sort((a,b) => b.time - a.time);
+      yakList = state.yakList.concat([action.yakData]);
 
       return {
         ...state,

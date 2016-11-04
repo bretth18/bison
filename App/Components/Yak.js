@@ -142,7 +142,7 @@ class Yak extends Component {
     // this.props.onAddYak();
     // this.listenForItems(this.itemsRef);
     // this.listenForAlert();
-    this.listenForYak();
+    // this.listenForYak();
   }
 
   listenForYak() {

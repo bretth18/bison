@@ -5,6 +5,7 @@ import {
 
 import React, { Component } from 'react';
 
+import { Actions } from 'react-native-router-flux';
 import {Container, Header, Content, Footer, Title, Button, Icon } from 'native-base';
 import { Card } from 'react-native-material-design';
 import SettingsList from 'react-native-settings-list';
@@ -22,9 +23,7 @@ class Settings extends Component {
   }
   // function to handle navigation back
   _returnToYaks(){
-    this.props.navigator.resetTo({
-      name: 'Yaks'
-    });
+    Actions.YakContainer();
   }
   // function to handle nav to feedback page
   _navToFeedback(){

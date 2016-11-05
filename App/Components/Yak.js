@@ -9,24 +9,29 @@
 
 import React, { Component } from 'react';
 
+import { Actions } from 'react-native-router-flux';
 import Modal from 'react-native-simple-modal';
-import {Container, Header, Content, Footer, Title, Icon, Button} from 'native-base';
+import { Header, Footer, Title, Icon, Button} from 'native-base';
 import GeoFire from 'geofire';
 
+/* component imports */
 import StatusBar from '../Components/StatusBar';
 import ActionButton from '../Components/ActionButton';
 import ListItem from '../Components/ListItem';
 import Settings from './Settings';
 import YakView from './YakView';
 
-const styles = require('../Styles/Styles.js');
 import NativeTheme from '../Themes/myTheme';
 import database from '../Database/Database';
 import auth from '../Database/Database';
 
+
+/* constants */
 const yaksRef = database.ref('yaks');
 const connectedRef = database.ref('.info/connected');
 const authRef = auth;
+const styles = require('../Styles/Styles.js');
+
 
 class Yak extends Component {
   constructor(props){
@@ -238,17 +243,11 @@ class Yak extends Component {
 
   /* NAVIGATORS */
   goToSettings(){
-    this.props.navigator.push({
-      component: Settings,
-      name: 'Settings',
-    });
+    // calls scene key
+    Actions.Settings();
   }
   onPressYak(item){
-    this.props.navigator.push({
-      component: YakView,
-      name: 'YakView',
-      item: item
-    });
+    Actions.YakViewContainer(item);
   }
 
 

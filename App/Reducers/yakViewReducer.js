@@ -19,11 +19,11 @@ export function yakViewReducer(state = initialState, action) {
   switch(action.type) {
 
     case ActionTypes.addComment:
-    yakComment = state.yakCommentList.concat([action.yakCommentData]);
+    yakCommentList = state.yakCommentList.concat([action.yakComment]);
 
       return {
         ...state,
-        yakComment: yakComment
+        yakCommentList: yakCommentList
       };
 
     case ActionTypes.removeComment:

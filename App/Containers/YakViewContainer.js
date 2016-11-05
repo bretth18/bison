@@ -9,6 +9,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import YakView from '../Components/YakView';
 import * as YakActions from '../Actions/addYak';
+import * as YakViewActions from '../Actions/addComment';
 
 class YakViewContainer extends Component {
   render() {
@@ -20,12 +21,13 @@ class YakViewContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-
+    yakCommentList: state.yakView.yakCommentList,
+    // score
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(YakActions, dispatch);
+  return bindActionCreators(YakViewActions, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(YakViewContainer);

@@ -65,8 +65,24 @@ class Yak extends Component {
       rowHasChanged: (r1, r2) => r1 !== r2
     });
 
-    yaksRef.on('child_added', (snapshot) => {
-      this.props.addYak(snapshot.val());
+    /* NOTE: this method may be more efficient */
+    // yaksRef.on('child_added', (snapshot) => {
+    //   this.props.addYak(snapshot.val());
+    // });
+
+    yaksRef.on('value', (snap) => {
+      // get our children as an array
+        snap.forEach((child) => {
+          let yakContent = {
+            title: child.val().title,
+            time: child.val().time,
+            comment: child.val().comment,
+            score: child.val().score,
+            _key: child.key,
+            user: this.state.user
+        };
+        this.props.addYak(yakContent);
+      });
     });
 
     yaksRef.on('child_removed', (snapshot) => {

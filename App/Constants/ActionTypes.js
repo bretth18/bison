@@ -10,6 +10,7 @@ const ActionTypes = {
   voteUp: 'VOTE_UP',
   voteDown: 'VOTE_DOWN',
 
+
 };
 
 export default ActionTypes;

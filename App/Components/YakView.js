@@ -9,6 +9,7 @@ import React, { Component } from 'react';
 
 import { Container, Header, Content, Title, Button, Icon } from 'native-base';
 import { Card } from 'react-native-material-design';
+import { Actions } from 'react-native-router-flux';
 import ListComment from './ListComment';
 import ActionButton from './ActionButton';
 import NativeTheme from '../Themes/myTheme';
@@ -22,24 +23,32 @@ class YakView extends Component {
     super(props);
     console.log('yakview props', this.props);
     // sets our components state listener
-    this.state = {
-      dataSource: new ListView.DataSource({
-        // bizzare ass expression for handling rows
-        rowHasChanged: (row1, row2) => row1 !== row2,
-      }),
-      // this is the initial score value
-      score: this.props.route.item.score,
-      // changes need to reflect parent state
-      loaded: false,
-      renderDelete: false,
-    };
-    var childKey = this.props.route.item._key.toString();
+
+
+    var childKey = this.props._key.toString();
     console.log('CHILDKEY', childKey);
 
 
     this.commentRef = database.ref('yaks/' + childKey);
   }
   componentWillMount() {
+
+    this.dataSource = new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+    });
+
+    // looks for comments
+    this.commentRef.on('value', (snap) => {
+      snap.forEach((child) => {
+        let yakComment = {
+          comment: child.val().comment,
+          id: child.val().id,
+          time: child.val().time
+        };
+        this.props.addComment(yakComment);
+      });
+    });
+
     // get our account shit from async
     // AsyncStorage.getItem('userObject').then((userObject) => {
     //   let oldUserObject = JSON.parse(userObject);
@@ -58,11 +67,11 @@ class YakView extends Component {
   }
 
   componentDidMount() {
-    this.listenForComments(this.commentRef);
+    // this.listenForComments(this.commentRef);
   }
 
   listenForDelete() {
-    const itemUserUID = this.props.item.user.uid;
+    const itemUserUID = this.props.user.uid;
     if (itemUserUID === this.state.user.uid) {
       this.setState({
         renderDelete: true,
@@ -74,22 +83,23 @@ class YakView extends Component {
 
   listenForComments(commentRef){
     // push comment children
-    commentRef.on('value', (snap) => {
-      var comments = [];
-      snap.forEach((child) => {
-        comments.push({
-          comment: child.val().comment,
-          id: child.val().id,
-          time: child.val().time
-        });
-      });
-      // update component state with comments
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(comments)
-      });
-    });
+    // commentRef.on('value', (snap) => {
+    //   var comments = [];
+    //   snap.forEach((child) => {
+    //     comments.push({
+    //       comment: child.val().comment,
+    //       id: child.val().id,
+    //       time: child.val().time
+    //     });
+    //   });
+    //   // update component state with comments
+    //   this.setState({
+    //     dataSource: this.state.dataSource.cloneWithRows(comments)
+    //   });
+    // });
   }
   // pushes data to firebase based on our current key
+
   submitComment(object) {
     console.log('USER:', this.state.user.uid);
     var onComplete = function(error) {
@@ -110,9 +120,7 @@ class YakView extends Component {
   }
 
   _returnToYaks() {
-    this.props.route.resetTo({
-      name: 'Yaks'
-    });
+    Actions.YakContainer();
   }
   // function to generate random UID for comments, we can use this to later gen icons?
   generateUid() {
@@ -154,7 +162,7 @@ class YakView extends Component {
       voted: true,
     };
     // get score
-    var childKey = this.props.route.item._key.toString();
+    var childKey = this.props._key.toString();
     console.log('CHILDKEY', childKey);
     var scoreRef = database.ref('yaks/' + childKey +'/score');
 
@@ -252,6 +260,8 @@ class YakView extends Component {
   }
 
   render(){
+    let comments = this.props.yakCommentList;
+    console.log('comment list', comments);
     return(
       <View style={styles.container}>
           <Header theme={NativeTheme}>
@@ -259,17 +269,16 @@ class YakView extends Component {
                 <Icon name="ios-arrow-back" />
             </Button>
               <Title>bison.</Title>
-            {this._renderDelete()}
           </Header>
 
             <View style={styles.container}>
               <Card>
                 <Card.Body>
 
-                <Text>{this.props.item.title}</Text>
+                <Text>{this.props.title}</Text>
 
-                <Text>{this.props.item.time}</Text>
-                <Text>{this.state.score}pts</Text>
+                <Text>{this.props.time}</Text>
+                <Text>{this.props.score}pts</Text>
                   <Button
                     transparent style={{justifyContent: 'flex-end'}}
                     onPress={this.votePost.bind(this, 1)}>
@@ -287,7 +296,7 @@ class YakView extends Component {
 
               <View style={styles.container}>
                 <ListView
-                  dataSource={this.state.dataSource}
+                  dataSource={this.dataSource.cloneWithRows(comments)}
                   renderRow={this._renderComment.bind(this)}
                   style={styles.listview}
                   initialListSize={0}

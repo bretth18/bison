@@ -9,7 +9,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Yak from '../Components/Yak';
 import * as YakActions from '../Actions/addYak';
-import { watchYakAddedEvent } from '../Actions/yakAdded';
 // actions imports
 
 class YakContainer extends Component {
@@ -30,15 +29,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(YakActions, dispatch);
 }
-// function mapDispatchToProps(dispatch) {
-//   //newPostaddedEvent listener goes here
-//   watchYakAddedEvent(dispatch);
-//   return {
-//     // dispatch here
-//     onAddYak: (yakContent) => dispatch(addNewYak(yakContent))
-//   };
-// }
 
-// const appContainer = connect(mapStateToProps,mapDispatchToProps)(Yak);
 
 export default connect(mapStateToProps, mapDispatchToProps)(YakContainer);

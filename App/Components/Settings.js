@@ -5,6 +5,7 @@ import {
 
 import React, { Component } from 'react';
 
+import { Actions } from 'react-native-router-flux';
 import {Container, Header, Content, Footer, Title, Button, Icon } from 'native-base';
 import { Card } from 'react-native-material-design';
 import SettingsList from 'react-native-settings-list';
@@ -14,7 +15,7 @@ const styles = require('../Styles/Styles.js');
 
 
 //const for icon
-const bisonIcon = require('../ios/BisonApp/Images.xcassets/AppIcon.appiconset/Icon-40@2x.png');
+// const bisonIcon = require('../ios/BisonApp/Images.xcassets/AppIcon.appiconset/Icon-40@2x.png');
 
 class Settings extends Component {
   constructor(props){
@@ -22,14 +23,12 @@ class Settings extends Component {
   }
   // function to handle navigation back
   _returnToYaks(){
-    this.props.navigator.resetTo({
-      ident: 'Yaks'
-    });
+    Actions.YakContainer();
   }
   // function to handle nav to feedback page
   _navToFeedback(){
     this.props.navigator.resetTo({
-      ident: 'Feedback'
+      name: 'Feedback'
     });
   }
 
@@ -46,7 +45,6 @@ class Settings extends Component {
             <View style={styles.container}>
               <Card>
                 <Card.Body>
-                  <Image source={bisonIcon}/>
                   <Text>Bison</Text>
                   <Text>made by @bretth18</Text>
                 </Card.Body>

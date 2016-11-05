@@ -15,7 +15,7 @@ export function yakReducer(state = initialState, action) {
 
     //new
     case ActionTypes.addYak:
-      yakList = state.yakList.concat([action.yakData]).sort((a,b) => b.time - a.time);
+      yakList = state.yakList.concat([action.yakData]);
 
       return {
         ...state,
@@ -23,7 +23,7 @@ export function yakReducer(state = initialState, action) {
       };
 
     case ActionTypes.removeYak:
-      yakList: state.yakList.slice(0)
+      yakList: state.yakList.slice(0);
       const index = yakList.map(i => i.id).indexOf(action.id);
       yakList.splice(index, 1);
 
@@ -59,39 +59,6 @@ export function yakReducer(state = initialState, action) {
       };
 
 
-
-
-    // case ActionTypes.AddYakRequested: {
-    //   return Object.assign({}, state, {
-    //     inProgress: true,
-    //     error: '',
-    //     success: '',
-    //   });
-    // }
-    //
-    // case ActionTypes.AddYakRejected: {
-    //   return Object.assign({}, state, {
-    //     inProgress: false,
-    //     error: 'Error while adding new post',
-    //   });
-    // }
-    //
-    // case ActionTypes.AddYakFufilled: {
-    //   const newState = Object.assign({}, state, {
-    //     inProgress: false,
-    //     success: 'Added post',
-    //   });
-    //
-    //   return newState;
-    // }
-    //
-    // case ActionTypes.YakAdded: {
-    //   const newState = Object.assign({}, state);
-    //   newState.yaks = newState.yaks || [];
-    //   newState.yaks = newState.yaks.slice();
-    //   newState.yaks.push(action.yak);
-    //   return newState;
-    // }
     default:
       return state;
 

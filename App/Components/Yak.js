@@ -9,20 +9,29 @@
 
 import React, { Component } from 'react';
 
+import { Actions } from 'react-native-router-flux';
 import Modal from 'react-native-simple-modal';
-import {Container, Header, Content, Footer, Title, Icon, Button} from 'native-base';
+import { Header, Footer, Title, Icon, Button} from 'native-base';
 import GeoFire from 'geofire';
 
+/* component imports */
 import StatusBar from '../Components/StatusBar';
 import ActionButton from '../Components/ActionButton';
 import ListItem from '../Components/ListItem';
+import Settings from './Settings';
+import YakView from './YakView';
 
-const styles = require('../Styles/Styles.js');
 import NativeTheme from '../Themes/myTheme';
 import database from '../Database/Database';
+import auth from '../Database/Database';
 
+
+/* constants */
 const yaksRef = database.ref('yaks');
 const connectedRef = database.ref('.info/connected');
+const authRef = auth;
+const styles = require('../Styles/Styles.js');
+
 
 class Yak extends Component {
   constructor(props){
@@ -56,8 +65,24 @@ class Yak extends Component {
       rowHasChanged: (r1, r2) => r1 !== r2
     });
 
-    yaksRef.on('child_added', (snapshot) => {
-      this.props.addYak(snapshot.val());
+    /* NOTE: this method may be more efficient */
+    // yaksRef.on('child_added', (snapshot) => {
+    //   this.props.addYak(snapshot.val());
+    // });
+
+    yaksRef.on('value', (snap) => {
+      // get our children as an array
+        snap.forEach((child) => {
+          let yakContent = {
+            title: child.val().title,
+            time: child.val().time,
+            comment: child.val().comment,
+            score: child.val().score,
+            _key: child.key,
+            user: this.state.user
+        };
+        this.props.addYak(yakContent);
+      });
     });
 
     yaksRef.on('child_removed', (snapshot) => {
@@ -138,7 +163,7 @@ class Yak extends Component {
     // this.props.onAddYak();
     // this.listenForItems(this.itemsRef);
     // this.listenForAlert();
-    this.listenForYak();
+    // this.listenForYak();
   }
 
   listenForYak() {
@@ -191,22 +216,22 @@ class Yak extends Component {
   // onMount listener for device location
   listenForlocation() {
     // get device location data
-  //   navigator.geolocation.getCurrentPosition((position) => {
-  //       var initialPosition = JSON.stringify(position);
-  //       // console.log(initialPosition);
-  //       // this.setState({
-  //       //   position: initialPosition
-  //       // });
-  //   },
-  //   (error) => Alert.alert(error.message),
-  //   {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-  // );
-  //   this.watchID = navigator.geolocation.watchPosition((position) => {
-  //     // var lastPosition = JSON.stringify(position);
-  //     // this.setState({
-  //     //   position: lastPosition
-  //     // });
-  //   });
+    //   navigator.geolocation.getCurrentPosition((position) => {
+    //       var initialPosition = JSON.stringify(position);
+    //       // console.log(initialPosition);
+    //       // this.setState({
+    //       //   position: initialPosition
+    //       // });
+    //   },
+    //   (error) => Alert.alert(error.message),
+    //   {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+    // );
+    //   this.watchID = navigator.geolocation.watchPosition((position) => {
+    //     // var lastPosition = JSON.stringify(position);
+    //     // this.setState({
+    //     //   position: lastPosition
+    //     // });
+    //   });
   }
 
   //
@@ -234,15 +259,11 @@ class Yak extends Component {
 
   /* NAVIGATORS */
   goToSettings(){
-    this.props.navigator.push({
-      ident: 'Settings',
-    });
+    // calls scene key
+    Actions.Settings();
   }
   onPressYak(item){
-    this.props.navigator.push({
-      ident: 'YakView',
-      item: item
-    });
+    Actions.YakViewContainer(item);
   }
 
 
@@ -282,12 +303,15 @@ class Yak extends Component {
       // alert user
     } else {
       let currentUser = this.state.user;
+      //TODO: FIX USER AUTH STUFF
       let yakContent = {
         title: text,
         time: Date(),
         score: 0,
-        user: currentUser,
+        user: null,
       };
+
+      yaksRef.push(yakContent);
       // TODO: figure out how to append geoFire to child instead of overwriting
       // var location = JSON.parse(this.state.position);
       // console.log('LOCATION', location);
@@ -318,6 +342,7 @@ class Yak extends Component {
   }
 
   render(){
+    console.log('auth: ', auth);
     console.log('props:');
     console.log(this.props);
     let yaks, readonlyMessage;
@@ -328,7 +353,7 @@ class Yak extends Component {
       readonlyMessage = <Text>OFFLINE</Text>;
 
     } else {
-      yaks = [];
+      yaks = this.props.yakList;
       console.log('not connected');
       readonlyMessage = <Text>LOADING..</Text>;
       // notify offline

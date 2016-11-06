@@ -4,11 +4,13 @@ import ActionTypes from '../Constants/ActionTypes';
 
 const initialState = {
   yakList: [],
-  connectionChecked: false
+  connectionChecked: false,
+  yakDataSource: null
 };
 
 export function yakReducer(state = initialState, action) {
   let yakList;
+  let yakDataSource;
 
   console.log(action);
   switch(action.type) {
@@ -20,6 +22,13 @@ export function yakReducer(state = initialState, action) {
       return {
         ...state,
         yakList: yakList
+      };
+
+    // experimental
+    case ActionTypes.addYakAsDataSource:
+      return {
+        ...state,
+        yakDataSource: yakDataSource
       };
 
     case ActionTypes.removeYak:

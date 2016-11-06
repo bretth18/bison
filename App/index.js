@@ -1,6 +1,4 @@
-import  {
-   AppRegistry,
-   StyleSheet  } from 'react-native';
+/* this is the root navigator */
 import React, { Component } from 'react';
 import { connect, Provider } from 'react-redux';
 import store from './Store/Store';
@@ -11,7 +9,6 @@ import YakContainer from './Containers/YakContainer';
 import YakViewContainer from './Containers/YakViewContainer';
 import Settings from './Components/Settings';
 
-import NavigatorContainer from './Containers/NavigatorContainer';
 
 const RouterWithRedux = connect()(Router);
 

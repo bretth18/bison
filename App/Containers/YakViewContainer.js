@@ -21,7 +21,7 @@ class YakViewContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    yakCommentList: state.yakView.yakCommentList,
+    commentList: state.yakView.commentList,
     // score
   };
 }

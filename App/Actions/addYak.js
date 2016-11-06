@@ -10,6 +10,14 @@ export function addYak(yakData) {
   };
 }
 
+// protoyping to see if array handled only on component side will add efficiency
+export function addYakAsDataSource(yakData) {
+  return {
+    type: ActionTypes.addYakAsDataSource,
+    yakData: yakData
+  };
+}
+
 export function removeYak(id) {
   return {
     type: ActionTypes.removeYak,

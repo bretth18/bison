@@ -41,21 +41,6 @@ class Yak extends Component {
       modalOpen: false,
       newYak: '',
     };
-
-
-    // this.state = {
-    //   dataSource: new ListView.DataSource({
-    //     rowHasChanged: (row1, row2) => row1 !== row2,
-    //   }),
-    //   modalOpen: false,
-    //   loaded: false,
-    //   user: null,
-    //   position: null,
-    // };
-    // init firebase
-    // this.itemsRef = firebase.database().ref('yaks');
-    // initialize geofire
-    // this.geoFire = new GeoFire(this.itemsRef);
   }
 
   // before component mounts get our authData from storage
@@ -161,7 +146,7 @@ class Yak extends Component {
 
   componentDidMount() {
     // this.props.onAddYak();
-    // this.listenForItems(this.itemsRef);
+    // this.listenForItems();
     // this.listenForAlert();
     // this.listenForYak();
   }
@@ -235,26 +220,24 @@ class Yak extends Component {
   }
 
   //
-  listenForItems() {
-    // itemsRef.on('value', (snap) => {
-    //   // get our children as an array
-    //   // NOTE: in next firebase update 'child.x()', changes to an object 'child.x'
-    //   var items = [];
-    //       snap.forEach((child) => {
-    //         items.push({
-    //           title: child.val().title,
-    //           time: child.val().time,
-    //           comment: child.val().comment,
-    //           score: child.val().score,
-    //           _key: child.key,
-    //           user: this.state.user
-    //       });
-    //     });
-    //   this.setState({
-    //     dataSource: this.state.dataSource.cloneWithRows(items)
-    //   });
-    //   // TODO:add refresh animation here
-    // });
+  listenForDataSource() {
+    yaksRef.on('value', (snap) => {
+      // get our children as an array
+      // NOTE: in next firebase update 'child.x()', changes to an object 'child.x'
+      var yakDataSource = [];
+          snap.forEach((child) => {
+            yakDataSource.push({
+              title: child.val().title,
+              time: child.val().time,
+              comment: child.val().comment,
+              score: child.val().score,
+              _key: child.key,
+              user: this.state.user
+          });
+        });
+        this.props.addYakAsDataSource(yakDataSource);
+      // TODO:add refresh animation here
+    });
   }
 
   /* NAVIGATORS */
@@ -350,6 +333,7 @@ class Yak extends Component {
       yaks = this.props.yakList;
     }
     else if (this.props.connectionChecked){
+      yaks = this.props.yakList;
       readonlyMessage = <Text>OFFLINE</Text>;
 
     } else {
@@ -363,7 +347,7 @@ class Yak extends Component {
 
         <Header theme={NativeTheme}>
             <Title style={{alignSelf: 'flex-start', paddingLeft: 10}}>bison.</Title>
-            <Button transparent style={{alignSelf: 'flex-end', paddingLeft: 260}}
+            <Button transparent style={{alignSelf: 'flex-end', paddingLeft: 2}}
                 onPress={this.goToSettings.bind(this)}>
                   <Icon style={{alignSelf: 'flex-end', paddingLeft: 260}} name="ios-settings"/>
             </Button>

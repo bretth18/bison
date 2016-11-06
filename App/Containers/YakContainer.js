@@ -23,6 +23,7 @@ function mapStateToProps(state) {
     yakList: state.yaks.yakList,
     connectionChecked: state.yaks.connectionChecked,
     connected: state.yaks.connected,
+    yakDataSource: state.yaks.yakDataSource,
   };
 }
 

@@ -4,7 +4,7 @@
 
 
 [![ghit.me](https://ghit.me/badge.svg?repo=bretth18/bison)](https://ghit.me/repo/bretth18/bison)
-![Fuck you](https://david-dm.org/bretth18/bison.svg)
+![test](https://david-dm.org/bretth18/bison.svg)
 [![CircleCI](https://circleci.com/gh/bretth18/bison.svg?style=shield)](https://circleci.com/gh/bretth18/bison)
 [![Join the chat at https://gitter.im/bisonapp/Lobby](https://badges.gitter.im/bisonapp/Lobby.svg)](https://gitter.im/bisonapp/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/bretth18/bison/master/LICENSE)

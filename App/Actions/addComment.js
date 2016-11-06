@@ -3,7 +3,7 @@
 import ActionTypes from '../Constants/ActionTypes';
 
 
-export function addComent(commentData) {
+export function addComment(commentData) {
   return {
     type: ActionTypes.addComment,
     commentData: commentData

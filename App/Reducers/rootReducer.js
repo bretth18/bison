@@ -5,7 +5,6 @@ import { yakViewReducer } from './yakViewReducer';
 
 const rootReducer = combineReducers({
   yaks: yakReducer,
-  routes: navReducer,
   yakView: yakViewReducer,
 });
 

@@ -37,17 +37,7 @@ class YakView extends Component {
         rowHasChanged: (row1, row2) => row1 !== row2,
     });
 
-    // looks for comments
-    this.commentRef.on('value', (snap) => {
-      snap.forEach((child) => {
-        let yakComment = {
-          comment: child.val().comment,
-          id: child.val().id,
-          time: child.val().time
-        };
-        this.props.addComment(yakComment);
-      });
-    });
+
 
     // get our account shit from async
     // AsyncStorage.getItem('userObject').then((userObject) => {
@@ -67,7 +57,8 @@ class YakView extends Component {
   }
 
   componentDidMount() {
-    // this.listenForComments(this.commentRef);
+    this.listenForComments(this.commentRef);
+
   }
 
   listenForDelete() {
@@ -82,26 +73,23 @@ class YakView extends Component {
   }
 
   listenForComments(commentRef){
-    // push comment children
-    // commentRef.on('value', (snap) => {
-    //   var comments = [];
-    //   snap.forEach((child) => {
-    //     comments.push({
-    //       comment: child.val().comment,
-    //       id: child.val().id,
-    //       time: child.val().time
-    //     });
-    //   });
-    //   // update component state with comments
-    //   this.setState({
-    //     dataSource: this.state.dataSource.cloneWithRows(comments)
-    //   });
-    // });
+    // looks for comments
+    commentRef.on('value', (snap) => {
+      let commentList = [];
+      snap.forEach((child) => {
+        commentList.push({
+          comment: child.val().comment,
+          id: child.val().id,
+          time: child.val().time
+        });
+        this.props.addComment(commentList);
+      });
+    });
   }
   // pushes data to firebase based on our current key
 
   submitComment(object) {
-    console.log('USER:', this.state.user.uid);
+    // console.log('USER:', this.state.user.uid);
     var onComplete = function(error) {
       if (error) {
         Alert.alert('Oh Snap! Failed to submit comment');
@@ -115,7 +103,7 @@ class YakView extends Component {
       comment: object.comment,
       id: object.id,
       time: object.time,
-      user: this.state.user.uid
+      user: 'dogfood placeholder',
     }, onComplete());
   }
 
@@ -162,6 +150,7 @@ class YakView extends Component {
       voted: true,
     };
     // get score
+    console.log(this.props);
     var childKey = this.props._key.toString();
     console.log('CHILDKEY', childKey);
     var scoreRef = database.ref('yaks/' + childKey +'/score');
@@ -177,9 +166,7 @@ class YakView extends Component {
           }
         });
         // set ui to reflect score changes
-        this.setState({
-          score: this.state.score + 1
-        });
+        // this.props.score++;
         // set bool
         userHasVoted = true;
         break;
@@ -194,9 +181,7 @@ class YakView extends Component {
          }
        });
        // set ui to reflect score change
-       this.setState({
-         score: this.state.score - 1
-       });
+      //  this.props.score--;
        userHasVoted = true;
        break;
      default:
@@ -260,8 +245,9 @@ class YakView extends Component {
   }
 
   render(){
-    let comments = this.props.yakCommentList;
+    let comments = this.props.commentList;
     console.log('comment list', comments);
+    let score = this.props.score;
     return(
       <View style={styles.container}>
           <Header theme={NativeTheme}>
@@ -278,7 +264,7 @@ class YakView extends Component {
                 <Text>{this.props.title}</Text>
 
                 <Text>{this.props.time}</Text>
-                <Text>{this.props.score}pts</Text>
+                <Text>{score}pts</Text>
                   <Button
                     transparent style={{justifyContent: 'flex-end'}}
                     onPress={this.votePost.bind(this, 1)}>

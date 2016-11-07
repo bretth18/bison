@@ -1,5 +1,6 @@
 const ActionTypes = {
   addYak: 'ADD_YAK',
+  addYakAsDataSource: 'ADD_YAK_AS_DATA_SOURCE',
   removeYak: 'REMOVE_YAK',
   connectionChecking: 'CONNECTION_CHECKING',
   connectionChecked: 'CONNECTION_CHECKED',

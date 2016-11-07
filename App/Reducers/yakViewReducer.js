@@ -7,23 +7,22 @@ import ActionTypes from '../Constants/ActionTypes';
 
 // need to figure out scores
 const initialState = {
-  yakCommentList: [],
+  commentList: [],
   yakScore: 0
 };
 
 export function yakViewReducer(state = initialState, action) {
 
-  let yakComment;
-
-  console.log(action);
+  let commentList;
+  let yakScore;
   switch(action.type) {
 
     case ActionTypes.addComment:
-    yakCommentList = state.yakCommentList.concat([action.yakComment]);
+    commentList = action.commentData;
 
       return {
         ...state,
-        yakCommentList: yakCommentList
+        commentList: commentList
       };
 
     case ActionTypes.removeComment:
@@ -37,10 +36,10 @@ export function yakViewReducer(state = initialState, action) {
       };
 
     case ActionTypes.voteUp:
-      yakScore: state.yakScore++;
+      yakScore =  state.yakScore++;
       return {
         ...state,
-        yakScore: yakScore
+        score: yakScore
       };
 
     case ActionTypes.voteDown:

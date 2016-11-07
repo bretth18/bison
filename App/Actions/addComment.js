@@ -16,3 +16,15 @@ export function removeComment(commentId) {
     commentId: commentId
   };
 }
+
+export function voteUp() {
+  return dispatch => {
+    dispatch({type: ActionTypes.voteUp});
+  };
+}
+
+export function voteDown() {
+  return dispatch => {
+    dispatch({type: ActionTypes.voteDown});
+  };
+}

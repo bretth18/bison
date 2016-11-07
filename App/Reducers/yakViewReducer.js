@@ -14,12 +14,11 @@ const initialState = {
 export function yakViewReducer(state = initialState, action) {
 
   let commentList;
-
-  console.log(action);
+  let yakScore;
   switch(action.type) {
 
     case ActionTypes.addComment:
-    commentList = state.commentList.concat([action.commentData]);
+    commentList = action.commentData;
 
       return {
         ...state,
@@ -37,10 +36,10 @@ export function yakViewReducer(state = initialState, action) {
       };
 
     case ActionTypes.voteUp:
-      yakScore: state.yakScore++;
+      yakScore =  state.yakScore++;
       return {
         ...state,
-        yakScore: yakScore
+        score: yakScore
       };
 
     case ActionTypes.voteDown:

@@ -12,12 +12,11 @@ export function yakReducer(state = initialState, action) {
   let yakList;
   let yakDataSource;
 
-  console.log(action);
   switch(action.type) {
 
     //new
     case ActionTypes.addYak:
-      yakList = state.yakList.concat([action.yakData]);
+      yakList = action.yakData;
 
       return {
         ...state,

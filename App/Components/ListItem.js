@@ -67,8 +67,8 @@ class ListItem extends Component {
   }
   render(){
     var displayTime = moment(this.props.item.time).format('dddd, MMMM Do YYYY, h:mm:ss a');
-    console.log('ListItem props:');
-    console.log(this.props);
+    // console.log('ListItem props:');
+    // console.log(this.props);
     return(
       <TouchableHighlight onPress={this.props.onPress}>
         <View style={[styles.container, styles.card,]}>

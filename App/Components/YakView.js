@@ -75,13 +75,14 @@ class YakView extends Component {
   listenForComments(commentRef){
     // looks for comments
     commentRef.on('value', (snap) => {
+      let commentList = [];
       snap.forEach((child) => {
-        let yakComment = {
+        commentList.push({
           comment: child.val().comment,
           id: child.val().id,
           time: child.val().time
-        };
-        this.props.addComment(yakComment);
+        });
+        this.props.addComment(commentList);
       });
     });
   }
@@ -149,6 +150,7 @@ class YakView extends Component {
       voted: true,
     };
     // get score
+    console.log(this.props);
     var childKey = this.props._key.toString();
     console.log('CHILDKEY', childKey);
     var scoreRef = database.ref('yaks/' + childKey +'/score');
@@ -164,9 +166,7 @@ class YakView extends Component {
           }
         });
         // set ui to reflect score changes
-        this.setState({
-          score: this.state.score + 1
-        });
+        // this.props.score++;
         // set bool
         userHasVoted = true;
         break;
@@ -181,9 +181,7 @@ class YakView extends Component {
          }
        });
        // set ui to reflect score change
-       this.setState({
-         score: this.state.score - 1
-       });
+      //  this.props.score--;
        userHasVoted = true;
        break;
      default:
@@ -249,6 +247,7 @@ class YakView extends Component {
   render(){
     let comments = this.props.commentList;
     console.log('comment list', comments);
+    let score = this.props.score;
     return(
       <View style={styles.container}>
           <Header theme={NativeTheme}>
@@ -265,7 +264,7 @@ class YakView extends Component {
                 <Text>{this.props.title}</Text>
 
                 <Text>{this.props.time}</Text>
-                <Text>{this.props.score}pts</Text>
+                <Text>{score}pts</Text>
                   <Button
                     transparent style={{justifyContent: 'flex-end'}}
                     onPress={this.votePost.bind(this, 1)}>

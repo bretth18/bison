@@ -16,6 +16,18 @@ export function navReducer(state = initialState, action = {}) {
         scene: action.scene,
       };
 
+    case ActionConst.BACK:
+      return {
+        ...state,
+        scene: action.scene
+      };
+
+    case ActionConst.RESET:
+      return {
+        ...state,
+        scene: action.scene
+      };
+
     default:
       return state;
   }

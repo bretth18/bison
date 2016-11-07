@@ -55,20 +55,20 @@ class Yak extends Component {
     //   this.props.addYak(snapshot.val());
     // });
 
-    yaksRef.on('value', (snap) => {
-      // get our children as an array
-        snap.forEach((child) => {
-          let yakContent = {
-            title: child.val().title,
-            time: child.val().time,
-            comment: child.val().comment,
-            score: child.val().score,
-            _key: child.key,
-            user: this.state.user
-        };
-        this.props.addYak(yakContent);
-      });
-    });
+    // yaksRef.on('value', (snap) => {
+    //   // get our children as an array
+    //     snap.forEach((child) => {
+    //       let yakContent = {
+    //         title: child.val().title,
+    //         time: child.val().time,
+    //         comment: child.val().comment,
+    //         score: child.val().score,
+    //         _key: child.key,
+    //         user: this.state.user
+    //     };
+    //     this.props.addYak(yakContent);
+    //   });
+    // });
 
     yaksRef.on('child_removed', (snapshot) => {
       this.props.removeYak(snapshot.val().id);
@@ -79,6 +79,7 @@ class Yak extends Component {
         if (isConnected) {
           this.props.checkConnection();
         } else {
+          console.log('component will mount being hit');
           this.props.goOffline();
           // trigger offline actions
         }
@@ -91,6 +92,7 @@ class Yak extends Component {
       if (snap.val() === true) {
         this.props.goOnline();
       } else {
+        console.log('connectedref componentDidMount being hit');
         this.props.goOffline();
       }
     });
@@ -145,10 +147,11 @@ class Yak extends Component {
   }
 
   componentDidMount() {
+    this.listenForConnection();
     // this.props.onAddYak();
     // this.listenForItems();
     // this.listenForAlert();
-    // this.listenForYak();
+    this.listenForDataSource();
   }
 
   listenForYak() {
@@ -167,36 +170,29 @@ class Yak extends Component {
 
   // function that tests device connection
   listenForConnection() {
-    NetInfo.isConnected.fetch().then(isConnected => {
-      // set state based on connection status
-      if (isConnected === 'online'){
-        // this.setState({
-        //   connection: true
-        // });
+    // if (NetInfo) {
+    //   console.log('listening for connection after mount');
+    //   NetInfo.isConnected.fetch().done(isConnected => {
+    //     if (isConnected) {
+    //       console.log('First, is ' + (isConnected ? 'online' : 'offline'));
+    //       this.props.checkConnection();
+    //     } else {
+    //       this.props.goOffline();
+    //       // trigger offline actions
+    //     }
+    //   });
+    // } else {
+    //   this.props.checkConnection();
+    // }
+
+    connectedRef.on('value', snap => {
+      if (snap.val() === true) {
+        this.props.goOnline();
       } else {
-        // this.setState({
-        //   connection: false
-        // });
+        console.log('this is being hit');
+        this.props.goOffline();
       }
     });
-
-    function handleFirstConnectivityChange(isConnected) {
-      console.log('Then, is ' + (isConnected ? 'online' : 'offline'));
-      if (isConnected === 'offline') {
-        this.props.navigator.push({
-          ident: 'NoConnectView',
-        });
-      }
-      NetInfo.isConnected.removeEventListener(
-        'change',
-        handleFirstConnectivityChange
-      );
-    }
-    // event listener
-    NetInfo.isConnected.addEventListener(
-      'change',
-      handleFirstConnectivityChange
-    );
   }
   // onMount listener for device location
   listenForlocation() {
@@ -222,8 +218,6 @@ class Yak extends Component {
   //
   listenForDataSource() {
     yaksRef.on('value', (snap) => {
-      // get our children as an array
-      // NOTE: in next firebase update 'child.x()', changes to an object 'child.x'
       var yakDataSource = [];
           snap.forEach((child) => {
             yakDataSource.push({
@@ -235,8 +229,7 @@ class Yak extends Component {
               user: this.state.user
           });
         });
-        this.props.addYakAsDataSource(yakDataSource);
-      // TODO:add refresh animation here
+        this.props.addYak(yakDataSource);
     });
   }
 
@@ -295,19 +288,14 @@ class Yak extends Component {
       };
 
       yaksRef.push(yakContent);
-      // TODO: figure out how to append geoFire to child instead of overwriting
-      // var location = JSON.parse(this.state.position);
-      // console.log('LOCATION', location);
-      // var locationArray = [location.coords.latitude, location.coords.longitude];
-      // this kills mr. modal
+
       this.setState({
         modalOpen: false
       });
+    }
   }
-}
 
   _renderItem(item){
-    console.log(this.props.connected);
     return(
       <ListItem item={item} userId={this.state.user} onPress={this.onPressYak.bind(this, item)} />
     );
@@ -325,14 +313,12 @@ class Yak extends Component {
   }
 
   render(){
-    console.log('auth: ', auth);
-    console.log('props:');
-    console.log(this.props);
     let yaks, readonlyMessage;
     if (this.props.connected) {
       yaks = this.props.yakList;
     }
     else if (this.props.connectionChecked){
+      console.log('render is being hit');
       yaks = this.props.yakList;
       readonlyMessage = <Text>OFFLINE</Text>;
 

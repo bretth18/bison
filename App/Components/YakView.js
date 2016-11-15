@@ -108,7 +108,7 @@ class YakView extends Component {
   }
 
   _returnToYaks() {
-    Actions.YakContainer();
+    Actions.pop({key: 'YakContainer'});
   }
   // function to generate random UID for comments, we can use this to later gen icons?
   generateUid() {
@@ -251,7 +251,7 @@ class YakView extends Component {
     return(
       <View style={styles.container}>
           <Header theme={NativeTheme}>
-            <Button transparent onPress={this._returnToYaks.bind(this)}>
+            <Button transparent onPress={Actions.pop()}>
                 <Icon name="ios-arrow-back" />
             </Button>
               <Title>bison.</Title>
